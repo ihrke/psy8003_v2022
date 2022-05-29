@@ -569,8 +569,9 @@ r=\frac{\sum\limits_{i=1}^n x_iy_i}{n-1}
 
 <img data-src="pics/correlation_xkcd.png" style="width:100.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><a href="http://xkcd.com" class="uri">http://xkcd.com</a></p>
 </section>
-<section id="correlation-and-causation-ice-cream-and-shark-attacks" class="slide level1">
-<h1>Correlation and Causation: Ice-cream and Shark-attacks</h1>
+<section class="slide level1">
+
+<h2 id="correlation-and-causation-ice-cream-and-shark-attacks">Correlation and Causation: Ice-cream and Shark-attacks</h2>
 <p><img data-src="pics/shark.png" style="width:20.0%"><br>
 </p>
 <ul>
@@ -680,7 +681,7 @@ r=\frac{\sum\limits_{i=1}^n x_iy_i}{n-1}
 <span id="cb3-3"><a href="#cb3-3"></a>y <span class="ot">=</span> <span class="fu">rnorm</span>(N, <span class="dv">0</span>, <span class="dv">1</span>)</span>
 <span id="cb3-4"><a href="#cb3-4"></a><span class="fu">cor</span>(x,y)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] -0.07429756</code></pre>
+<pre><code>[1] 0.003453165</code></pre>
 </div>
 </div>
 </div>
@@ -1002,10 +1003,9 @@ E[\color{blue}{Y_i}] = \color{green}{\beta_0 + \beta_1 X_i}
 <li>OLS: <span class="math inline">\(\min_{\beta_0,\beta_1}\sum_i \hat{\varepsilon}_i^2\)</span></li>
 </ul>
 </section>
-<section id="interpretation-of-the-coefficients-intercept" class="slide level1">
-<h1>Interpretation of the coefficients: Intercept</h1>
+<section id="interpretation-of-the-intercept" class="slide level1">
+<h1>Interpretation of the Intercept</h1>
 <p><img data-src="pics/hw_int1.png" style="width:40.0%"> <img data-src="pics/hw_int2.png" style="width:40.0%"></p>
-<h2 id="intercept">Intercept</h2>
 <ul>
 <li>“where the line hits zero”</li>
 <li><span class="math inline">\(\tt{weight} = -48+61\times\tt{height}\)</span></li>
@@ -1013,10 +1013,9 @@ E[\color{blue}{Y_i}] = \color{green}{\beta_0 + \beta_1 X_i}
 <li><span class="math inline">\(\tt{weight} = 58+61\times[\tt{height}-\text{mean}(\tt{height})]\)</span></li>
 </ul>
 </section>
-<section id="interpretation-of-the-coefficients-slope" class="slide level1">
-<h1>Interpretation of the coefficients: Slope</h1>
+<section id="interpretation-of-the-slope" class="slide level1">
+<h1>Interpretation of the Slope</h1>
 <p><img data-src="pics/hw_int1.png" style="width:40.0%"> <img data-src="pics/hw_int3.png" style="width:40.0%"></p>
-<h2 id="slope">Slope</h2>
 <ul>
 <li>“by how much changes <span class="math inline">\(y\)</span> for a change in <span class="math inline">\(x\)</span>”?</li>
 <li><span class="math inline">\(\tt{weight} = -48+61\times\tt{height.m}\)</span></li>
@@ -1028,7 +1027,7 @@ E[\color{blue}{Y_i}] = \color{green}{\beta_0 + \beta_1 X_i}
 <section id="demo" class="slide level1">
 <h1>Demo</h1>
 
-<img data-src="pics/webapp.png" style="width:100.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><a href="http://sites.uclouvain.be/selt/files/medias/unamur-regression-lineaire-module20.swf" class="uri">http://sites.uclouvain.be/selt/files/medias/unamur-regression-lineaire-module20.swf</a></p>
+<img data-src="pics/webapp.png" style="width:100.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p>&lt;unamur-regression-lineaire-module20.swf&gt;</p>
 </section>
 <section id="goodness-of-fit" class="slide level1">
 <h1>Goodness of fit</h1>
@@ -1054,6 +1053,130 @@ E[\color{blue}{Y_i}] = \color{green}{\beta_0 + \beta_1 X_i}
 
 
 <img data-src="pics/rsquare_illustr.jpeg" style="width:70.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math display">\[R^2=\frac{\text{ESS}}{\text{TSS}}=1-\frac{\text{RSS}}{\text{TSS}}\]</span></p>
+</section>
+<section id="variability-in-regression" class="slide level1">
+<h1>Variability in regression</h1>
+
+<img data-src="pics/two_uncertainties.png" style="width:65.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p>Do all the predictors help to explain the outcome or is only a subset of the predictors useful?</p>
+<ul>
+<li>how far away from the true regression line do the actual datapoints fall?</li>
+<li>how well did we approximate the true regression line with our estimate?</li>
+</ul>
+</section>
+<section id="confidence-intervals-vs.-prediction-intervals" class="slide level1">
+<h1>Confidence intervals vs.&nbsp;prediction intervals</h1>
+<div class="columns">
+<div class="column" style="width:45%;">
+<div id="fig-anonymous-34" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/two_uncertainties_1.png" style="width:100.0%"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+</div><div class="column" style="width:45%;">
+<div id="fig-anonymous-35" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/two_uncertainties_2.png" style="width:100.0%"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>Confidence Interval (CI): estimate of where the true regression line is, <span class="math inline">\(E[Y|X]\)</span></li>
+<li>Prediction Interval (PI): estimate of where new datapoints are going to fall</li>
+</ul>
+</section>
+<section id="why-is-there-uncertainty-about-the-regression-line" class="slide level1">
+<h1>Why is there uncertainty about the regression line?</h1>
+<ul>
+<li>regression line is an estimate of the <em>population</em> regression function <span class="math display">\[E[Y]=\beta_0 + \beta_1 X\]</span></li>
+<li>we measure function from <em>sample</em> <span class="math display">\[E[Y]=\hat{\beta}_0 + \hat{\beta}_1 X\]</span></li>
+<li>were we to repeat sampling, we would get (slightly) different estimates <span class="math inline">\(\hat{\beta}\)</span> while the <em>true</em> <span class="math inline">\(\beta\)</span> is unchanged!</li>
+</ul>
+</section>
+<section class="slide level1">
+
+<h3 id="stata-1">Stata</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource stata number-lines code-with-copy"><code class="sourceCode stata"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">set</span> <span class="kw">obs</span> 20</span>
+<span id="cb6-2"><a href="#cb6-2"></a>* <span class="kw">generate</span> random <span class="kw">values</span> <span class="kw">for</span> the predictor</span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="kw">generate</span> x = rnormal(0,1)</span>
+<span id="cb6-4"><a href="#cb6-4"></a></span>
+<span id="cb6-5"><a href="#cb6-5"></a>* create an artificial dataset with true b0=2.5 and b1=4.3</span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="kw">generate</span> <span class="fu">y</span> = 2.5 + 4.3 * x + rnormal(0,1)</span>
+<span id="cb6-7"><a href="#cb6-7"></a></span>
+<span id="cb6-8"><a href="#cb6-8"></a>* how well can we recover those <span class="st">"true"</span> <span class="kw">values</span> with a regression?</span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="kw">regress</span> <span class="fu">y</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>      Source |       SS           df       MS      Number of obs   =        20
+-------------+----------------------------------   F(1, 18)        =    580.29
+       Model |  567.854904         1  567.854904   Prob &gt; F        =    0.0000
+    Residual |  17.6143639        18  .978575772   R-squared       =    0.9699
+-------------+----------------------------------   Adj R-squared   =    0.9682
+       Total |  585.469268        19   30.814172   Root MSE        =    .98923
+
+------------------------------------------------------------------------------
+           y | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+           x |   4.316554   .1791908    24.09   0.000     3.940088     4.69302
+       _cons |   2.599046     .22413    11.60   0.000     2.128166    3.069926
+------------------------------------------------------------------------------</code></pre>
+</div>
+</div>
+</section>
+<section class="slide level1">
+
+<h3 id="r-1">R</h3>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>slopes <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, {</span>
+<span id="cb8-2"><a href="#cb8-2"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb8-3"><a href="#cb8-3"></a>  y <span class="ot">&lt;-</span> <span class="fl">2.5</span> <span class="sc">+</span> <span class="fl">4.3</span><span class="sc">*</span>x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">20</span>,<span class="dv">0</span>,<span class="dv">1</span>)</span>
+<span id="cb8-4"><a href="#cb8-4"></a>  <span class="fu">coef</span>(<span class="fu">lm</span>(y<span class="sc">~</span>x))[<span class="dv">2</span>]</span>
+<span id="cb8-5"><a href="#cb8-5"></a>}) </span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="fu">hist</span>(slopes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+
+</div>
+<img data-src="lecture1_files/figure-revealjs/unnamed-chunk-26-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption"></p></section>
+<section id="confidence-intervals-for-regression-coefficients" class="slide level1">
+<h1>Confidence intervals for regression coefficients</h1>
+<h2 id="definition-95-ci">Definition 95% CI</h2>
+<p>“If we were to collect data from many more samples and would calculate the CI with the same procedure in each of them, 95% of those intervals would contain the true (population) value of the parameter.”</p>
+<ul>
+<li><strong>NOT</strong>: “The CI is the interval that contains the true value with 95% probability.”!</li>
+<li>the CI gives us an idea about the <em>precision</em> with which we have measured the coefficients</li>
+<li>mathematically, CIs are significance tests…</li>
+</ul>
+</section>
+<section id="significance-testing-of-regression-coefficients" class="slide level1">
+<h1>Significance testing of regression coefficients</h1>
+
+<img data-src="pics/significant_slope.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><h3 id="question-is-coefficient-significantly-different-from-zero">Question: Is coefficient significantly different from zero?</h3>
+<ul>
+<li>Null-hypothesis <span class="math inline">\(H_0: \beta = 0\)</span></li>
+<li>Alternative hypothesis <span class="math inline">\(H_1: \beta \ne 0\)</span></li>
+</ul>
+</section>
+<section id="significance-testing-of-regression-coefficients-1" class="slide level1">
+<h1>Significance testing of regression coefficients</h1>
+
+<img data-src="pics/samplingdist_web.png" style="width:40.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p>Again:</p>
+<ul>
+<li>estimated slope-coefficients <span class="math inline">\(\hat{\beta}_0, \hat{\beta}_1, ...\)</span> have a sampling distribution</li>
+<li>centered on the <em>true</em> slopes <span class="math inline">\(\beta_0, \beta_1, ...\)</span></li>
+<li>the standard deviation of this <em>sampling</em> distribution is the <em>standard error</em> (SE)</li>
+<li>the SE can be used to calculate CIs and to run significance tests</li>
+</ul>
+</section>
+<section id="t-test-for-regression-coefficients" class="slide level1">
+<h1><span class="math inline">\(t\)</span>-test for regression coefficients</h1>
+
+<img data-src="pics/stata_tvalue_table.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li>according to the <span class="math inline">\(H_0\)</span>, the <span class="math inline">\(\hat{\beta}\)</span> values should be close to zero</li>
+<li>how close? Normally distributed around zero with SD=SE (standard error)</li>
+<li>because we have to estimate the SE from the sample, the actual distribution is following a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n-K\)</span> degrees of freedom</li>
+<li>for any observed <span class="math inline">\(t\)</span> value <span class="math inline">\(t_{\text{obs}}\)</span>, we can calculate the probability to observe this large a value <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(p\)</span>-value</li>
+</ul>
 </section>
 <section id="multiple-linear-regression" class="slide level1">
 <h1>Multiple linear regression</h1>
@@ -1112,14 +1235,14 @@ E[\color{blue}{Y_i}] = \color{green}{\beta_0 + \beta_1 X_i}
 <h2 id="is-at-least-one-of-the-predictors-useful-in-predicting-the-response">Is at least one of the predictors useful in predicting the response?</h2>
 <div class="columns">
 <div class="column" style="width:35%;">
-<div id="fig-anonymous-34" class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-41" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/rsquared1.png" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
 </figure>
 </div>
 </div><div class="column" style="width:35%;">
-<div id="fig-anonymous-35" class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-42" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/rsquared2.png" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -1138,7 +1261,7 @@ E[\color{blue}{Y_i}] = \color{green}{\beta_0 + \beta_1 X_i}
 <h1>Omnibus <span class="math inline">\(F\)</span>-Test</h1>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div id="fig-anonymous-36" class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-43" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/rsquare_illustr.jpeg" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -1183,10 +1306,10 @@ E[\color{blue}{Y_i}] = \color{green}{\beta_0 + \beta_1 X_i}
 </section>
 <section id="f-test-flat.dta" class="slide level1">
 <h1>F-test: <code>flat.dta</code></h1>
-<h3 id="stata-1">Stata</h3>
+<h3 id="stata-2">Stata</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource stata number-lines code-with-copy"><code class="sourceCode stata"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">use</span> <span class="st">"data/flat.dta"</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">regress</span> flat_price floor_size location</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource stata number-lines code-with-copy"><code class="sourceCode stata"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">use</span> <span class="st">"data/flat.dta"</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="kw">regress</span> flat_price floor_size location</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>      Source |       SS           df       MS      Number of obs   =        95
 -------------+----------------------------------   F(2, 92)        =     70.06
@@ -1207,10 +1330,10 @@ E[\color{blue}{Y_i}] = \color{green}{\beta_0 + \beta_1 X_i}
 </section>
 <section id="f-test-flat.dta-1" class="slide level1">
 <h1>F-test: <code>flat.dta</code></h1>
-<h3 id="r-1">R</h3>
+<h3 id="r-2">R</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>flat <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_dta</span>(<span class="st">"data/flat.dta"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="fu">summary</span>(<span class="fu">lm</span>(flat_price <span class="sc">~</span> floor_size<span class="sc">+</span>location,<span class="at">data=</span>flat))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>flat <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_dta</span>(<span class="st">"data/flat.dta"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="fu">summary</span>(<span class="fu">lm</span>(flat_price <span class="sc">~</span> floor_size<span class="sc">+</span>location,<span class="at">data=</span>flat))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
@@ -1319,140 +1442,16 @@ F-statistic: 70.06 on 2 and 92 DF,  p-value: &lt; 2.2e-16</code></pre>
 <section id="summary" class="slide level1">
 <h1>Summary</h1>
 <h2 id="what-are-f-and-p">What are <span class="math inline">\(F\)</span> and <span class="math inline">\(p\)</span>?</h2>
-
-<img data-src="pics/fdistr/fdist_alltogethernow.png" style="width:30.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><h2 id="f-value"><strong>F-value</strong></h2>
+<div id="fig-anonymous-55" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/fdistr/fdist_alltogethernow.png" style="width:30.0%"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+<h2 id="f-value"><strong>F-value</strong></h2>
 <p>A value summarizing the relationship between explained and residual variances. It is called <span class="math inline">\(F\)</span> because it follows an F-distribution if <span class="math inline">\(H_0\)</span> holds (i.e., there is no effect).</p>
 <h2 id="p-value"><strong>p-value</strong></h2>
 <p>Probability to observe an F-value that is at least as large as the one that was found in the study <em>if <span class="math inline">\(H_0\)</span> is correct</em> and there is no effect.</p>
-</section>
-<section id="variability-in-regression" class="slide level1">
-<h1>Variability in regression</h1>
-
-<img data-src="pics/two_uncertainties.png" style="width:65.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p>Do all the predictors help to explain the outcome or is only a subset of the predictors useful?</p>
-<ul>
-<li>how far away from the true regression line do the actual datapoints fall?</li>
-<li>how well did we approximate the true regression line with our estimate?</li>
-</ul>
-</section>
-<section id="confidence-intervals-vs.-prediction-intervals" class="slide level1">
-<h1>Confidence intervals vs.&nbsp;prediction intervals</h1>
-<div class="columns">
-<div class="column" style="width:45%;">
-<div id="fig-anonymous-50" class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="pics/two_uncertainties_1.png" style="width:100.0%"></p>
-<p></p><figcaption aria-hidden="true"></figcaption><p></p>
-</figure>
-</div>
-</div><div class="column" style="width:45%;">
-<div id="fig-anonymous-51" class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="pics/two_uncertainties_2.png" style="width:100.0%"></p>
-<p></p><figcaption aria-hidden="true"></figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-<ul>
-<li>Confidence Interval (CI): estimate of where the true regression line is, <span class="math inline">\(E[Y|X]\)</span></li>
-<li>Prediction Interval (PI): estimate of where new datapoints are going to fall</li>
-</ul>
-</section>
-<section id="why-is-there-uncertainty-about-the-regression-line" class="slide level1">
-<h1>Why is there uncertainty about the regression line?</h1>
-<ul>
-<li>regression line is an estimate of the <em>population</em> regression function <span class="math display">\[E[Y]=\beta_0 + \beta_1 X\]</span></li>
-<li>we measure function from <em>sample</em> <span class="math display">\[E[Y]=\hat{\beta}_0 + \hat{\beta}_1 X\]</span></li>
-<li>were we to repeat sampling, we would get (slightly) different estimates <span class="math inline">\(\hat{\beta}\)</span> while the <em>true</em> <span class="math inline">\(\beta\)</span> is unchanged!</li>
-</ul>
-</section>
-<section class="slide level1">
-
-<h3 id="stata-2">Stata</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource stata number-lines code-with-copy"><code class="sourceCode stata"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">set</span> <span class="kw">obs</span> 20</span>
-<span id="cb10-2"><a href="#cb10-2"></a>* <span class="kw">generate</span> random <span class="kw">values</span> <span class="kw">for</span> the predictor</span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="kw">generate</span> x = rnormal(0,1)</span>
-<span id="cb10-4"><a href="#cb10-4"></a></span>
-<span id="cb10-5"><a href="#cb10-5"></a>* create an artificial dataset with true b0=2.5 and b1=4.3</span>
-<span id="cb10-6"><a href="#cb10-6"></a><span class="kw">generate</span> <span class="fu">y</span> = 2.5 + 4.3 * x + rnormal(0,1)</span>
-<span id="cb10-7"><a href="#cb10-7"></a></span>
-<span id="cb10-8"><a href="#cb10-8"></a>* how well can we recover those <span class="st">"true"</span> <span class="kw">values</span> with a regression?</span>
-<span id="cb10-9"><a href="#cb10-9"></a><span class="kw">regress</span> <span class="fu">y</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      Source |       SS           df       MS      Number of obs   =        20
--------------+----------------------------------   F(1, 18)        =    580.29
-       Model |  567.854904         1  567.854904   Prob &gt; F        =    0.0000
-    Residual |  17.6143639        18  .978575772   R-squared       =    0.9699
--------------+----------------------------------   Adj R-squared   =    0.9682
-       Total |  585.469268        19   30.814172   Root MSE        =    .98923
-
-------------------------------------------------------------------------------
-           y | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-           x |   4.316554   .1791908    24.09   0.000     3.940088     4.69302
-       _cons |   2.599046     .22413    11.60   0.000     2.128166    3.069926
-------------------------------------------------------------------------------</code></pre>
-</div>
-</div>
-</section>
-<section class="slide level1">
-
-<h3 id="r-2">R</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>slopes <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, {</span>
-<span id="cb12-2"><a href="#cb12-2"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb12-3"><a href="#cb12-3"></a>  y <span class="ot">&lt;-</span> <span class="fl">2.5</span> <span class="sc">+</span> <span class="fl">4.3</span><span class="sc">*</span>x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">20</span>,<span class="dv">0</span>,<span class="dv">1</span>)</span>
-<span id="cb12-4"><a href="#cb12-4"></a>  <span class="fu">coef</span>(<span class="fu">lm</span>(y<span class="sc">~</span>x))[<span class="dv">2</span>]</span>
-<span id="cb12-5"><a href="#cb12-5"></a>}) </span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="fu">hist</span>(slopes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="lecture1_files/figure-revealjs/unnamed-chunk-28-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption"></p></section>
-<section id="confidence-intervals-for-regression-coefficients" class="slide level1">
-<h1>Confidence intervals for regression coefficients</h1>
-<h2 id="definition-95-ci">Definition 95% CI</h2>
-<p>“If we were to collect data from many more samples and would calculate the CI with the same procedure in each of them, 95% of those intervals would contain the true (population) value of the parameter.”</p>
-<ul>
-<li><strong>NOT</strong>: “The CI is the interval that contains the true value with 95% probability.”!</li>
-<li>the CI gives us an idea about the <em>precision</em> with which we have measured the coefficients</li>
-<li>mathematically, CIs are significance tests…</li>
-</ul>
-</section>
-<section id="significance-testing-of-regression-coefficients" class="slide level1">
-<h1>Significance testing of regression coefficients</h1>
-
-<img data-src="pics/significant_slope.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><h3 id="question-is-coefficient-significantly-different-from-zero">Question: Is coefficient significantly different from zero?</h3>
-<ul>
-<li>Null-hypothesis <span class="math inline">\(H_0: \beta = 0\)</span></li>
-<li>Alternative hypothesis <span class="math inline">\(H_1: \beta \ne 0\)</span></li>
-</ul>
-</section>
-<section id="significance-testing-of-regression-coefficients-1" class="slide level1">
-<h1>Significance testing of regression coefficients</h1>
-
-<img data-src="pics/samplingdist_web.png" style="width:40.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p>Again:</p>
-<ul>
-<li>estimated slope-coefficients <span class="math inline">\(\hat{\beta}_0, \hat{\beta}_1, ...\)</span> have a sampling distribution</li>
-<li>centered on the <em>true</em> slopes <span class="math inline">\(\beta_0, \beta_1, ...\)</span></li>
-<li>the standard deviation of this <em>sampling</em> distribution is the <em>standard error</em> (SE)</li>
-<li>the SE can be used to calculate CIs and to run significance tests</li>
-</ul>
-</section>
-<section id="t-test-for-regression-coefficients" class="slide level1">
-<h1><span class="math inline">\(t\)</span>-test for regression coefficients</h1>
-<div id="fig-anonymous-55" class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="pics/stata_tvalue_table.png" style="width:80.0%"></p>
-<p></p><figcaption aria-hidden="true"></figcaption><p></p>
-</figure>
-</div>
-<ul>
-<li>according to the <span class="math inline">\(H_0\)</span>, the <span class="math inline">\(\hat{\beta}\)</span> values should be close to zero</li>
-<li>how close? Normally distributed around zero with SD=SE (standard error)</li>
-<li>because we have to estimate the SE from the sample, the actual distribution is following a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n-K\)</span> degrees of freedom</li>
-<li>for any observed <span class="math inline">\(t\)</span> value <span class="math inline">\(t_{\text{obs}}\)</span>, we can calculate the probability to observe this large a value <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(p\)</span>-value</li>
-</ul>
 <p><img src="pics/ntnu.png" class="slide-logo"></p>
 <div class="footer footer-default">
 
