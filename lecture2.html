@@ -4,7 +4,7 @@
   <meta name="generator" content="quarto-0.9.364">
 
   <meta name="author" content="Matthias Mittner">
-  <title>Multiple regression</title>
+  <title>Multiple regression: Assumptions and Power analysis</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -386,7 +386,7 @@
     <div class="slides">
 
 <section id="title-slide" class="center">
-  <h1 class="title">Multiple regression</h1>
+  <h1 class="title">Multiple regression: Assumptions and Power analysis</h1>
   <p class="subtitle">PSY-8003: Multivariate kvantitative forskningsmetoder</p>
   <p class="author">Matthias Mittner</p>
   <p class="institute">Institute for Psychology</p>
@@ -401,413 +401,483 @@
 </section>
 <section id="outline" class="slide level1">
 <h1>Outline</h1>
-<h2 id="section"></h2>
 <ul>
-<li>multiple linear regression
-<ul>
-<li>estimation</li>
-<li>goodness-of-fit</li>
-<li>pitfalls</li>
-</ul></li>
-<li>omnibus <span class="math inline">\(F\)</span>-test</li>
-<li>significance testing of regression coefficients</li>
-<li>assumptions of linear regression</li>
-<li>statistical power and power analysis in linear regression</li>
+<li>Statistical control in linear regression</li>
+<li>Regression diagnostics</li>
+<li>Model comparison</li>
+<li>Power analysis for linear regression</li>
 </ul>
 </section>
-<section id="multiple-linear-regression" class="slide level1">
-<h1>Multiple linear regression</h1>
-<div style="text-align:center; font-size:60;">
-<p><span style="color:blue;">observed</span> = <span style="color:green;">predicted</span> + <span style="color:red;">error</span></p>
-</div>
-<div class="fragment">
-<p><span class="math display">\[ \color{blue}{Y} = \color{green}{\beta_0 + \beta_1x_1 + \ldots + \beta_mx_m} + \color{red}{\epsilon}\]</span></p>
-</div>
-<div class="fragment">
-<p>Example: IQ</p>
-<p><span class="math display">\[\color{blue}{\tt{IQ}} = \color{green}{\tt{intercept} + \beta_1\times\tt{age} +\beta_2\times\tt{education}} + \color{red}{\tt{error}}\]</span></p>
-</div>
-<div class="fragment">
-<p>Example: Procrastination</p>
-<p><span class="math display">\[\color{blue}{\tt{IPS}} = \color{green}{\tt{intercept} + \beta_1\times\tt{time of day} + \beta_2\times\tt{age}+\beta_3\times\tt{sex}} + \color{red}{\tt{error}}\]</span></p>
-</div>
-</section>
-<section id="multiple-linear-regression-1" class="slide level1">
-<h1>Multiple linear regression</h1>
-<p><img data-src="pics/icecream.jpg" style="width:13cm"> <img data-src="pics/hastie.png" style="width:10cm"></p>
-<ul>
-<li>instead of a line, we now have a plane (``hyperplane’’)</li>
-<li><span class="math inline">\(\tt{ice.cream} = \beta_0 + \beta_1\times\tt{income} + \beta_2\times\tt{temperature}\)</span></li>
-<li>there is still a single intercept, and a slope for each variable</li>
-<li>as long as the predictors are uncorrelated, that’s fine…</li>
-</ul>
-</section>
-<section id="finding-the-hyperplane" class="slide level1">
-<h1>Finding the hyperplane</h1>
+<section id="statistical-control-in-mlr" class="slide level1">
+<h1>Statistical control in MLR</h1>
 
-<img data-src="pics/mehmet_ols_mlr.png" style="width:70.0%" class="r-stretch quarto-figure-center"><p class="caption"></p></section>
-<section id="some-important-questions" class="slide level1">
-<h1>Some important questions</h1>
+<img data-src="pics/psych_experiment.jpg" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li>disentangling impact of multiple variables on outcome</li>
+<li>in experiments:
 <ul>
-<li>Is at least one of the predictors useful in predicting the response?
-<ul>
-<li><span class="math inline">\(F\)</span>-test, <span class="math inline">\(R^2\)</span>, <span class="math inline">\(R^2_\text{adj}\)</span></li>
+<li>randomization and constant conditions</li>
 </ul></li>
-<li>Do all the predictors help to explain the outcome or is only a subset of the predictors useful?
+<li>not possible in “field” studies
 <ul>
-<li>stepwise variable selection, model comparison</li>
-</ul></li>
-<li>How well does the model fit the data?
-<ul>
-<li><span class="math inline">\(R^2\)</span>, predictive plots</li>
-</ul></li>
-<li>Given a set of predictor values, what response value should we predict, and how accurate is our prediction?
-<ul>
-<li>prediction of novel values based on covariates</li>
+<li>measure “confounding” variables</li>
+<li>statistically control for the impact of that variable</li>
 </ul></li>
 </ul>
 </section>
-<section id="omnibus-f-test" class="slide level1">
-<h1>Omnibus <span class="math inline">\(F\)</span>-Test</h1>
-<h2 id="is-at-least-one-of-the-predictors-useful-in-predicting-the-response">Is at least one of the predictors useful in predicting the response?</h2>
-<div class="columns">
-<div class="column" style="width:35%;">
-<div id="fig-anonymous-2" class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="pics/rsquared1.png" style="width:100.0%"></p>
-<p></p><figcaption aria-hidden="true"></figcaption><p></p>
-</figure>
-</div>
-</div><div class="column" style="width:35%;">
-<div id="fig-anonymous-3" class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="pics/rsquared2.png" style="width:100.0%"></p>
-<p></p><figcaption aria-hidden="true"></figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
+<section id="statistical-control-in-mlr-1" class="slide level1">
+<h1>Statistical control in MLR</h1>
+<p>Example: Effect of coaching program on speech performance</p>
+
+<img data-src="pics/speechcoaching.png" style="width:15.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><div class="columns" data-align="top-baseline">
+<div class="column">
+<p><strong>Experiment</strong></p>
 <ul>
-<li>is the variance explained by the model more than we would expect by chance?</li>
-<li><span class="math inline">\(H_0:\)</span> the model is no better than just using the overall mean</li>
-<li><span class="math inline">\(H_1:\)</span> the model explains the data better than using the mean</li>
-<li>informally: “is at least one of the predictors important?”</li>
+<li>manipulate: treatment vs.&nbsp;control</li>
+<li>keep constant:
+<ul>
+<li>room temperature</li>
+<li>size of audience</li>
+<li>gender, age, education</li>
+<li>…</li>
+</ul></li>
+<li><strong>compare:</strong> treatment vs.&nbsp;control</li>
+</ul>
+</div><div class="column">
+<p><strong>Non-experimental design</strong></p>
+<ul>
+<li>manipulate: treatment vs.&nbsp;control</li>
+<li>measure covariates:
+<ul>
+<li>room temperature</li>
+<li>size of audience</li>
+<li>gender, age, education</li>
+<li>…</li>
+</ul></li>
+<li><strong>compare:</strong> treatment vs.&nbsp;control <em>controlling for covariates</em></li>
+</ul>
+</div>
+</div>
+</section>
+<section id="statistical-control-in-mlr-2" class="slide level1">
+<h1>Statistical control in MLR</h1>
+
+<img data-src="pics/flats_illustr.jpg" style="width:30.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li>adding predictor variables to an MLR model is often called “statistical control”</li>
+<li>often, the effect of a “target” variable can be made clearer by “controlling” for relevant covariates</li>
+<li>Example: are housing prices affected by how environmentally friendly they are?</li>
 </ul>
 </section>
-<section id="omnibus-f-test-1" class="slide level1">
-<h1>Omnibus <span class="math inline">\(F\)</span>-Test</h1>
-<div class="columns">
-<div class="column" style="width:50%;">
+<section id="example-housing-prices-in-trondheim" class="slide level1">
+<h1>Example: Housing prices in Trondheim</h1>
+<div class="columns" data-align="bottom">
+<div class="column" style="font-size:24pt;">
 <div id="fig-anonymous-4" class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="pics/rsquare_illustr.jpeg" style="width:100.0%"></p>
+<p><img data-src="pics/flats_price_size.png" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
 </figure>
 </div>
+<p><span class="math display">\[
+\operatorname{price} = \beta_0 + \beta_{1}(\operatorname{floor\_size}) + \epsilon
+\]</span></p>
+<p><span class="math display">\[
+\operatorname{\widehat{price}} = 1009.05 + 28.33(\operatorname{floor\_size})
+\]</span></p>
+</div><div class="column" style="font-size:24pt;">
+<p><img data-src="pics/flats_price_energy.png" style="width:100.0%"> $$ = <em>0 + </em>{1}() + </p>
+<p>$$</p>
+<p>$$</p>
+<p> = 3735.71 - 287.61()</p>
+<p>$$</p>
+</div>
+</div>
+</section>
+<section id="example-housing-prices-in-trondheim-1" class="slide level1">
+<h1>Example: Housing prices in Trondheim</h1>
+<div class="columns" data-align="bottom" style="font-size:18pt;">
+<div class="column" style="width:50%;">
+<div id="fig-anonymous-5" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/flats_price_energy.png" style="width:100.0%"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+<p>$$</p>
+<p> = 3735.71 ()</p>
+<p>$$</p>
 </div><div class="column" style="width:50%;">
-<p>Therefore:</p>
+<div id="fig-anonymous-6" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/flats_cprice_energy.png" style="width:100.0%"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+<span class="math display">\[\begin{align*}
+\operatorname{\widehat{price}} = 1702.02 \color{red}{-} &amp; \color{red}{446.92}(\operatorname{energy\_efficiency})\\ +&amp; 30.67(\operatorname{floor\_size})
+\end{align*}\]</span>
+</div>
+</div>
+</section>
+<section class="slide level1">
+
+<div class="columns" data-align="bottom">
+<div class="column" style="width:30%;">
+<div id="fig-anonymous-7" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/flats_price_energy.png" style="width:100.0%"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+</div><div class="column" style="width:30%;">
+<div id="fig-anonymous-8" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/flats_cprice_energy.png" style="width:100.0%"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<div id="fig-anonymous-9" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/stata_flats_price_energy.png"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+<div id="fig-anonymous-10" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/stata_flats_price_energy_size.png"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+</section>
+<section id="statistical-control" class="slide level1">
+<h1>Statistical control</h1>
+<div class="columns" data-align="bottom">
+<div class="column" style="width:30%;">
+<div id="fig-anonymous-11" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/flats_price_size.png" style="width:100.0%"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+</div><div class="column" style="width:30%;">
+<div id="fig-anonymous-12" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/flats_cprice_energy.png" style="width:100.0%"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<p>How does it work?</p>
 <ul>
-<li>have to compare the variance explained by model with residual variance (ESS, RSS)</li>
-<li>using the <span class="math inline">\(F\)</span>-test: models the sampling distribution of the ratio of two variances</li>
+<li>think: effect of covariates has been “removed” from the data
+<ul>
+<li>calculate regression with “target” predictor as DV</li>
+<li>run regression with residuals as predictor</li>
+</ul></li>
 </ul>
-</div>
-</div>
-<p><span class="math display">\[F_{\text{df}_1,\text{df}_2}=\frac{R^2/(K-1)}{(1-R^2)/(n-K)} = \frac{\text{Mean square error (model)}}{\text{Mean square error (residuals)}}\]</span></p>
-</section>
-<section id="sampling-distribution" class="slide level1">
-<h1>Sampling distribution</h1>
-
-<img data-src="pics/sampling_mean_1.png" class="r-stretch quarto-figure-center"><p class="caption"></p></section>
-<section id="sampling-distribution-1" class="slide level1">
-<h1>Sampling distribution</h1>
-
-<img data-src="pics/sampling_mean_2.png" class="r-stretch quarto-figure-center"><p class="caption"></p><p>Population vs.&nbsp;sample</p>
-</section>
-<section id="sampling-distribution-2" class="slide level1">
-<h1>Sampling distribution</h1>
-
-<img data-src="pics/sampling_mean_3.png" class="r-stretch quarto-figure-center"><p class="caption"></p><p>Population vs.&nbsp;sample</p>
-</section>
-<section id="sampling-distribution-3" class="slide level1">
-<h1>Sampling distribution</h1>
-
-<img data-src="pics/samplingdist_web.png" style="width:70.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><a href="http://onlinestatbook.com/stat_sim/sampling_dist/index.html" class="uri">http://onlinestatbook.com/stat_sim/sampling_dist/index.html</a></p>
-</section>
-<section id="sampling-distribution-of-the-variance" class="slide level1">
-<h1>Sampling distribution of the variance</h1>
-
-<img data-src="pics/sampling_var.png" style="width:50.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
-<li>the variance calculated from each sample has a sampling distribution (calculated across samples)</li>
-<li>this distribution follows the shape of an <span class="math inline">\(F\)</span>-distribution</li>
-</ul>
-</section>
-<section id="f-test-flat.dta" class="slide level1">
-<h1>F-test: <code>flat.dta</code></h1>
-<h3 id="stata">Stata</h3>
+<div class="columns" data-align="bottom">
+<div class="column" style="width:48%;">
+<h4 id="stata">Stata</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource stata number-lines code-with-copy"><code class="sourceCode stata"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">use</span> <span class="st">"data/flat.dta"</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">regress</span> flat_price floor_size location</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource stata number-lines code-with-copy"><code class="sourceCode stata"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">regress</span> energy_efficiency floor_size</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">predict</span> <span class="kw">resid</span>, <span class="kw">resid</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">regress</span> price <span class="kw">resid</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div><div class="column" style="width:48%;">
+<h4 id="r">R</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(energy_efficiency <span class="sc">~</span> floor_size, <span class="at">data=</span>flat)</span>
+<span id="cb2-2"><a href="#cb2-2"></a>resid <span class="ot">&lt;-</span> <span class="fu">residuals</span>(mod)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="fu">lm</span>(price <span class="sc">~</span> resid, <span class="at">data=</span>flat)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="statistical-control-1" class="slide level1">
+<h1>Statistical control</h1>
+<div class="columns" data-align="bottom">
+<div class="column" style="width:30%;">
+<div id="fig-anonymous-13" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/flats_price_size.png" style="width:100.0%"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+</div><div class="column" style="width:30%;">
+<div id="fig-anonymous-14" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/flats_cprice_energy.png" style="width:100.0%"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+</div>
+</div>
+<ul>
+<li>The average price of a house decreases by 447 thousand NOK with decreasing energy efficiency rating <strong>controlling for the size of the house</strong>.</li>
+</ul>
+<p>or</p>
+<ul>
+<li>The average price of a house decreases by 447 thousand NOK with decreasing energy efficiency rating <strong>keeping the size of the house constant</strong>.</li>
+</ul>
+</section>
+<section id="statistical-control-2" class="slide level1">
+<h1>Statistical control</h1>
+
+<img data-src="pics/stata_flats_all.png" class="r-stretch quarto-figure-center"><p class="caption"></p><p>Works for additional variables:</p>
+<ul>
+<li>The average price of a house decreases by 447 thousand NOK with decreasing energy efficiency rating <strong>controlling for the size of the house, its location and age</strong>.</li>
+</ul>
+<div class="fragment">
+<p><strong>NOTE:</strong> The same is true for the other variables!</p>
+<ul>
+<li>The average price increases by 31 thousand NOK for each square meter added to it <strong>controlling for its energy efficiency, location and age</strong>.</li>
+</ul>
+</div>
+</section>
+<section id="simpsons-paradox" class="slide level1">
+<h1>Simpson’s paradox</h1>
+
+<img data-src="pics/simpsons.jpg" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><h2 id="section"></h2>
+<p>A significant regression coefficient can weaken, disappear or even change sign when other predictor(s) are introduced in the model.</p>
+</section>
+<section id="simpsons-paradox-1" class="slide level1">
+<h1>Simpson’s paradox</h1>
+
+<img data-src="pics/simpsons_paradox_studying.png" style="width:100.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p>A significant regression coefficient can weaken, disappear or even change sign when other predictor(s) are introduced in the model.</p>
+</section>
+<section id="simpsons-paradox-2" class="slide level1">
+<h1>Simpson’s paradox</h1>
+
+<img data-src="pics/kidney_stones_wiki.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li>paradox: even though <strong>A</strong> &gt; <strong>B</strong> for both small and large stones, <strong>B</strong> was better when combined</li>
+<li>reason: treatment A/B applied differentially for small and large stones</li>
+</ul>
+<div style="font-size:12pt;">
+<p>Charig, C. R., Webb, D. R., Payne, S. R., &amp; Wickham, J. E. (1986). Comparison of treatment of renal calculi by open surgery, percutaneous nephrolithotomy, and extracorporeal shockwave lithotripsy. Br Med J (Clin Res Ed), 292(6524), 879-882.</p>
+</div>
+</section>
+<section id="simpsons-paradox-3" class="slide level1">
+<h1>Simpson’s paradox</h1>
+
+<img data-src="pics/pocketmoney.jpeg" style="width:20.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><h4 id="example-money-in-your-pocket">Example: Money in your pocket</h4>
+<ul>
+<li>you have a certain amount of money in your pocket (<span class="math inline">\(y\)</span>)</li>
+<li>you count how many of them are one-kroner coins (<span class="math inline">\(x_1\)</span>)</li>
+<li><span class="math inline">\(\tt{money} =\beta_0 + \beta_1\tt{num\_onekroner}\)</span> <span class="math inline">\(\rightarrow\)</span> is <span class="math inline">\(\beta_1&gt;0\)</span>?</li>
+<li>you also count the total number of coins (<span class="math inline">\(x_2\)</span>)</li>
+<li><span class="math inline">\(\tt{money}=\beta_0 + \beta_1\tt{num\_onekroner}+ \beta_2\tt{num\_coins}\)</span> <span class="math inline">\(\rightarrow\)</span> is <span class="math inline">\(\beta_1&gt;0\)</span>?</li>
+</ul>
+</section>
+<section id="prediction-using-fitted-regression-models" class="slide level1">
+<h1>Prediction using fitted regression models</h1>
+
+<img data-src="pics/stata_loenn_coefs.png" style="width:70.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li>predict outcome variable for fixed setting of predictors</li>
+<li>Example: <em>How much would an unmarried female worker with 10 years of experience and 5 years of education who is organized in a “fagforening” earn on average?</em> <span class="math display">\[\begin{align*}
+\operatorname{\widehat{loenn}} = -63.21 +&amp; 2.32(\operatorname{erfaring})+ 19.06(\operatorname{utdann})- 46.87(\operatorname{kvinne})\\
++&amp; 24.1(\operatorname{fagfor})+ 0.32(\operatorname{gift})
+\end{align*}\]</span> <span class="math display">\[\begin{align*}
+\operatorname{\widehat{loenn}} = -63.21 +&amp; 2.32(10 \text{ years})+ 19.06(5 \text{ years})- 46.87(1)\\
++&amp; 24.1(1)+ 0.32(0) = 32.5 \text{ thousand USD}
+\end{align*}\]</span></li>
+</ul>
+</section>
+<section id="prediction-using-fitted-regression-models-1" class="slide level1">
+<h1>Prediction using fitted regression models</h1>
+
+<img data-src="pics/stata_loenn_pred.png" style="width:70.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><code>. margins, at(kvinne=1 utdann=5 erfaring=10 fagfor=1 gift=0)</code></p>
+<ul>
+<li>CI around prediction</li>
+<li>prediction interval!</li>
+</ul>
+</section>
+<section id="standardized-regression-coefficients" class="slide level1">
+<h1>Standardized regression coefficients</h1>
+<p>Which predictor is most important?</p>
+
+<img data-src="pics/stata_loenn_beta.png" style="width:70.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><code>. regress loenn kvinne utdann erfaring fagfor gift, beta</code></p>
+<p><span class="math display">\[\begin{align*}
+\operatorname{\widehat{loenn}} = -63.21 +&amp; 2.32(\operatorname{erfaring})+ 19.06(\operatorname{utdann})- 46.87(\operatorname{kvinne})\\
++&amp; 24.1(\operatorname{fagfor})+ 0.32(\operatorname{gift})
+\end{align*}\]</span> <span class="math display">\[\begin{align*}
+\operatorname{\widehat{zloenn}} = 0 +&amp; 0.25(\operatorname{zerfaring}) + 0.45(\operatorname{zutdann}) - 0.21(\operatorname{zkvinne})\\
++&amp; 0.09(\operatorname{zfagfor}) + 0.001(\operatorname{zgift})
+\end{align*}\]</span></p>
+</section>
+<section id="standardized-regression-coefficients-1" class="slide level1">
+<h1>Standardized regression coefficients</h1>
+<p>Which predictor is most important?</p>
+<ul>
+<li>standardized coefficients quantify strength of effect</li>
+<li>conventions:
+<ul>
+<li><span class="math inline">\(\beta\le 0.09\)</span> - small effect</li>
+<li><span class="math inline">\(0.1 \le \beta\le 0.2\)</span> - medium effect</li>
+<li><span class="math inline">\(\beta\ge 0.2\)</span> - large effect</li>
+</ul></li>
+<li>in addition: (squared) semi-partial correlation</li>
+</ul>
+</section>
+<section id="semi-partial-correlation-spc" class="slide level1">
+<h1>Semi-partial correlation (SPC)</h1>
+
+<img data-src="pics/partialcorr.png" style="width:20.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li>correlation of predictor with DV <em>after removing the effect of the other predictors from it</em></li>
+<li>squared SPC: by how much would <span class="math inline">\(R^2\)</span> be decreased if the variable of interest would be removed from the model <span class="math inline">\(\approx\)</span> a predictor’s “unique” contribution</li>
+</ul>
+</section>
+<section id="squared-semi-partial-correlations-spc" class="slide level1">
+<h1>Squared semi-partial correlations (SPC)</h1>
+
+<img data-src="pics/stata_loenn_pcorr.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li>total <span class="math inline">\(R^2=0.24\)</span></li>
+</ul>
+</section>
+<section id="amount-of-explained-variance-r2" class="slide level1">
+<h1>Amount of explained variance: <span class="math inline">\(R^2\)</span></h1>
+
+<img data-src="pics/random_hist_k2_all.png" style="width:100.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li>amount of variance explained (<span class="math inline">\(R^2\)</span>) grows with degrees of freedom (number of predictors)</li>
+<li>even if predictors are unrelated to outcome!</li>
+</ul>
+</section>
+<section id="adjusted-r2" class="slide level1">
+<h1>Adjusted <span class="math inline">\(R^2\)</span></h1>
+<ul>
+<li><p>The adjusted <span class="math inline">\(R^2_{\text{adj}}\)</span> is a corrected version of the ordinary <span class="math inline">\(R^2\)</span></p></li>
+<li><p>when you increase the number of independent variables in a regression model, regardless of the relevance or usefulness of the added variables, the ordinary <span class="math inline">\(R^2\)</span> will always increase</p></li>
+<li><p>such artificial upward shifts in <span class="math inline">\(R^2\)</span> lead to misjudgement of the explanatory power of the regression models</p></li>
+<li><p>the <span class="math inline">\(R^2_{\text{adj}}\)</span> imposes a penalty for increasing the number of independent variables: <span class="math display">\[ R_{adj}^2 = 1-(1-R^2){N-1 \over N-K-1} \]</span></p></li>
+<li><p><span class="math inline">\(K\)</span> predictors with <span class="math inline">\(N\)</span> measurements</p></li>
+</ul>
+</section>
+<section id="adjusted-r2-1" class="slide level1">
+<h1>Adjusted <span class="math inline">\(R^2\)</span></h1>
+<p><img data-src="pics/r2adj_sim1.png" style="width:40.0%"> <img data-src="pics/r2adj_sim2.png" style="width:40.0%"></p>
+<ul>
+<li>given <span class="math inline">\(H_0\)</span> (no effect at all), <span class="math inline">\(R^2\)</span> still artificially grows</li>
+<li>adjusting for number of predictors “fixes” that</li>
+<li>however, huge variance for <span class="math inline">\(R^2_{\text{adj}}\)</span> and naive adjustment</li>
+</ul>
+</section>
+<section id="comparing-models" class="slide level1">
+<h1>Comparing models …</h1>
+<ul>
+<li><p>comparing models using <span class="math inline">\(R^2\)</span> is not good (artificially increased)</p></li>
+<li><p>comparing models using <span class="math inline">\(R^2_\text{adj}\)</span> is better</p>
+<ul>
+<li>but: how strong a difference in <span class="math inline">\(R^2_\text{adj}\)</span> should be chosen?</li>
+</ul></li>
+<li><p>using <span class="math inline">\(F\)</span>-test to compare two models: increase in <span class="math inline">\(R^2\)</span> <em>significant</em>?</p></li>
+<li><p>“hierarchical” linear regression (don’t confuse with “mixed” models)</p></li>
+<li><p>increase model-quality by introducing new (groups of) variables at each step</p></li>
+<li><p>each new model contains all previous predictors and adds new ones</p></li>
+</ul>
+</section>
+<section id="f-test-for-model-comparison" class="slide level1">
+<h1>F-test for model comparison</h1>
+<div class="cell">
+
+</div>
+<h4 id="r-1">R</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lm</span>(loenn <span class="sc">~</span> kvinne <span class="sc">+</span> alder, <span class="at">data=</span>loenn)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(loenn <span class="sc">~</span> kvinne <span class="sc">+</span> alder <span class="sc">+</span> utdann, <span class="at">data=</span>loenn)</span>
+<span id="cb3-3"><a href="#cb3-3"></a>mod3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(loenn <span class="sc">~</span> kvinne <span class="sc">+</span> alder <span class="sc">+</span> utdann <span class="sc">+</span> fagfor, <span class="at">data=</span>loenn)</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="fu">anova</span>(mod1,mod2,mod3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>      Source |       SS           df       MS      Number of obs   =        95
--------------+----------------------------------   F(2, 92)        =     70.06
-       Model |  2.8078e+12         2  1.4039e+12   Prob &gt; F        =    0.0000
-    Residual |  1.8437e+12        92  2.0040e+10   R-squared       =    0.6036
--------------+----------------------------------   Adj R-squared   =    0.5950
-       Total |  4.6515e+12        94  4.9484e+10   Root MSE        =    1.4e+05
+<pre><code>Analysis of Variance Table
 
-------------------------------------------------------------------------------
-  flat_price | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-  floor_size |   5209.168   451.5463    11.54   0.000     4312.358    6105.978
-    location |  -11365.17   10885.58    -1.04   0.299    -32984.87    10254.53
-       _cons |   156146.1   50187.98     3.11   0.002     56468.42    255823.7
-------------------------------------------------------------------------------</code></pre>
+Model 1: loenn ~ kvinne + alder
+Model 2: loenn ~ kvinne + alder + utdann
+Model 3: loenn ~ kvinne + alder + utdann + fagfor
+  Res.Df     RSS Df Sum of Sq       F  Pr(&gt;F)    
+1    452 5151480                                 
+2    451 4303810  1    847670 89.4780 &lt; 2e-16 ***
+3    450 4263077  1     40733  4.2997 0.03869 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 </div>
 </div>
+<ul>
+<li>before: compare regression model against “null model” (no predictors)</li>
+<li>now: compare any two models (that are nested)</li>
+</ul>
 </section>
-<section id="f-test-flat.dta-1" class="slide level1">
-<h1>F-test: <code>flat.dta</code></h1>
-<h3 id="r">R</h3>
+<section id="step-wise-regression" class="slide level1">
+<h1>Step-wise regression</h1>
+<p><img data-src="pics/forward-stepwise-algorithm.png" style="width:40.0%"> <img data-src="pics/backward-stepwise-algorithm.png" style="width:40.0%"></p>
+<ul>
+<li>we can use this procedure to select “relevant” predictors</li>
+<li>“backward selection”: start with full model and drop least informative predictor</li>
+<li>“forward selection”: start with null-modell and add predictors one on one</li>
+</ul>
+</section>
+<section id="stepwise-selection" class="slide level1">
+<h1>Stepwise selection</h1>
+<h4 id="r-2">R</h4>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>flat <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_dta</span>(<span class="st">"data/flat.dta"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="fu">summary</span>(<span class="fu">lm</span>(flat_price <span class="sc">~</span> floor_size<span class="sc">+</span>location,<span class="at">data=</span>flat))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lm</span>(loenn <span class="sc">~</span> kvinne <span class="sc">+</span> alder <span class="sc">+</span> utdann <span class="sc">+</span> fagfor <span class="sc">+</span> gift <span class="sc">+</span> kvierf <span class="sc">+</span> erfaring, <span class="at">data=</span>loenn)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">step</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Start:  AIC=4171.64
+loenn ~ kvinne + alder + utdann + fagfor + gift + kvierf + erfaring
+
+           Df Sum of Sq     RSS    AIC
+- alder     1        30 4212558 4169.6
+- erfaring  1       328 4212857 4169.7
+- gift      1       384 4212912 4169.7
+- utdann    1      6716 4219245 4170.4
+- kvinne    1      7411 4219940 4170.4
+&lt;none&gt;                  4212528 4171.6
+- fagfor    1     36056 4248585 4173.5
+- kvierf    1     49348 4261877 4174.9
+
+Step:  AIC=4169.64
+loenn ~ kvinne + utdann + fagfor + gift + kvierf + erfaring
+
+           Df Sum of Sq     RSS    AIC
+- gift      1       398 4212956 4167.7
+- kvinne    1      7394 4219952 4168.4
+&lt;none&gt;                  4212558 4169.6
+- fagfor    1     36040 4248598 4171.5
+- kvierf    1     49960 4262519 4173.0
+- erfaring  1    292567 4505125 4198.2
+- utdann    1   1011811 5224370 4265.6
+
+Step:  AIC=4167.69
+loenn ~ kvinne + utdann + fagfor + kvierf + erfaring
+
+           Df Sum of Sq     RSS    AIC
+- kvinne    1      7696 4220652 4166.5
+&lt;none&gt;                  4212956 4167.7
+- fagfor    1     35841 4248797 4169.5
+- kvierf    1     49572 4262528 4171.0
+- erfaring  1    309197 4522153 4197.9
+- utdann    1   1012560 5225516 4263.7
+
+Step:  AIC=4166.52
+loenn ~ utdann + fagfor + kvierf + erfaring
+
+           Df Sum of Sq     RSS    AIC
+&lt;none&gt;                  4220652 4166.5
+- fagfor    1     37529 4258181 4168.5
+- kvierf    1    280479 4501132 4193.8
+- erfaring  1    491271 4711923 4214.6
+- utdann    1   1019601 5240254 4263.0</code></pre>
+</div>
 <div class="cell-output cell-output-stdout">
 <pre><code>
 Call:
-lm(formula = flat_price ~ floor_size + location, data = flat)
-
-Residuals:
-    Min      1Q  Median      3Q     Max 
--240372  -72682  -22084   53669  999903 
+lm(formula = loenn ~ utdann + fagfor + kvierf + erfaring, data = loenn)
 
 Coefficients:
-            Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept) 156146.1    50188.0   3.111  0.00248 ** 
-floor_size    5209.2      451.5  11.536  &lt; 2e-16 ***
-location    -11365.2    10885.6  -1.044  0.29919    
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-
-Residual standard error: 141600 on 92 degrees of freedom
-Multiple R-squared:  0.6036,    Adjusted R-squared:  0.595 
-F-statistic: 70.06 on 2 and 92 DF,  p-value: &lt; 2.2e-16</code></pre>
+(Intercept)       utdann       fagfor       kvierf     erfaring  
+    -87.998       19.380       23.157       -2.353        3.424  </code></pre>
 </div>
 </div>
-<ul>
-<li>this procedure is also called analysis of variance (ANOVA)</li>
-<li>independent of number of predictors, complexity of model, …</li>
-</ul>
-</section>
-<section id="f-p" class="slide level1">
-<h1><span class="math inline">\(F\)</span>? <span class="math inline">\(p\)</span>?</h1>
-<ul>
-<li>variances er estimated from sample</li>
-<li><span class="math inline">\(F=\frac{MS_{model}}{MS_{residual}}\)</span></li>
-<li><span class="math inline">\(F\)</span> is the test-statistic</li>
-<li>in the case that variances “residual” and “model” are exactly the same, <span class="math inline">\(F=1\)</span></li>
-<li>because of the sampling error, <span class="math inline">\(F\)</span> follows a sampling distribution</li>
-<li>this distribution depends on
-<ul>
-<li>number of predictor variables (more predictors, higher explained variance)</li>
-<li>number of subjects per group (more subjects, higher precision)</li>
-</ul></li>
-</ul>
-</section>
-<section id="what-the-hell-is-f" class="slide level1">
-<h1>What the hell is <span class="math inline">\(F\)</span>?</h1>
-<p><img data-src="pics/fvalues.png" style="width:45.0%"> <img data-src="pics/fpvalue.jpg" style="width:45.0%"></p>
-<h2 id="section-1"></h2>
-<ul>
-<li>if <span class="math inline">\(H_0\)</span> is true <span class="math inline">\(\rightarrow\)</span> F-value distributed according to <span class="math inline">\(F\)</span>-distribution with parameters <span class="math inline">\(df_{model}\)</span> og <span class="math inline">\(df_{residual}\)</span></li>
-<li><span class="math inline">\(p\)</span>-value: What is the probability to observe an F-value this large if the <span class="math inline">\(H_0\)</span> is correct?</li>
-</ul>
-</section>
-<section id="example-for-f-distribution-and-p-value" class="slide level1">
-<h1>Example for F-distribution and p-value</h1>
-<p>We have collected data with 4 predictors with <span class="math inline">\(N=400\)</span>.</p>
-<ul>
-<li><span class="math inline">\(df_{model}=4-1=3\)</span> og</li>
-<li><span class="math inline">\(df_{residual}=N-4=396\)</span></li>
-</ul>
-
-<img data-src="pics/fdistr/fdist_justf.png" class="r-stretch quarto-figure-center"><p class="caption"></p></section>
-<section id="example-for-f-distribution-and-p-value-1" class="slide level1">
-<h1>Example for F-distribution and p-value</h1>
-<p>We have collected data with 4 predictors with <span class="math inline">\(N=400\)</span>.</p>
-<ul>
-<li>Study 1: <strong>F=0.5</strong></li>
-</ul>
-
-<img data-src="pics/fdistr/fdist_f05.png" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(p\)</span>-value<span class="math inline">\(=0.69\)</span></p>
-</section>
-<section id="example-for-f-distribution-and-p-value-2" class="slide level1">
-<h1>Example for F-distribution and p-value</h1>
-<p>We have collected data with 4 predictors with <span class="math inline">\(N=400\)</span>.</p>
-<ul>
-<li>Study 2: <strong>F=1.0</strong></li>
-</ul>
-
-<img data-src="pics/fdistr/fdist_f1.png" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(p\)</span>-value<span class="math inline">\(=0.39\)</span></p>
-</section>
-<section id="example-for-f-distribution-and-p-value-3" class="slide level1">
-<h1>Example for F-distribution and p-value</h1>
-<p>We have collected data with 4 predictors with <span class="math inline">\(N=400\)</span>.</p>
-<ul>
-<li>Study 3: <strong>F=2.0</strong></li>
-</ul>
-
-<img data-src="pics/fdistr/fdist_f2.png" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(p\)</span>-value<span class="math inline">\(=0.11\)</span></p>
-</section>
-<section id="example-for-f-distribution-and-p-value-4" class="slide level1">
-<h1>Example for F-distribution and p-value</h1>
-<p>We have collected data with 4 predictors with <span class="math inline">\(N=400\)</span>.</p>
-<ul>
-<li>Study 4: <strong>F=3.0</strong></li>
-</ul>
-
-<img data-src="pics/fdistr/fdist_f3.png" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(p\)</span>-value<span class="math inline">\(=0.03\)</span></p>
-</section>
-<section id="example-for-f-distribution-and-p-value-5" class="slide level1">
-<h1>Example for F-distribution and p-value</h1>
-<p>We have collected data with 4 predictors with <span class="math inline">\(N=400\)</span>.</p>
-<ul>
-<li>Result: <strong>?</strong></li>
-</ul>
-
-<img data-src="pics/fdistr/fdist_alltogethernow.png" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(p\)</span>-value<span class="math inline">\(=\)</span>area under the F-distribution at least as large as the observed F-value.</p>
-</section>
-<section id="summary" class="slide level1">
-<h1>Summary</h1>
-<h2 id="what-are-f-and-p">What are <span class="math inline">\(F\)</span> and <span class="math inline">\(p\)</span>?</h2>
-
-<img data-src="pics/fdistr/fdist_alltogethernow.png" style="width:30.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><h2 id="f-value"><strong>F-value</strong></h2>
-<p>A value summarizing the relationship between explained and residual variances. It is called <span class="math inline">\(F\)</span> because it follows an F-distribution if <span class="math inline">\(H_0\)</span> holds (i.e., there is no effect).</p>
-<h2 id="p-value"><strong>p-value</strong></h2>
-<p>Probability to observe an F-value that is at least as large as the one that was found in the study <em>if <span class="math inline">\(H_0\)</span> is correct</em> and there is no effect.</p>
-</section>
-<section id="variability-in-regression" class="slide level1">
-<h1>Variability in regression</h1>
-
-<img data-src="pics/two_uncertainties.png" style="width:65.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p>Do all the predictors help to explain the outcome or is only a subset of the predictors useful?</p>
-<ul>
-<li>how far away from the true regression line do the actual datapoints fall?</li>
-<li>how well did we approximate the true regression line with our estimate?</li>
-</ul>
-</section>
-<section id="confidence-intervals-vs.-prediction-intervals" class="slide level1">
-<h1>Confidence intervals vs.&nbsp;prediction intervals</h1>
-<div class="columns">
-<div class="column" style="width:45%;">
-<div id="fig-anonymous-18" class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="pics/two_uncertainties_1.png" style="width:100.0%"></p>
-<p></p><figcaption aria-hidden="true"></figcaption><p></p>
-</figure>
-</div>
-</div><div class="column" style="width:45%;">
-<div id="fig-anonymous-19" class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="pics/two_uncertainties_2.png" style="width:100.0%"></p>
-<p></p><figcaption aria-hidden="true"></figcaption><p></p>
-</figure>
-</div>
-</div>
-</div>
-<ul>
-<li>Confidence Interval (CI): estimate of where the true regression line is, <span class="math inline">\(E[Y|X]\)</span></li>
-<li>Prediction Interval (PI): estimate of where new datapoints are going to fall</li>
-</ul>
-</section>
-<section id="why-is-there-uncertainty-about-the-regression-line" class="slide level1">
-<h1>Why is there uncertainty about the regression line?</h1>
-<ul>
-<li>regression line is an estimate of the <em>population</em> regression function <span class="math display">\[E[Y]=\beta_0 + \beta_1 X\]</span></li>
-<li>we measure function from <em>sample</em> <span class="math display">\[E[Y]=\hat{\beta}_0 + \hat{\beta}_1 X\]</span></li>
-<li>were we to repeat sampling, we would get (slightly) different estimates <span class="math inline">\(\hat{\beta}\)</span> while the <em>true</em> <span class="math inline">\(\beta\)</span> is unchanged!</li>
-</ul>
-</section>
-<section class="slide level1">
-
-<h3 id="stata-1">Stata</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource stata number-lines code-with-copy"><code class="sourceCode stata"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">set</span> <span class="kw">obs</span> 20</span>
-<span id="cb5-2"><a href="#cb5-2"></a>* <span class="kw">generate</span> random <span class="kw">values</span> <span class="kw">for</span> the predictor</span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">generate</span> x = rnormal(0,1)</span>
-<span id="cb5-4"><a href="#cb5-4"></a></span>
-<span id="cb5-5"><a href="#cb5-5"></a>* create an artificial dataset with true b0=2.5 and b1=4.3</span>
-<span id="cb5-6"><a href="#cb5-6"></a><span class="kw">generate</span> <span class="fu">y</span> = 2.5 + 4.3 * x + rnormal(0,1)</span>
-<span id="cb5-7"><a href="#cb5-7"></a></span>
-<span id="cb5-8"><a href="#cb5-8"></a>* how well can we recover those <span class="st">"true"</span> <span class="kw">values</span> with a regression?</span>
-<span id="cb5-9"><a href="#cb5-9"></a><span class="kw">regress</span> <span class="fu">y</span> x</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stdout">
-<pre><code>      Source |       SS           df       MS      Number of obs   =        20
--------------+----------------------------------   F(1, 18)        =    580.29
-       Model |  567.854904         1  567.854904   Prob &gt; F        =    0.0000
-    Residual |  17.6143639        18  .978575772   R-squared       =    0.9699
--------------+----------------------------------   Adj R-squared   =    0.9682
-       Total |  585.469268        19   30.814172   Root MSE        =    .98923
-
-------------------------------------------------------------------------------
-           y | Coefficient  Std. err.      t    P&gt;|t|     [95% conf. interval]
--------------+----------------------------------------------------------------
-           x |   4.316554   .1791908    24.09   0.000     3.940088     4.69302
-       _cons |   2.599046     .22413    11.60   0.000     2.128166    3.069926
-------------------------------------------------------------------------------</code></pre>
-</div>
-</div>
-</section>
-<section class="slide level1">
-
-<h3 id="r-1">R</h3>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>slopes <span class="ot">&lt;-</span> <span class="fu">replicate</span>(<span class="dv">100</span>, {</span>
-<span id="cb7-2"><a href="#cb7-2"></a>  x <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="dv">20</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb7-3"><a href="#cb7-3"></a>  y <span class="ot">&lt;-</span> <span class="fl">2.5</span> <span class="sc">+</span> <span class="fl">4.3</span><span class="sc">*</span>x <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">20</span>,<span class="dv">0</span>,<span class="dv">1</span>)</span>
-<span id="cb7-4"><a href="#cb7-4"></a>  <span class="fu">coef</span>(<span class="fu">lm</span>(y<span class="sc">~</span>x))[<span class="dv">2</span>]</span>
-<span id="cb7-5"><a href="#cb7-5"></a>}) </span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="fu">hist</span>(slopes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-
-</div>
-<img data-src="lecture2_files/figure-revealjs/unnamed-chunk-5-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption"></p></section>
-<section id="confidence-intervals-for-regression-coefficients" class="slide level1">
-<h1>Confidence intervals for regression coefficients</h1>
-<h2 id="definition-95-ci">Definition 95% CI</h2>
-<p>“If we were to collect data from many more samples and would calculate the CI with the same procedure in each of them, 95% of those intervals would contain the true (population) value of the parameter.”</p>
-<ul>
-<li><strong>NOT</strong>: “The CI is the interval that contains the true value with 95% probability.”!</li>
-<li>the CI gives us an idea about the <em>precision</em> with which we have measured the coefficients</li>
-<li>mathematically, CIs are significance tests…</li>
-</ul>
-</section>
-<section id="significance-testing-of-regression-coefficients" class="slide level1">
-<h1>Significance testing of regression coefficients</h1>
-
-<img data-src="pics/significant_slope.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><h3 id="question-is-coefficient-significantly-different-from-zero">Question: Is coefficient significantly different from zero?</h3>
-<ul>
-<li>Null-hypothesis <span class="math inline">\(H_0: \beta = 0\)</span></li>
-<li>Alternative hypothesis <span class="math inline">\(H_1: \beta \ne 0\)</span></li>
-</ul>
-</section>
-<section id="significance-testing-of-regression-coefficients-1" class="slide level1">
-<h1>Significance testing of regression coefficients</h1>
-
-<img data-src="pics/samplingdist_web.png" style="width:40.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p>Again:</p>
-<ul>
-<li>estimated slope-coefficients <span class="math inline">\(\hat{\beta}_0, \hat{\beta}_1, ...\)</span> have a sampling distribution</li>
-<li>centered on the <em>true</em> slopes <span class="math inline">\(\beta_0, \beta_1, ...\)</span></li>
-<li>the standard deviation of this <em>sampling</em> distribution is the <em>standard error</em> (SE)</li>
-<li>the SE can be used to calculate CIs and to run significance tests</li>
-</ul>
-</section>
-<section id="t-test-for-regression-coefficients" class="slide level1">
-<h1><span class="math inline">\(t\)</span>-test for regression coefficients</h1>
-
-<img data-src="pics/stata_tvalue_table.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
-<li>according to the <span class="math inline">\(H_0\)</span>, the <span class="math inline">\(\hat{\beta}\)</span> values should be close to zero</li>
-<li>how close? Normally distributed around zero with SD=SE (standard error)</li>
-<li>because we have to estimate the SE from the sample, the actual distribution is following a <span class="math inline">\(t\)</span>-distribution with <span class="math inline">\(n-K\)</span> degrees of freedom</li>
-<li>for any observed <span class="math inline">\(t\)</span> value <span class="math inline">\(t_{\text{obs}}\)</span>, we can calculate the probability to observe this large a value <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(p\)</span>-value</li>
-</ul>
 </section>
 <section id="assumptions-of-linear-regression" class="slide level1">
 <h1>Assumptions of linear regression</h1>
@@ -938,7 +1008,7 @@ F-statistic: 70.06 on 2 and 92 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h1>Homoscedasticity</h1>
 <p>for continuous predictors</p>
 
-<img data-src="lecture2_files/figure-revealjs/unnamed-chunk-6-1.png" width="768" class="r-stretch quarto-figure-center"><p class="caption"></p></section>
+<img data-src="lecture2_files/figure-revealjs/unnamed-chunk-7-1.png" width="768" class="r-stretch quarto-figure-center"><p class="caption"></p></section>
 <section id="homoscedasticity-3" class="slide level1">
 <h1>Homoscedasticity…</h1>
 <h2 id="example-1">Example 1</h2>
@@ -954,10 +1024,8 @@ F-statistic: 70.06 on 2 and 92 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h1>Normality of residuals</h1>
 
 <img data-src="pics/normaldist_rbook.png" style="width:50.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
-<li>linear regression assumes that the residuals</li>
+<li>linear regression assumes that the residuals <span class="math display">\[\varepsilon_i = Y_i - \hat{Y}_i = Y_i - (\beta_0 + \beta_1 X_1 + ... + b_n X_n)\]</span> are normally distributed</li>
 </ul>
-<p><span class="math display">\[\varepsilon_i = Y_i - \hat{Y}_i = Y_i - (\beta_0 + \beta_1 X_1 + ... + b_n X_n)\]</span></p>
-<p>are normally distributed</p>
 </section>
 <section id="normal-distribution" class="slide level1">
 <h1>Normal distribution</h1>
@@ -977,14 +1045,14 @@ F-statistic: 70.06 on 2 and 92 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h1>Normal distribution</h1>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div id="fig-anonymous-36" class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-38" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/kind_normal.png" style="width:50.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
 </figure>
 </div>
 </div><div class="column" style="width:50%;">
-<div id="fig-anonymous-37" class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-39" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/sad_normal.png" style="width:50.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -1044,13 +1112,11 @@ F-statistic: 70.06 on 2 and 92 DF,  p-value: &lt; 2.2e-16</code></pre>
 </section>
 <section id="outliers-vs.-influentialhigh-leverage-points" class="slide level1">
 <h1>Outliers vs.&nbsp;Influential/High leverage points</h1>
-
+<p><img data-src="pics/leverage.png" style="width:100.0%"> - outliers can have a strong impact on regression equation - how much does the equation change, when I leave out the outlier? <span class="math inline">\(\rightarrow\)</span> leverage, Cook’s distance - Demo: </p>
 </section>
 <section id="outliers-vs.-influential-datapoints" class="slide level1">
 <h1>Outliers vs.&nbsp;influential datapoints</h1>
-<blockquote>
 <p><img data-src="pics/fields_outlier.png" style="width:40.0%"> <img data-src="pics/fields_outlier2.png" style="width:40.0%"></p>
-</blockquote>
 <ul>
 <li>not every outlier has strong negative impact on regression results</li>
 <li>outlier: defined by distance from model-prediction</li>
@@ -1100,7 +1166,7 @@ F-statistic: 70.06 on 2 and 92 DF,  p-value: &lt; 2.2e-16</code></pre>
 </section>
 <section id="multicollinearity" class="slide level1">
 <h1>Multicollinearity</h1>
-<p><img data-src="pics/stata_flats_vif.png" style="width:45.0%"> <img data-src="pics/stata_flats_vif2.png" style="width:40.0%"></p>
+<p><img data-src="pics/stata_flats_vif.png" style="width:35.0%"> <img data-src="pics/stata_flats_vif2.png" style="width:30.0%"></p>
 <ul>
 <li>Multicollinearity exists if predictors are highly correlated.</li>
 <li>Variance-inflation factor (VIF):
@@ -1125,29 +1191,25 @@ F-statistic: 70.06 on 2 and 92 DF,  p-value: &lt; 2.2e-16</code></pre>
 </section>
 <section id="linearity-predicted-values-vs.-residuals-plot" class="slide level1">
 <h1>Linearity: Predicted values vs.&nbsp;residuals plot</h1>
-<blockquote>
-<div id="fig-anonymous-46" class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-48" class="quarto-figure quarto-figure-center">
 <figure>
-<p><embed data-src="pics/nonlinear_res.pdf" style="width:75.0%"></p>
+<p><img data-src="pics/nonlinear_res.png" style="width:75.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
 </figure>
 </div>
-</blockquote>
 <div class="fragment">
-<blockquote>
-<div id="fig-anonymous-47" class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-49" class="quarto-figure quarto-figure-center">
 <figure>
-<p><embed data-src="pics/nonlinear_res2.pdf" style="width:75.0%"></p>
+<p><img data-src="pics/nonlinear_res2.png" style="width:75.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
 </figure>
 </div>
-</blockquote>
 </div>
 </section>
 <section id="heteroscedasticity" class="slide level1">
 <h1>Heteroscedasticity</h1>
-
-<img data-src="pics/jasp_phdsalary_residuals.png" style="width:40.0%" class="r-stretch"><ul>
+<p><img data-src="pics/salary_p1.png" style="width:30.0%"> <img data-src="pics/jasp_phdsalary_residuals.png" style="width:40.0%"></p>
+<ul>
 <li>plot predicted values vs.&nbsp;residuals</li>
 <li>variance (spread) of values around zero-line increasing/decreasing?</li>
 </ul>
@@ -1163,9 +1225,7 @@ F-statistic: 70.06 on 2 and 92 DF,  p-value: &lt; 2.2e-16</code></pre>
 </section>
 <section id="normality" class="slide level1">
 <h1>Normality</h1>
-<blockquote>
 <p><img data-src="pics/jasp_phq9_height_reshist.png" style="width:40.0%"> <img data-src="pics/jasp_phq9_height_qq.png" style="width:40.0%"></p>
-</blockquote>
 <ul>
 <li>inspect histogram of (standardized) residuals)
 <ul>
@@ -1179,110 +1239,33 @@ F-statistic: 70.06 on 2 and 92 DF,  p-value: &lt; 2.2e-16</code></pre>
 </section>
 <section id="residual-histograms" class="slide level1">
 <h1>Residual histograms</h1>
-<div id="fig-anonymous-49" class="quarto-figure quarto-figure-center">
-<figure>
-<p><embed data-src="pics/resid_hist_many.pdf" style="width:100.0%"></p>
-<p></p><figcaption aria-hidden="true"></figcaption><p></p>
-</figure>
-</div>
-<ul>
+
+<img data-src="pics/resid_hist_many.png" style="width:100.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
 <li>these are all normal!</li>
 </ul>
 </section>
 <section id="residual-histograms-1" class="slide level1">
 <h1>Residual histograms</h1>
-<div id="fig-anonymous-50" class="quarto-figure quarto-figure-center">
-<figure>
-<p><embed data-src="pics/resid_hist_nonnormal_many.pdf" style="width:100.0%"></p>
-<p></p><figcaption aria-hidden="true"></figcaption><p></p>
-</figure>
-</div>
-<ul>
+
+<img data-src="pics/resid_hist_nonnormal_many.png" style="width:100.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
 <li>these are not normal!</li>
 </ul>
 </section>
 <section id="qq-plot-examples" class="slide level1">
 <h1>QQ-plot: Examples</h1>
-<p>t<embed data-src="pics/qq_many.pdf" style="width:100.0%"></p>
-<ul>
+
+<img data-src="pics/qq_many.png" style="width:100.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
 <li>these are all normal!</li>
 </ul>
 </section>
 <section id="qq-plot-examples-1" class="slide level1">
 <h1>QQ-plot: Examples</h1>
-<div id="fig-anonymous-51" class="quarto-figure quarto-figure-center">
-<figure>
-<p><embed data-src="pics/qq_nonnormal_many.pdf" style="width:100.0%"></p>
-<p></p><figcaption aria-hidden="true"></figcaption><p></p>
-</figure>
-</div>
-<ul>
+
+<img data-src="pics/qq_nonnormal_many.png" style="width:100.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
 <li>these are not normal!</li>
 </ul>
 </section>
-<section id="stata-analysis-of-residuals" class="slide level1">
-<h1>Stata: Analysis of residuals</h1>
-
-<img data-src="pics/stata_flats_studresid.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><code>. regress flat_price floor_size year_built</code></p>
-<p><code>. predict resid, rstudent</code></p>
-<p><code>. list if abs(resid)&gt;2.5 &amp; resid !=.</code></p>
-<ul>
-<li>any residuals larger/smaller than expected?</li>
-</ul>
-</section>
-<section id="stata-leverage-cooks-d-dfit" class="slide level1">
-<h1>Stata: Leverage, Cooks’ d, DFIT</h1>
-
-<img data-src="pics/stata_flats_levdfcook.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><code>. regress flat_price floor_size year_built</code></p>
-<p><code>. predict lev, leverage</code></p>
-<p><code>. predict dfit, dfit</code></p>
-<p><code>. predict cooksd, cooksd</code></p>
-<p><code>. list if abs(lev)&gt;(2*2+2)/95 &amp; lev!=.</code></p>
-<ul>
-<li>listing according to threshold for leverage (<span class="math inline">\(k=2, n=95\)</span>)</li>
-</ul>
-</section>
-<section id="stata-impact-of-cases-on-individual-variables-dfbeta" class="slide level1">
-<h1>Stata: Impact of cases on individual variables: DFBETA</h1>
-
-<img data-src="pics/stata_flats_dfbeta.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><code>. regress flat_price floor_size year_built</code></p>
-<p><code>. dfbeta</code></p>
-<p><code>. list if (abs(_dfbeta_1)&gt;2/sqrt(95) | abs(_dfbeta_2)&gt;2/sqrt(95)) &amp; _dfbeta_1 !=.</code></p>
-<ul>
-<li>cutoff: abs(dfbeta) <span class="math inline">\(&gt; 2/\sqrt{95}\)</span> = 0.21</li>
-</ul>
-</section>
-<section id="stata-normality-of-residuals" class="slide level1">
-<h1>Stata: normality of residuals</h1>
-<p><img data-src="pics/stata_flats_residhist.png" style="width:48.0%"> <img data-src="pics/stata_flats_qnorm.png" style="width:48.0%"></p>
-<p><code>. histogram resid</code></p>
-<p><code>. qnorm resid</code></p>
-<ul>
-<li>bell-shaped?</li>
-<li>points lie close to the diagonal?</li>
-</ul>
-</section>
-<section id="stata-normality-of-residuals-1" class="slide level1">
-<h1>Stata: normality of residuals</h1>
-<p><img data-src="pics/stata_flats_swilk.png" style="width:45.0%"> <img data-src="pics/stata_flats_kdensity.png" style="width:45.0%"></p>
-<p><code>. swilk resid</code></p>
-<p><code>. kdensity resid, normal</code></p>
-</section>
-<section id="stata-heteroscedasticity" class="slide level1">
-<h1>Stata: heteroscedasticity</h1>
-<p><img data-src="pics/stata_estat_heterosced.png" style="width:45.0%"> <img data-src="pics/stata_flats_rvfplot.png" style="width:50.0%"></p>
-<p><code>. rvfplot, yline(0)</code></p>
-<p><code>. estat imtest</code></p>
-<p><code>. estat hettest</code></p>
-</section>
-<section id="statistical-regression-checks-in-stata" class="slide level1">
-<h1>Statistical regression checks in Stata</h1>
-
-<img data-src="pics/stata_flats_regcheck.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><code>. ssc install regcheck</code></p>
-<p><code>. regress flat_price floor_size year_built</code></p>
-<p><code>. regcheck</code></p>
-</section>
-<section id="summary-1" class="slide level1">
+<section id="summary" class="slide level1">
 <h1>Summary</h1>
 <ul>
 <li>a single outlier can result in many diagnostic tests to fail
@@ -1301,8 +1284,582 @@ F-statistic: 70.06 on 2 and 92 DF,  p-value: &lt; 2.2e-16</code></pre>
 <li>but does affect <span class="math inline">\(F\)</span>/<span class="math inline">\(t\)</span>/<span class="math inline">\(p\)</span> values!</li>
 </ul></li>
 </ul>
+</section>
+<section id="statistical-power-analysis" class="slide level1">
+<h1>Statistical Power analysis</h1>
+<p>What is “power”?</p>
+<p><img data-src="pics/powerplant.jpg" style="width:40.0%"><br>
+</p>
+<ul>
+<li><strong>power</strong> is the probability to detect a real effect</li>
+<li>power increases with sample size</li>
+<li>if it is too low:
+<ul>
+<li>a study is most likely to be inconclusive</li>
+<li>a study is almost as likely to find an effect in the opposite direction</li>
+<li>a found effect is likely to be overestimated</li>
+</ul></li>
+</ul>
+</section>
+<section id="what-is-power" class="slide level1">
+<h1>What is power?</h1>
+<p><img data-src="pics/fordummies.png" style="width:50.0%"><br>
+</p>
+<h2 id="basic-idea">Basic idea</h2>
+<p>If the result I am looking for really exists in the population, how likely am I to detect it in my sample?</p>
+<ul>
+<li>not trivial, because sample is random</li>
+</ul>
+</section>
+<section id="what-is-power-1" class="slide level1">
+<h1>What is power?</h1>
+<p><img data-src="pics/powerrangers.png" style="width:30.0%"><br>
+</p>
+<h2 id="more-formal-definition">More formal definition</h2>
+<p>The “power” of a binary hypothesis test is the probability that the test correctly rejects <span class="math inline">\(H_0\)</span> when the alternative hypothesis <span class="math inline">\(H_1\)</span> is true. Alternatively, it is the probability of accepting <span class="math inline">\(H_1\)</span> when it is true—that is, the ability of a test to detect an effect, if the effect actually exists.</p>
+<p><span class="math display">\[\text{power} = P\big( \text{reject} H_0 \big| H_1 \text{ is true} \big)\]</span></p>
+</section>
+<section id="what-is-a-power-analysis" class="slide level1">
+<h1>What is a power-analysis?</h1>
+<p><img data-src="pics/power_analysis_reallife.jpg" style="width:50.0%"><br>
+</p>
+<ul>
+<li>find out this probability for a given research question</li>
+<li>determine how likely you are to make an error</li>
+<li>what sample size is needed?</li>
+</ul>
+</section>
+<section id="what-determines-power" class="slide level1">
+<h1>What determines power?</h1>
+<p><img data-src="pics/ingredients.jpeg" style="width:40.0%"> <img data-src="pics/knobs.jpg" style="width:30.0%"><br>
+</p>
+<p>A power-analysis attempts to balance the following ingredients:</p>
+<h2 id="section-1"></h2>
+<ol type="1">
+<li>Type-I error rate (<span class="math inline">\(\alpha\)</span>)</li>
+<li>Type-II error rate (<span class="math inline">\(\beta\)</span>) <span class="math inline">\(\rightarrow\)</span> power<span class="math inline">\(=(1-\beta)\)</span></li>
+<li>Effect-size (effect of variable and variation)</li>
+<li>Sample size (<span class="math inline">\(N\)</span>)</li>
+</ol>
+</section>
+<section id="knob-12-alpha-and-beta" class="slide level1">
+<h1>Knob 1+2: <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span></h1>
+<p>{Type I and Type II errors}</p>
+<p><img data-src="pics/type1and2error.png" style="width:70.0%"><br>
+</p>
+<ul>
+<li>significance level <span class="math inline">\(\alpha\)</span> determines false-alarm rate</li>
+<li>power <span class="math inline">\((1-\beta)\)</span> determines miss-rate</li>
+<li><em>both may be important!</em></li>
+</ul>
+</section>
+<section id="what-is-a-power-analysis-1" class="slide level1">
+<h1>What is a power-analysis?</h1>
+<p><img data-src="pics/code.jpg" style="width:20.0%"><br>
+</p>
+<h2 id="power-analysis-as-a-computer-program">Power-analysis as a computer program</h2>
+<p>Basic idea:</p>
+<ol type="1">
+<li><p>Define how you think the data is generated in the population (What is the size of the effect? Normally distributed? ) - make a computer program that produces random datasets with these properties</p></li>
+<li><p>Define what would mean a “success” in your statistical analysis (<span class="math inline">\(p\)</span>-value <span class="math inline">\(&lt;.05\)</span>?)</p></li>
+<li><p>Generate a large number of data-sets using step 1</p></li>
+<li><p>How often (%) did you get a “success” in terms of step 2? <span class="math inline">\(\rightarrow\)</span> this percentage is called power</p></li>
+</ol>
+</section>
+<section id="power-analysis-as-a-computer-program-1" class="slide level1">
+<h1>Power-analysis as a computer program</h1>
+<p>{Example for simple t-test}</p>
+<ol type="1">
+<li>Define data in population:</li>
+<li></li>
+<li></li>
+<li></li>
+</ol>
+<h2 id="section-2"></h2>
+<div class="sourceCode" id="cb8"><pre class="sourceCode numberSource R numberLines number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a></span>
+<span id="cb8-2"><a href="#cb8-2"></a>  N<span class="ot">=</span><span class="dv">20</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a>  x<span class="ot">=</span><span class="fu">random.normal</span>(<span class="at">size=</span>N, <span class="at">mean=</span><span class="fl">1.0</span>, <span class="at">sd=</span><span class="fl">2.0</span>)</span>
+<span id="cb8-4"><a href="#cb8-4"></a>  y<span class="ot">=</span><span class="fu">random.normal</span>(<span class="at">size=</span>N, <span class="at">mean=</span><span class="fl">1.5</span>, <span class="at">sd=</span><span class="fl">2.0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="power-analysis-as-a-computer-program-2" class="slide level1">
+<h1>Power-analysis as a computer program</h1>
+<p>{Example for simple t-test}</p>
+<ol type="1">
+<li>Define data in population</li>
+<li>Define success</li>
+<li></li>
+<li></li>
+</ol>
+<h2 id="section-3"></h2>
+<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource R numberLines number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>success<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a></span>
+<span id="cb9-3"><a href="#cb9-3"></a></span>
+<span id="cb9-4"><a href="#cb9-4"></a>  N<span class="ot">=</span><span class="dv">20</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a>  x<span class="ot">=</span><span class="fu">random.normal</span>(<span class="at">size=</span>N, <span class="at">mean=</span><span class="fl">1.0</span>, <span class="at">sd=</span><span class="fl">2.0</span>)</span>
+<span id="cb9-6"><a href="#cb9-6"></a>  y<span class="ot">=</span><span class="fu">random.normal</span>(<span class="at">size=</span>N, <span class="at">mean=</span><span class="fl">1.5</span>, <span class="at">sd=</span><span class="fl">2.0</span>)</span>
+<span id="cb9-7"><a href="#cb9-7"></a>  <span class="cf">if</span>( p<span class="sc">-</span>value of <span class="fu">t.test</span>(x,y) <span class="sc">&lt;</span> <span class="fl">0.05</span> )</span>
+<span id="cb9-8"><a href="#cb9-8"></a>    success <span class="ot">=</span> success<span class="sc">+</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="power-analysis-as-a-computer-program-3" class="slide level1">
+<h1>Power-analysis as a computer program</h1>
+<p>{Example for simple t-test}</p>
+<ol type="1">
+<li>Define data in population</li>
+<li>Define success</li>
+<li>Repeat this often</li>
+<li></li>
+</ol>
+<h2 id="section-4"></h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource R numberLines number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>success<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a></span>
+<span id="cb10-3"><a href="#cb10-3"></a>do <span class="dv">10000</span> times<span class="sc">:</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a>  N<span class="ot">=</span><span class="dv">20</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a>  x<span class="ot">=</span><span class="fu">random.normal</span>(<span class="at">size=</span>N, <span class="at">mean=</span><span class="fl">1.0</span>, <span class="at">sd=</span><span class="fl">2.0</span>)</span>
+<span id="cb10-6"><a href="#cb10-6"></a>  y<span class="ot">=</span><span class="fu">random.normal</span>(<span class="at">size=</span>N, <span class="at">mean=</span><span class="fl">1.5</span>, <span class="at">sd=</span><span class="fl">2.0</span>)</span>
+<span id="cb10-7"><a href="#cb10-7"></a>  <span class="cf">if</span>( p<span class="sc">-</span>value of <span class="fu">t.test</span>(x,y) <span class="sc">&lt;</span> <span class="fl">0.05</span> )</span>
+<span id="cb10-8"><a href="#cb10-8"></a>    success <span class="ot">=</span> success<span class="sc">+</span><span class="dv">1</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="power-analysis-as-a-computer-program-4" class="slide level1">
+<h1>Power-analysis as a computer program</h1>
+<p>{Example for simple t-test}</p>
+<ol type="1">
+<li>Define data in population</li>
+<li>Define success</li>
+<li>Repeat this often</li>
+<li>Calculate % success = power</li>
+</ol>
+<h2 id="section-5"></h2>
+<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource R numberLines number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>success<span class="ot">=</span><span class="dv">0</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a></span>
+<span id="cb11-3"><a href="#cb11-3"></a>do <span class="dv">10000</span> times<span class="sc">:</span></span>
+<span id="cb11-4"><a href="#cb11-4"></a>  N<span class="ot">=</span><span class="dv">20</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>  x<span class="ot">=</span><span class="fu">random.normal</span>(<span class="at">size=</span>N, <span class="at">mean=</span><span class="fl">1.0</span>, <span class="at">sd=</span><span class="fl">2.0</span>)</span>
+<span id="cb11-6"><a href="#cb11-6"></a>  y<span class="ot">=</span><span class="fu">random.normal</span>(<span class="at">size=</span>N, <span class="at">mean=</span><span class="fl">1.5</span>, <span class="at">sd=</span><span class="fl">2.0</span>)</span>
+<span id="cb11-7"><a href="#cb11-7"></a>  <span class="cf">if</span>( p<span class="sc">-</span>value of <span class="fu">t.test</span>(x,y) <span class="sc">&lt;</span> <span class="fl">0.05</span> )</span>
+<span id="cb11-8"><a href="#cb11-8"></a>    success <span class="ot">=</span> success<span class="sc">+</span><span class="dv">1</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a></span>
+<span id="cb11-10"><a href="#cb11-10"></a>power<span class="ot">=</span>success<span class="sc">/</span><span class="dv">10000</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="power-calculation-by-simulation" class="slide level1">
+<h1>Power calculation by simulation</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># say we want to investigate the relationship between IQ and points on our exam</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a>N<span class="ot">=</span><span class="dv">20</span>   <span class="co"># we will collect N=50 subjects</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a>beta<span class="ot">=</span><span class="dv">2</span> <span class="co"># we assume that subjects will score 2 more points in our exam for each additional point on the IQ scale</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a>  </span>
+<span id="cb12-5"><a href="#cb12-5"></a>n.simulations<span class="ot">=</span><span class="dv">1000</span> <span class="co"># how many simulations (of the hypothetical experiment)?</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a>pv<span class="ot">=</span><span class="fu">vector</span>(<span class="at">length =</span> n.simulations) <span class="co"># collect all p-values here</span></span>
+<span id="cb12-7"><a href="#cb12-7"></a></span>
+<span id="cb12-8"><a href="#cb12-8"></a><span class="cf">for</span>( i <span class="cf">in</span> <span class="dv">1</span><span class="sc">:</span>n.simulations ){ </span>
+<span id="cb12-9"><a href="#cb12-9"></a>  <span class="co"># we believe that the IQ in the group will be between 90 and 120</span></span>
+<span id="cb12-10"><a href="#cb12-10"></a>  IQ <span class="ot">=</span> <span class="fu">runif</span>(N, <span class="at">min=</span><span class="dv">90</span>, <span class="at">max=</span><span class="dv">120</span>) </span>
+<span id="cb12-11"><a href="#cb12-11"></a>  </span>
+<span id="cb12-12"><a href="#cb12-12"></a>  <span class="co"># we believe that the exam is related to IQ points but that there is a lot of noise</span></span>
+<span id="cb12-13"><a href="#cb12-13"></a>  exam.points <span class="ot">=</span> beta<span class="sc">*</span>IQ <span class="sc">+</span> <span class="fu">rnorm</span>(N, <span class="at">mean=</span><span class="dv">0</span>, <span class="at">sd=</span><span class="dv">40</span>)</span>
+<span id="cb12-14"><a href="#cb12-14"></a>  </span>
+<span id="cb12-15"><a href="#cb12-15"></a>  <span class="co"># calculate the linear regression and the resulting p-value for IQ</span></span>
+<span id="cb12-16"><a href="#cb12-16"></a>  pv[i]<span class="ot">=</span><span class="fu">summary</span>(<span class="fu">lm</span>( exam.points <span class="sc">~</span> IQ))<span class="sc">$</span>coefficients[<span class="st">"IQ"</span>,<span class="dv">4</span>]</span>
+<span id="cb12-17"><a href="#cb12-17"></a>}</span>
+<span id="cb12-18"><a href="#cb12-18"></a></span>
+<span id="cb12-19"><a href="#cb12-19"></a><span class="do">## what is a histogram of all the p-values?</span></span>
+<span id="cb12-20"><a href="#cb12-20"></a><span class="fu">hist</span>(pv, <span class="at">breaks=</span><span class="dv">40</span>)</span>
+<span id="cb12-21"><a href="#cb12-21"></a></span>
+<span id="cb12-22"><a href="#cb12-22"></a><span class="do">## how many p-values were significant?</span></span>
+<span id="cb12-23"><a href="#cb12-23"></a><span class="fu">sum</span>(pv<span class="sc">&lt;</span><span class="fl">0.05</span>)</span>
+<span id="cb12-24"><a href="#cb12-24"></a></span>
+<span id="cb12-25"><a href="#cb12-25"></a><span class="do">## what is the probability that the p-value is significant if the world is as I think it is?</span></span>
+<span id="cb12-26"><a href="#cb12-26"></a>power<span class="ot">=</span><span class="fu">sum</span>(pv<span class="sc">&lt;</span><span class="fl">0.05</span>)<span class="sc">/</span>n.simulations</span>
+<span id="cb12-27"><a href="#cb12-27"></a>power</span>
+<span id="cb12-28"><a href="#cb12-28"></a></span>
+<span id="cb12-29"><a href="#cb12-29"></a><span class="do">## how often do I get a non-significant results EVEN THOUGH the effect is there?</span></span>
+<span id="cb12-30"><a href="#cb12-30"></a><span class="dv">1</span><span class="sc">-</span>power</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>Demo: <code>power_linreg.R</code></li>
+</ul>
+</section>
+<section id="what-determines-power-1" class="slide level1">
+<h1>What determines power?</h1>
+<p><img data-src="pics/ingredients.jpeg" style="width:40.0%"> <img data-src="pics/knobs.jpg" style="width:30.0%"><br>
+</p>
+<p>A power-analysis attempts to balance the following ingredients:</p>
+<h3 id="section-6"></h3>
+<ol type="1">
+<li>Type-I error rate (<span class="math inline">\(\alpha\)</span>)</li>
+<li>Type-II error rate (<span class="math inline">\(\beta\)</span>) <span class="math inline">\(\rightarrow\)</span> power<span class="math inline">\(=(1-\beta)\)</span></li>
+<li>Effect-size (effect of variable and variation)</li>
+<li>Sample size (<span class="math inline">\(N\)</span>)</li>
+</ol>
+</section>
+<section id="knob-12-alpha-and-beta-1" class="slide level1">
+<h1>Knob 1+2: <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span></h1>
+<p>Type I and Type II errors</p>
+<p><img data-src="pics/type1and2error.png" style="width:70.0%"><br>
+</p>
+<ul>
+<li>significance level <span class="math inline">\(\alpha\)</span> determines false-alarm rate</li>
+<li>power <span class="math inline">\((1-\beta)\)</span> determines miss-rate</li>
+<li><em>both may be important!</em></li>
+</ul>
+</section>
+<section id="type-i-and-type-ii-errors" class="slide level1">
+<h1>Type I and Type II Errors</h1>
+<p><img data-src="pics/alpha_vs_beta.png" style="width:80.0%"><br>
+</p>
+<ul>
+<li>when everything else is equal, <span class="math inline">\(\alpha\)</span> and <span class="math inline">\(\beta\)</span> are antagonistic</li>
+<li>i.e., increasing Type I error rate decreases Type II rate and vice versa</li>
+</ul>
+<p><a href="http://rpsychologist.com/d3/NHST/" class="uri">http://rpsychologist.com/d3/NHST/</a></p>
+</section>
+<section id="knob-3-effect-size" class="slide level1">
+<h1>Knob 3: Effect size</h1>
+<p>How easy is it to find evidence for the effect?</p>
+<p><img data-src="pics/effektstaerke.png" style="width:30.0%"><br>
+</p>
+<ul>
+<li>how strong relationship between predictor and outcome?</li>
+<li>how “noisy” is the measurement?
+<ul>
+<li>low-noise: measurement length of finger with a ruler</li>
+<li>high-noise: measurement of mood with a questionnaire</li>
+</ul></li>
+</ul>
+</section>
+<section id="effect-size-in-linear-regression" class="slide level1">
+<h1>Effect size in linear regression</h1>
+<!-- ![](pics/SS_res.png){width=50%}\ -->
+<p><img data-src="pics/rsquare_illustr.jpeg" style="width:60.0%"><br>
+</p>
+<h2 id="coefficient-of-determination-r2">Coefficient of determination <span class="math inline">\(R^2\)</span></h2>
+<ul>
+<li>“amount of explained variance”</li>
+<li><span class="math inline">\(R^2=1-\frac{SS_{residuals}}{SS_{total}}\)</span></li>
+</ul>
+</section>
+<section id="effect-size-in-linear-regression-1" class="slide level1">
+<h1>Effect size in linear regression</h1>
+<p><span class="math inline">\(R^2\)</span> for multiple linear regression</p>
+<h3 id="issues-with-r2">Issues with <span class="math inline">\(R^2\)</span></h3>
+<ul>
+<li><span class="math inline">\(R^2\)</span> ranges from 0 (no variance explained) to 1 (everything explained)</li>
+<li><span class="math inline">\(R^2\)</span> is a property of the full regression model
+<ul>
+<li>does not say anything about single predictors</li>
+</ul></li>
+<li>Example: <span class="math display">\[\texttt{IQ} = \beta_0 + \beta_1\cdot\texttt{age}+ \beta_2\cdot\texttt{socioeconomic status}\]</span>
+<ul>
+<li>if you get a high <span class="math inline">\(R^2\)</span> for this model, it is unclear whether it is caused by <code>age</code>, <code>socioeconomic status</code> or both</li>
+</ul></li>
+</ul>
+</section>
+<section id="effect-size-in-linear-regression-2" class="slide level1">
+<h1>Effect size in linear regression</h1>
+<p>Cohen’s <span class="math inline">\(f^2\)</span></p>
+<ul>
+<li><p>a more flexible measure of effect size is Cohen’s <span class="math inline">\(f^2\)</span></p></li>
+<li><p>can be applied to a full regression model or compare impact of single or multiple combined predictors</p></li>
+<li><p>Full-model against <span class="math inline">\(H_0\)</span>: <span class="math inline">\(f^2=\frac{R^2}{1-R^2}\)</span> (explained / unexplained variance)</p></li>
+<li><p>impact of predictor B added to model A: <span class="math inline">\(f^2=\frac{R^2_{AB}-R^2_{A}}{1-R^2_{AB}}\)</span></p></li>
+<li><p>Cohen’s conventions:</p>
+<ul>
+<li>0.02 - small,</li>
+<li>0.15 - medium</li>
+<li>0.35 - large</li>
+</ul></li>
+</ul>
+</section>
+<section id="cohens-f2" class="slide level1">
+<h1>Cohen’s <span class="math inline">\(f^2\)</span></h1>
+<p>for adding predictors</p>
+<ul>
+<li>How much of the variance is explained by adding a predictor to an already existing regression model?</li>
+<li><strong>Example:</strong></li>
+</ul>
+<p><span class="math display">\[\texttt{IQ} = \beta_0 + \beta_1\cdot\texttt{age}+ \beta_2\cdot\texttt{socioeconomic status}\]</span></p>
+<ul>
+<li><p>How much does <code>age</code> add to <span class="math inline">\(\texttt{IQ} = \beta_0 + \beta_2\cdot\texttt{socioeconomic status}\)</span>?</p></li>
+<li><p>How much does <code>socioeconomic status</code> add to <span class="math inline">\(\texttt{IQ} = \beta_0 + \beta_1\cdot\texttt{age}\)</span>?</p></li>
+<li><p><span class="math inline">\(f^2=\frac{R^2_{AB}-R^2_{A}}{1-R^2_{AB}}\)</span></p></li>
+</ul>
+</section>
+<section id="knob-4-sample-size-n" class="slide level1">
+<h1>Knob 4: Sample size <span class="math inline">\(N\)</span></h1>
+<p>How many subjects do I have to measure?</p>
+<p><img data-src="pics/crowd.jpeg" style="width:40.0%"><br>
+</p>
+<h2 id="section-7"></h2>
+<ul>
+<li>sample size determines precision of estimates</li>
+<li>larger sample size, all other things equal, leads to higher power and/or lower <span class="math inline">\(\alpha\)</span>
+<ul>
+<li>no relationship between effect-size and <span class="math inline">\(N\)</span></li>
+</ul></li>
+<li>economic constraints</li>
+<li>ethical considerations</li>
+</ul>
+</section>
+<section id="sample-size" class="slide level1">
+<h1>Sample size</h1>
+<p>Effect on power, <span class="math inline">\(\alpha\)</span> and effect-size</p>
+<p><img data-src="pics/rpsychologist_power.png" style="width:70.0%"><br>
+</p>
+<p><a href="http://rpsychologist.com/d3/NHST/" class="uri">http://rpsychologist.com/d3/NHST/</a></p>
+</section>
+<section id="example-random-datasets" class="slide level1">
+<h1>Example: Random Datasets</h1>
+<p><img data-src="pics/random_data.png" style="width:70.0%"><br>
+</p>
+<ul>
+<li>we simulate <span class="math inline">\(N=20\)</span> cases with <span class="math inline">\(k=6\)</span> variables (predictors)</li>
+<li>all data are from a standard normal distribution with no correlations between them</li>
+<li>we simulate 1000 such datasets, fit a linear regression and report <span class="math inline">\(R^2\)</span> (amount of explained variance)</li>
+</ul>
+</section>
+<section id="example-random-datasets-1" class="slide level1">
+<h1>Example: Random Datasets</h1>
+<p><img data-src="pics/random_hist.png" style="width:45.0%"><img data-src="pics/random_hist_ecdf.png" style="width:45.0%"><br>
+</p>
+<ul>
+<li><p>Probability <span class="math inline">\((R^2&gt;0.3)=51\)</span> %</p></li>
+<li><p>Probability <span class="math inline">\((R^2&gt;0.5)=10\)</span> %</p></li>
+<li><p>Conclusion: under <span class="math inline">\(H_0\)</span>, high effect sizes are likely <span class="math inline">\(\rightarrow\)</span> only for extreme effect-sizes, can we reject <span class="math inline">\(H_0\)</span> (here, maybe <span class="math inline">\(R^2&gt;0.8\)</span>)</p></li>
+</ul>
+</section>
+<section id="example-random-datasets-2" class="slide level1">
+<h1>Example: Random Datasets</h1>
+<p>Influence of sample size <span class="math inline">\(N\)</span></p>
+<p><img data-src="pics/random_hist_N2_all.png"><br>
+</p>
+<ul>
+<li>the larger the sample size:
+<ul>
+<li>the less “spurious” high effect sizes</li>
+<li>the “easier” it is to reject <span class="math inline">\(H_0\)</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="example-random-datasets-3" class="slide level1">
+<h1>Example: Random Datasets</h1>
+<p>Influence of number of predictors <span class="math inline">\(k\)</span></p>
+<p><img data-src="pics/random_hist_k2_all.png"><br>
+</p>
+<ul>
+<li>the more predictors with equal sample size, the more “spurious” high effect sizes</li>
+<li>fewer predictors:
+<ul>
+<li>less sample size is required for same level of spurious effect sizes</li>
+</ul></li>
+</ul>
+</section>
+<section id="factors-influencing-statistical-power-in-linear-regression" class="slide level1">
+<h1>Factors influencing statistical power in linear regression</h1>
+<p>everything in one graph…</p>
+<p><img data-src="pics/requiredN_k_f2.png" style="width:80.0%"><br>
+</p>
+</section>
+<section id="types-of-power-analysis" class="slide level1 smaller">
+<h1>Types of power-analysis</h1>
+<p><img data-src="pics/before_after_obama.jpeg" style="width:30.0%"><br>
+</p>
+<h3 id="a-priori">a-priori</h3>
+<ul>
+<li><em>before</em> collecting any data</li>
+<li>usually: determine needed sample size to detect a minimal effect size</li>
+</ul>
+<h3 id="post-hoc">post-hoc</h3>
+<ul>
+<li><em>after</em> data has been collection</li>
+<li>usually: calculate effect-size and calculate power you had with your used sample-size</li>
+<li>fatally flawed!</li>
+<li>effect-sizes are over-estimated and so is power!</li>
+</ul>
+</section>
+<section id="post-hoc-power-analysis" class="slide level1">
+<h1>Post-hoc power analysis</h1>
+<p>When is it useful?</p>
+<p><img data-src="pics/gelmanplot.png" style="width:50.0%"><br>
+</p>
+<ul>
+<li>post-hoc power analysis is <em>never</em> useful when the used effect-size estimate is the observed effect size of a statistically significant finding</li>
+<li>Why: statistically significant findings are guaranteed to have an effect size that is strong enough to become significant! (“significance filter”)</li>
+<li>in underpowered studies: effect-sizes are usually strongly overestimated (“garden of forking pathes”)</li>
+</ul>
+</section>
+<section id="practical-power-analysis" class="slide level1">
+<h1>Practical power-analysis</h1>
+<p>Choice of parameters</p>
+<p><img data-src="pics/knobs.jpg" style="width:30.0%"><br>
+</p>
+<p>Common strategy of <em>a priori</em> power analysis:</p>
+<ol type="1">
+<li>Type-I error rate: <span class="math inline">\(\alpha=0.05\)</span> (by convention)</li>
+<li>Type-II error rate: <span class="math inline">\(\beta=0.20\)</span> (at least power<span class="math inline">\(=0.8\)</span> by convention)</li>
+<li>Effect-size: ?? (crucial bit!)</li>
+<li>Sample size: ?? (theoretical <em>and</em> practical considerations!)</li>
+</ol>
+<p><span class="math inline">\(\rightarrow\)</span> find a <em>reasonable</em> estimate for the effect size and calculate how many participants you would need to find it</p>
+</section>
+<section id="power-analysis-in-gpower" class="slide level1">
+<h1>Power analysis in G*Power</h1>
+<p><img data-src="pics/gpower.png" style="width:60.0%"><br>
+</p>
+<ul>
+<li>specialized, easy-to-use software</li>
+<li><a href="http://www.gpower.hhu.de/en.html" class="uri">http://www.gpower.hhu.de/en.html</a></li>
+</ul>
+</section>
+<section id="power-analysis-example" class="slide level1">
+<h1>Power analysis: Example</h1>
+<p>Test overall effect</p>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div id="fig-anonymous-55" class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/gpower_rsq1.png" style="width:100.0%"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+</div><div class="column" style="width:50%;">
+<p>Research Question:</p>
+<p>Is at least one of the predictors useful in predicting the response?</p>
+<p>Statistical Test</p>
+<ul>
+<li>Is <span class="math inline">\(R^2&gt;0\)</span>?</li>
+<li>number predictors?</li>
+<li>set significance level and desired power</li>
+<li>effect-size <span class="math inline">\(f^2\)</span>?</li>
+<li>click “Determine”…</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="power-analysis-example-1" class="slide level1">
+<h1>Power analysis: Example</h1>
+<p>Test overall effect</p>
 
-<img src="pics/ntnu.png" class="slide-logo r-stretch"><div class="footer footer-default">
+<img data-src="pics/gpower_rsq2.png" class="r-stretch quarto-figure-center"><p class="caption"></p></section>
+<section id="power-analysis-example-2" class="slide level1">
+<h1>Power analysis: Example 2</h1>
+<p>Effect of a single predictor</p>
+<h3 id="research-question">Research Question:</h3>
+<ul>
+<li>How much does a “special” predictor increase the <span class="math inline">\(R^2\)</span> of the model?</li>
+<li>E.g., What is the effect of age on health when controling for smoking?</li>
+<li>Effect: Increment in <span class="math inline">\(R^2\)</span> relative to model which excludes “special” predictor.</li>
+<li>Example:
+<ul>
+<li>Calculate <span class="math inline">\(R^2_{full}\)</span> for: <span class="math inline">\(\texttt{health}=b_0+b_1\texttt{smoke} + b_2\text{age}\)</span></li>
+<li>Calculate <span class="math inline">\(R^2_{reduced}\)</span> for: <span class="math inline">\(\texttt{health}=b_0+b_1\texttt{smoke}\)</span></li>
+<li>“effect” is <span class="math inline">\(R^2_{full}-R^2_{reduced}\)</span></li>
+<li>calculate effect-size <span class="math inline">\(f^2=\frac{R^2_{full}-R^2_{reduced}}{1-R^2_{full}}\)</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="power-analysis-example-2-1" class="slide level1">
+<h1>Power analysis: Example 2</h1>
+<p>Effect of a single predictor</p>
+<p><img data-src="pics/gpower_rsqinc.png" style="width:80.0%"><br>
+</p>
+</section>
+<section id="power-analysis-example-3" class="slide level1 smaller">
+<h1>Power analysis: Example 3</h1>
+<p>Effect of a multiple combined predictors</p>
+<h3 id="research-question-1">Research Question:</h3>
+<ul>
+<li>How much does adding some “special” predictors increase the <span class="math inline">\(R^2\)</span> of the model?</li>
+<li>E.g., What is the effect of age and sex on health when controling for smoking?</li>
+<li>Effect: Increment in <span class="math inline">\(R^2\)</span> relative to model which excludes “special” predictors.</li>
+<li>same logic as in single-predictor case applies!</li>
+<li>Example:
+<ul>
+<li>Calculate <span class="math inline">\(R^2_{full}\)</span> for: <span class="math inline">\(\texttt{health}=b_0+b_1\texttt{smoke} + b_2\text{age}+b_3\text{sex}\)</span></li>
+<li>Calculate <span class="math inline">\(R^2_{reduced}\)</span> for: <span class="math inline">\(\texttt{health}=b_0+b_1\texttt{smoke}\)</span></li>
+<li>“effect” is <span class="math inline">\(R^2_{full}-R^2_{reduced}\)</span></li>
+<li>calculate effect-size <span class="math inline">\(f^2=\frac{R^2_{full}-R^2_{reduced}}{1-R^2_{full}}\)</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="sample-size-rules-of-thumb" class="slide level1 smaller">
+<h1>Sample-size: Rules of Thumb</h1>
+<p><img data-src="pics/thumbs.jpg" style="width:20.0%"><br>
+</p>
+<ul>
+<li>rule of thumb (Green, 1991):
+<ul>
+<li>if testing for overall fit: <span class="math inline">\(N=50+8k\)</span></li>
+<li>if testing for individual predictors: <span class="math inline">\(N=104+k\)</span></li>
+<li>if testing both: take maximum of the two</li>
+</ul></li>
+<li>oversimplification: real power analysis requires to think about
+<ul>
+<li>power to find effect</li>
+<li>significance level</li>
+<li>effect size</li>
+<li>effect on which level?</li>
+</ul></li>
+<li>best used for judging other’s research, not for planning your own</li>
+</ul>
+</section>
+<section id="why-is-sufficient-power-important" class="slide level1">
+<h1>Why is sufficient power important?</h1>
+<p>Reproducibility crisis…</p>
+<p><img data-src="pics/ionnadis.png"> <img data-src="pics/ionnadis2.png"></p>
+<p><img data-src="pics/powerfailure_neuroscience.png"> <img data-src="pics/rpp.png"></p>
+<ul>
+<li>growing concern about replicability</li>
+<li>among other reasons caused by underpowered studies</li>
+</ul>
+</section>
+<section id="why-is-sufficient-power-important-1" class="slide level1">
+<h1>Why is sufficient power important?</h1>
+<p>Replicability in psychological research</p>
+
+<img data-src="pics/replication_crisis.jpg" class="r-stretch quarto-figure-center"><p class="caption"></p><div style="font-size:12pt;">
+<p>Open Science Collaboration. (2015). Estimating the reproducibility of psychological science. Science, 349(6251), aac4716.</p>
+</div>
+</section>
+<section id="underpowered-studies-in-psychology-and-neuroscience" class="slide level1">
+<h1>Underpowered studies in psychology and neuroscience</h1>
+<p><img data-src="pics/button.png" style="width:60.0%"><br>
+</p>
+<ul>
+<li>Many extremely underpowered studies in psychology and neuroscience</li>
+<li>Results in unstable estimates and spurious results</li>
+<li>Together with analytical flexibility <span class="math inline">\(\rightarrow\)</span> guarantees statistical significance!</li>
+</ul>
+<div style="font-size:18pt;">
+<p>Button, K. S., Ioannidis, J. P., Mokrysz, C., Nosek, B. A., Flint, J., Robinson, E. S., &amp; Munafò, M. R. (2013). Power failure: why small sample size undermines the reliability of neuroscience.&nbsp;Nature Reviews Neuroscience,&nbsp;14(5), 365-376.</p>
+</div>
+</section>
+<section id="a-demonstration-of-chronological-rejuvenation" class="slide level1">
+<h1>A Demonstration of Chronological Rejuvenation</h1>
+<p>[…] we asked 20 University of Pennsylvania undergraduates to listen to either “When I’m Sixty-Four” by The Beatles or “Kalimba.” Then, in an ostensibly unrelated task, they indicated their birth date (mm/dd/yyyy) and their father’s age. We used father’s age to control for variation in baseline age across participants.</p>
+<p>An ANCOVA revealed the predicted effect: According to their birth dates, people were nearly a year-and-a-half younger after listening to “When I’m Sixty-Four” (adjusted M=20.1 years) rather than to “Kalimba” (adjusted M=21.5 years), F(1,17)=4.92, p=.040.</p>
+</section>
+<section id="a-demonstration-of-chronological-rejuvenation-1" class="slide level1">
+<h1>A Demonstration of Chronological Rejuvenation</h1>
+<p><img data-src="pics/simmons.png" style="width:100.0%"><br>
+</p>
+</section>
+<section id="a-demonstration-of-chronological-rejuvenation-2" class="slide level1">
+<h1>A Demonstration of Chronological Rejuvenation</h1>
+<p><img data-src="pics/simmons_description.png" style="width:100.0%"><br>
+</p>
+</section>
+<section id="analytical-flexibility-and-false-positive-findings" class="slide level1">
+<h1>Analytical flexibility and false-positive findings</h1>
+<p><img data-src="pics/simmons_flex.png" style="width:60.0%"><br>
+</p>
+<p>The nominal alpha-level loses its meaning when additional choices are flexible</p>
+<ul>
+<li>Sequential data-collection with intermediate testing</li>
+<li>Several DVs</li>
+<li>Several covariates/conditions</li>
+<li>…</li>
+</ul>
+<p><img src="pics/ntnu.png" class="slide-logo"></p>
+<div class="footer footer-default">
 
 </div>
 </section>
