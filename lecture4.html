@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"><head>
   <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.492">
+  <meta name="generator" content="quarto-0.9.431">
 
   <meta name="author" content="Matthias Mittner">
   <title>Regression models for counts, dichotomous and ordered data</title>
@@ -83,6 +83,13 @@
   </style>
   <link rel="stylesheet" href="lecture4_files/libs/revealjs/dist/theme/quarto.css" id="theme">
   <link rel="stylesheet" href="style.css">
+  <script src="lecture4_files/libs/clipboard/clipboard.min.js"></script>
+  <script src="lecture4_files/libs/quarto-html/tabby.min.js"></script>
+  <script src="lecture4_files/libs/quarto-html/popper.min.js"></script>
+  <script src="lecture4_files/libs/quarto-html/tippy.umd.min.js"></script>
+  <link href="lecture4_files/libs/quarto-html/tippy.css" rel="stylesheet">
+  <link href="lecture4_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet">
+  <link id="quarto-text-highlighting-styles" href="lecture4_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
   <link href="lecture4_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lecture4_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lecture4_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -373,13 +380,6 @@
       margin-right: 0; 
     }
   </style>
-<script src="lecture4_files/libs/clipboard/clipboard.min.js"></script>
-<script src="lecture4_files/libs/quarto-html/tabby.min.js"></script>
-<script src="lecture4_files/libs/quarto-html/popper.min.js"></script>
-<script src="lecture4_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="lecture4_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="lecture4_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet">
-<link href="lecture4_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
 </head>
 <body>
   <div class="reveal">
@@ -678,14 +678,14 @@ p_i&amp;=\text{logit}^{-1}\left( \color{blue}{\beta_0 + \beta_1 X_1 + ... + \bet
 <h1>Women and children first!</h1>
 <div class="columns" data-align="top">
 <div class="column" style="width:40%;">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-16" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/titanic.png" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
 </figure>
 </div>
 </div><div class="column" style="width:40%;">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-17" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/rbook_figure11.03.png" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -755,8 +755,7 @@ p &amp;= \frac{0.47}{1+0.47} &amp;=&amp; 0.32
 <section id="titanic-multiple-predictors" class="slide level1">
 <h1>Titanic: Multiple predictors</h1>
 
-<img data-src="pics/stata_titanic_agesex.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p>$$( ) = () (_{})</p>
-<p>$$</p>
+<img data-src="pics/stata_titanic_agesex.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math display">\[\log\left( \frac{p}{1-p}\right) = \color{blue}{1.12} \color{red}{- 0.01}(\operatorname{Age}) \color{green}{- 2.47}(\operatorname{Sex}_{\operatorname{male}})\]</span></p>
 <h2 id="section-3"></h2>
 <ul>
 <li>the log-odds of survival for a newborn, female passenger was
@@ -772,8 +771,7 @@ p &amp;= \frac{0.47}{1+0.47} &amp;=&amp; 0.32
 </section>
 <section id="titanic-multiple-predictors-1" class="slide level1 smaller">
 <h1>Titanic: Multiple predictors</h1>
-<p>$$( ) = () (_{})</p>
-<p>$$ </p>
+<p><span class="math display">\[\log\left( \frac{p}{1-p}\right) = \color{blue}{1.12} \color{red}{- 0.01}(\operatorname{Age}) \color{green}{- 2.47}(\operatorname{Sex}_{\operatorname{male}})\]</span></p>
 <p>Survival of elderly ladies? <span class="math display">\[\begin{align*}
 \log\left( \frac{p}{1-p}\right) &amp;= \color{blue}{1.12} \color{red}{- 0.01}(70) \color{green}{- 2.47}(0) &amp;=&amp; 0.90\\
 \frac{p}{1-p}&amp;=\exp{\left( 0.90 \right)} &amp;=&amp; 2.45\\
@@ -788,8 +786,7 @@ p &amp;= \frac{0.21}{1+0.21} &amp;=&amp; 0.17\\
 <section id="interactions" class="slide level1 smaller">
 <h1>Interactions …</h1>
 
-<img data-src="pics/stata_titanic_agesex_ia.png" style="width:50.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p>$$( ) = + () (<em>{}) ( </em>{})</p>
-<p>$$</p>
+<img data-src="pics/stata_titanic_agesex_ia.png" style="width:50.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math display">\[\log\left( \frac{p}{1-p}\right) = \color{blue}{1.18} + \color{red}{0.02}(\operatorname{c.Age}) \color{green}{- 2.55}(\operatorname{Sex}_{\operatorname{male}}) \color{orange}{- 0.04}(\operatorname{c.Age} \times \operatorname{Sex}_{\operatorname{male}})\]</span></p>
 <h2 id="section-4"></h2>
 <ul>
 <li>the log-odds of survival for an average-aged, female passenger was
@@ -806,8 +803,7 @@ p &amp;= \frac{0.21}{1+0.21} &amp;=&amp; 0.17\\
 </section>
 <section id="interactions-1" class="slide level1 smaller">
 <h1>Interactions …</h1>
-<p>$$( ) = + () (<em>{}) ( </em>{})</p>
-<p>$$ </p>
+<p><span class="math display">\[\log\left( \frac{p}{1-p}\right) = \color{blue}{1.18} + \color{red}{0.02}(\operatorname{c.Age}) \color{green}{- 2.55}(\operatorname{Sex}_{\operatorname{male}}) \color{orange}{- 0.04}(\operatorname{c.Age} \times \operatorname{Sex}_{\operatorname{male}})\]</span></p>
 <p>Survival of elderly ladies (<span class="math inline">\(\text{c.Age}=40\)</span>)? <span class="math display">\[\begin{align*}
 \log\left( \frac{p}{1-p}\right) &amp;= \color{blue}{1.18} + \color{red}{0.02}(40) \color{green}{- 2.55}(0) \color{orange}{- 0.04}(40\times 0) &amp;=&amp; 1.97\\
 \frac{p}{1-p}&amp;=\exp{\left( 1.97 \right)} &amp;=&amp; 7.2\\
@@ -899,15 +895,14 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <p>Worked example</p>
 <div class="columns">
 <div class="column" style="width:20%;">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-24" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/stata_titanic_agesex_ia_or_coefonly.png" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
 </figure>
 </div>
 </div><div class="column" style="width:79%;">
-<p>$$ = ()(<em>{})( </em>{})</p>
-<p>$$ </p>
+<p><span class="math display">\[\frac{p}{1-p} = \color{blue}{3.26} \times \color{red}{1.0198}(\operatorname{c.Age})\times \color{green}{0.078}(\operatorname{Sex}_{\operatorname{male}})\times \color{orange}{0.96}(\operatorname{c.Age} \times \operatorname{Sex}_{\operatorname{male}})\]</span></p>
 <ul>
 <li>survival odds for female, middle-aged: <span class="math inline">\(\color{blue}{3.26}:1\)</span></li>
 <li>in case you are male: <span class="math inline">\(\color{blue}{3.26}\times \color{green}{0.078} = 0.25\)</span>, <span class="math inline">\(1:4\)</span> (reduced by 92%)</li>
@@ -931,11 +926,9 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 \log\left( \frac{p}{1-p}\right) &amp;= \color{blue}{-0.057} \color{red}{- 0.01}(\operatorname{Age})
 \end{align*}\]</span></p>
 <h3 id="model-2-survived-age-male">Model 2: <code>Survived Age male</code></h3>
-<p>$$( ) = () (_{})</p>
-<p>$$</p>
+<p><span class="math display">\[\log\left( \frac{p}{1-p}\right) = \color{blue}{1.12} \color{red}{- 0.01}(\operatorname{Age}) \color{green}{- 2.47}(\operatorname{Sex}_{\operatorname{male}})\]</span></p>
 <h3 id="model-3-survived-cagemale">Model 3: <code>Survived cAge##male</code></h3>
-<p>$$( ) = + () (<em>{}) ( </em>{})</p>
-<p>$$</p>
+<p><span class="math display">\[\log\left( \frac{p}{1-p}\right) = \color{blue}{1.18} + \color{red}{0.02}(\operatorname{c.Age}) \color{green}{- 2.55}(\operatorname{Sex}_{\operatorname{male}}) \color{orange}{- 0.04}(\operatorname{c.Age} \times \operatorname{Sex}_{\operatorname{male}})\]</span></p>
 </section>
 <section id="model-selection-1" class="slide level1">
 <h1>Model selection</h1>
@@ -943,7 +936,7 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <div class="columns">
 <div class="column" style="width:33%;">
 <p>Model 1</p>
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-25" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/titanic_mod1.png" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -955,7 +948,7 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 </ul>
 </div><div class="column" style="width:33%;">
 <p>Model 2</p>
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-26" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/titanic_mod2.png" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -968,7 +961,7 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 </ul>
 </div><div class="column" style="width:33%;">
 <p>Model 3</p>
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-27" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/titanic_mod3.png" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -1062,7 +1055,7 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <p>Model 1 vs.&nbsp;Model 2</p>
 <div class="columns">
 <div class="column" style="width:40%;">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-31" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/stata_titanic_logtest.png"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -1095,7 +1088,7 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <p>Model 2 vs.&nbsp;Model 3</p>
 <div class="columns">
 <div class="column" style="width:40%;">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-32" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/stata_titanic_logtest2.png"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -1138,8 +1131,7 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <li>many different versions of <span class="math inline">\(R^2_{\text{pseudo}}\)</span> but often McFadden (1977) is used:</li>
 </ul>
 <h2 id="section-8"></h2>
-<p>$$R^2_{}=1-</p>
-<p>$$</p>
+<p><span class="math display">\[R^2_{\text{McFadden}}=1-\frac{\text{LL}_{\text{model}}}{\text{LL}_{\text{null}}}\]</span></p>
 </section>
 <section id="logit-or-probit-regression" class="slide level1">
 <h1>Logit or Probit regression?</h1>
@@ -1192,14 +1184,14 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <p>The confusion matrix</p>
 <div class="columns">
 <div class="column">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-37" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/titanic_logreg_boundary.png" style="width:70.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
 </figure>
 </div>
 </div><div class="column">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-38" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/rbook_confusionmatrix.png" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -1321,10 +1313,9 @@ Number of Fisher Scoring iterations: 5</code></pre>
 </section>
 <section id="poisson-regression-2" class="slide level1">
 <h1>Poisson regression</h1>
-<div class="cell-output-display">
-<p>$$</p>
-<p>({ }) = 0.29 - 0.07() + 0.08()</p>
-<p>$$</p>
+<p><span class="math display">\[\log ({ \widehat{E( \operatorname{articles} )} })  = 0.29 - 0.07(\operatorname{kids}) + 0.08(\operatorname{prestige})\]</span></p>
+<div class="cell">
+
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">exp</span>(<span class="fu">coef</span>(mod))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1408,14 +1399,10 @@ $$
 </section>
 <section id="poisson-model-for-rates-1" class="slide level1">
 <h1>Poisson model for rates</h1>
-$$
-<span class="math display">\[\begin{aligned}
-
-
+<p><span class="math display">\[\begin{aligned}
 \log \left(\frac{ E( \operatorname{incidents} ) }{\text{time at sea}}\right)  &amp;= \alpha + \beta_{1}(\operatorname{type}) + \beta_{2}(\operatorname{construction})\ \\
 &amp;\quad +\beta_{3}(\operatorname{operation})\\
-\end{aligned}\]</span>
-<p>$$</p>
+\end{aligned}\]</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>ships <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_dta</span>(<span class="st">"data/shipaccidents.dta"</span>)</span>
 <span id="cb8-2"><a href="#cb8-2"></a>mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(incidents <span class="sc">~</span> type <span class="sc">+</span> construction <span class="sc">+</span> operation, </span>
@@ -1524,22 +1511,14 @@ dispersion
 <section id="zero-inflation-1" class="slide level1">
 <h1>Zero-inflation</h1>
 <p>How often did you engage in extramarital sexual intercourse during the past year? ::: {.cell} ::: {.cell-output-display} <img data-src="lecture4_files/figure-revealjs/unnamed-chunk-14-1.png" width="864"> ::: :::</p>
-<p>$$</p>
-<p>= <em>0 + </em>{1}()\</p>
-<p>$$</p>
-<p>$$</p>
-<p>({ {E( )} }) = _0 + _1()</p>
-<p>$$</p>
+<p><span class="math display">\[\log\left[ \frac { P( \operatorname{no affair}) }{ 1 - P( \operatorname{no affair}) } \right] = \beta_0 + \beta_{1}(\operatorname{yearsmarried})\\\]</span></p>
+<p><span class="math display">\[\log ({ {E( \operatorname{affairs} )} })  = \beta_0 + \beta_1(\operatorname{yearsmarried})\]</span></p>
 </section>
 <section id="zero-inflation-2" class="slide level1 smaller">
 <h1>Zero-inflation</h1>
 <p>How often did you engage in extramarital sexual intercourse during the past year?</p>
-<p>$$</p>
-<p>= <em>0 + </em>{1}()\</p>
-<p>$$</p>
-<p>$$</p>
-<p>({ {E( )} }) = _0 + _1()</p>
-<p>$$</p>
+<p><span class="math display">\[\log\left[ \frac { P( \operatorname{no affair}) }{ 1 - P( \operatorname{no affair}) } \right] = \beta_0 + \beta_{1}(\operatorname{yearsmarried})\\\]</span></p>
+<p><span class="math display">\[\log ({ {E( \operatorname{affairs} )} })  = \beta_0 + \beta_1(\operatorname{yearsmarried})\]</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>mod.zip <span class="ot">&lt;-</span> <span class="fu">zeroinfl</span>(affairs <span class="sc">~</span> yearsmarried, <span class="at">data=</span>affairs, <span class="at">dist=</span><span class="st">"poisson"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2"></a><span class="fu">summary</span>(mod.zip)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1602,7 +1581,7 @@ Log-likelihood: -809.4 on 4 Df</code></pre>
 <h1>Ordinal regression</h1>
 <div class="columns">
 <div class="column" style="width:30%;">
-<div class="quarto-figure quarto-figure-center">
+<div id="fig-anonymous-52" class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/ordinal1.png"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -1633,14 +1612,17 @@ Log-likelihood: -809.4 on 4 Df</code></pre>
 <img data-src="pics/ordinal_power.png" class="r-stretch quarto-figure-center"><p class="caption"></p></section>
 <section id="ordinal-regression-example" class="slide level1 smaller">
 <h1>Ordinal regression example</h1>
-<div class="cell-output-display">
-<p>$$</p>
+<div class="cell">
+
+</div>
+$$
 <span class="math display">\[\begin{aligned}
+
+
 P( \operatorname{best} \geq \operatorname{mediocre} ) &amp;= \Phi[\alpha_{1} + \beta_{1}(\operatorname{zflat\_price}) + \beta_{2}(\operatorname{zyear\_built}) + \beta_{3}(\operatorname{zfloor\_size})] \\
 P( \operatorname{mediocre} \geq \operatorname{poor} ) &amp;= \Phi[\alpha_{2} + \beta_{1}(\operatorname{zflat\_price}) + \beta_{2}(\operatorname{zyear\_built}) + \beta_{3}(\operatorname{zfloor\_size})]
 \end{aligned}\]</span>
 <p>$$</p>
-</div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">clm</span>(energy_efficiency <span class="sc">~</span> zflat_price<span class="sc">+</span>zyear_built<span class="sc">+</span>zfloor_size, <span class="at">data=</span>flats, <span class="at">link =</span> <span class="st">"probit"</span>)</span>
 <span id="cb18-2"><a href="#cb18-2"></a><span class="fu">summary</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
