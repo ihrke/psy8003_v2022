@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-  <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.492">
+<script src="lecture5_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lecture5_files/libs/quarto-html/tabby.min.js"></script>
+<script src="lecture5_files/libs/quarto-html/popper.min.js"></script>
+<script src="lecture5_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="lecture5_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lecture5_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet">
+<link href="lecture5_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-0.9.501">
 
   <meta name="author" content="Matthias Mittner">
   <title>Multi-level linear regression, factor analysis</title>
@@ -17,6 +23,69 @@
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
   </style>
   <link rel="stylesheet" href="lecture5_files/libs/revealjs/dist/theme/quarto.css" id="theme">
   <link rel="stylesheet" href="style.css">
@@ -310,13 +379,9 @@
       margin-right: 0; 
     }
   </style>
-<script src="lecture5_files/libs/clipboard/clipboard.min.js"></script>
-<script src="lecture5_files/libs/quarto-html/tabby.min.js"></script>
-<script src="lecture5_files/libs/quarto-html/popper.min.js"></script>
-<script src="lecture5_files/libs/quarto-html/tippy.umd.min.js"></script>
-<link href="lecture5_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="lecture5_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet">
-<link href="lecture5_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+  
+  <script src="lecture5_files/libs/kePrint-0.0.1/kePrint.js"></script>
+  <link href="lecture5_files/libs/lightable-0.0.1/lightable.css" rel="stylesheet">
 </head>
 <body>
   <div class="reveal">
@@ -1427,15 +1492,631 @@ subtraction-&gt;Math
 </section>
 <section id="multi-level-regression" class="slide level1">
 <h1>Multi-level regression</h1>
+
+<img data-src="pics/multilev.png" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li><p>Useful for data that is organized “hierarchically” or “clustered”</p></li>
+<li><p>one datapoint carries information about other datapoint (breaks statistical independence)</p></li>
+<li><p>known under many labels:</p>
+<ul>
+<li><em>random-effect</em> models</li>
+<li><em>hierachical regression</em> models</li>
+<li><em>multilevel</em> models or</li>
+<li><em>mixed-effect</em> models</li>
+</ul></li>
+</ul>
+</section>
+<section id="longitudinal-data" class="slide level1">
+<h1>Longitudinal data</h1>
+
+<img data-src="pics/longitudinal.png" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li>repeated measurements: same person is measured repeatedly</li>
+<li>e.g., pre-post measurements, longitudinal data-collection, repeated measures designs</li>
+<li>data from the same subjects tends to be similar</li>
+<li>e.g., changes in body-weight of infants across the first few months</li>
+</ul>
 </section>
 <section id="nested-data" class="slide level1">
 <h1>Nested data</h1>
+
+<img data-src="pics/figure12.01.png" style="width:70.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li>data can also be clustered in other ways</li>
+<li>e.g., students from different schools from different districts
+<ul>
+<li>students differ across time</li>
+<li>schools may differ in their grading style (affecting all students)</li>
+<li>districts may differ in socio-economic status (affecting all schools)</li>
+<li>etc.</li>
+</ul></li>
+</ul>
+</section>
+<section id="what-about-sample-size" class="slide level1">
+<h1>What about sample size?</h1>
+
+<img data-src="pics/figure12.01.png" style="width:70.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li>number of clusters: large enough to estimate group-level variance</li>
+<li>number observations within clusters: large enough to estimate within-cluster effects</li>
+<li>unequal number of observations within clusters: not a problem (larger clusters will contribute more)</li>
+</ul>
+</section>
+<section id="representing-nestedness" class="slide level1">
+<h1>Representing “nestedness”</h1>
+
+<img data-src="pics/wideLong1-1.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p>Wide vs.&nbsp;Long format</p>
+</section>
+<section id="representing-nestedness-1" class="slide level1">
+<h1>Representing “nestedness”</h1>
+<div class="cell-output-display">
+
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> person </th>
+   <th style="text-align:left;"> gender </th>
+   <th style="text-align:right;"> age </th>
+   <th style="text-align:left;"> diet </th>
+   <th style="text-align:right;"> pre.weight </th>
+   <th style="text-align:right;"> post.weight </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:right;"> 22 </td>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:right;"> 58 </td>
+   <td style="text-align:right;"> 54.2 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2 </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:right;"> 46 </td>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:right;"> 60 </td>
+   <td style="text-align:right;"> 54.0 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 3 </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:right;"> 55 </td>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:right;"> 64 </td>
+   <td style="text-align:right;"> 63.3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 4 </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:right;"> 33 </td>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:right;"> 64 </td>
+   <td style="text-align:right;"> 61.1 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 5 </td>
+   <td style="text-align:left;"> 0 </td>
+   <td style="text-align:right;"> 50 </td>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:right;"> 65 </td>
+   <td style="text-align:right;"> 62.2 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<ul>
+<li>across different columns: “wide format”</li>
+<li>fine for few repeated measures and a single level of “nestedness”</li>
+</ul>
+</section>
+<section id="representing-nestedness-2" class="slide level1">
+<h1>Representing “nestedness”</h1>
+<div class="cell-output-display">
+
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> ID </th>
+   <th style="text-align:right;"> BDI1 </th>
+   <th style="text-align:right;"> BDI2 </th>
+   <th style="text-align:right;"> BDI3 </th>
+   <th style="text-align:right;"> BDI4 </th>
+   <th style="text-align:right;"> week1 </th>
+   <th style="text-align:right;"> week2 </th>
+   <th style="text-align:right;"> week3 </th>
+   <th style="text-align:right;"> week4 </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:right;"> 22 </td>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 3 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2 </td>
+   <td style="text-align:right;"> 27 </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 6 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 3 </td>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:right;"> 19 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 6 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 4 </td>
+   <td style="text-align:right;"> 23 </td>
+   <td style="text-align:right;"> 19 </td>
+   <td style="text-align:right;"> 20 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 4 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 6 </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 4 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<ul>
+<li>less convenient for multiple variables and many timepoints/levels</li>
+<li>use a “long format” instead</li>
+</ul>
+</section>
+<section id="representing-nestedness-3" class="slide level1 smaller">
+<h1>Representing “nestedness”</h1>
+<div class="cell-output-display">
+
+<table class="table table-striped" style="margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> ID </th>
+   <th style="text-align:right;"> week </th>
+   <th style="text-align:right;"> BDI </th>
+   <th style="text-align:right;"> female </th>
+   <th style="text-align:right;"> age </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 22 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 26 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 18 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 26 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 26 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 1 </td>
+   <td style="text-align:right;"> 3 </td>
+   <td style="text-align:right;"> 15 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 26 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2 </td>
+   <td style="text-align:right;"> 0 </td>
+   <td style="text-align:right;"> 27 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 34 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 13 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 34 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2 </td>
+   <td style="text-align:right;"> 2 </td>
+   <td style="text-align:right;"> 10 </td>
+   <td style="text-align:right;"> 1 </td>
+   <td style="text-align:right;"> 34 </td>
+  </tr>
+</tbody>
+</table>
+
+</div>
+<ul>
+<li>multiple rows for each person</li>
+<li>separate variables code for the repeated measures</li>
+<li>advantages:
+<ul>
+<li>more flexible (easy to generalize to multiple levels)</li>
+<li>format used by most software packages</li>
+</ul></li>
+<li>disadvantages:
+<ul>
+<li>info distributed across multiple rows</li>
+<li>information on higher level is redundant</li>
+</ul></li>
+</ul>
+</section>
+<section id="variable-slopes" class="slide level1">
+<h1>Variable slopes</h1>
+
+<img data-src="lecture5_files/figure-revealjs/unnamed-chunk-7-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li>on average, subjects get better over time (during treatment)</li>
+<li>individual trajectories are very different!</li>
+<li>right figure: independent linear regressions for each subject (“no pooling”)</li>
+</ul>
+</section>
+<section id="partial-pooling" class="slide level1">
+<h1>Partial pooling</h1>
+
+<img data-src="lecture5_files/figure-revealjs/unnamed-chunk-8-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li>“complete pooling”: person-specific variation lost</li>
+<li>“no pooling”: very noisy, little data (low power)</li>
+<li><strong>partial pooling</strong>: information about likely slopes and intercepts shared between subjects</li>
+</ul>
+</section>
+<section id="partial-pooling-1" class="slide level1">
+<h1>Partial pooling</h1>
+<p>Complete pooling:</p>
+<p><span class="math display">\[\begin{equation}
+Y_i = \beta_0 + \beta_1X_i + \varepsilon_{i},
+\label{eq:cpooling}
+\end{equation}\]</span></p>
+<p>No pooling:</p>
+<p><span class="math display">\[\begin{equation}
+Y_{ij} = \beta_{0,i} + \beta_{1,i} X_{i,j} + \varepsilon_{i,j}
+\label{eq:nopooling}
+\end{equation}\]</span></p>
+<p><strong>Partial pooling (MLM):</strong></p>
+<p><span class="math display">\[\begin{eqnarray}
+\label{eq:ppooling}
+Y_{ij} &amp;=&amp; \beta_{0} + \beta_{1} X_{i,j} + \color{blue}{u_{i}} + \color{red}{v_{i}} X_{i,j} + \varepsilon_{i,j}\\
+&amp;=&amp; (\beta_{0}+ \color{blue}{u_{i}}) + (\beta_{1}+\color{red}{v_{i}}) X_{i,j} +  \varepsilon_{i,j}\nonumber\\
+\color{blue}{u_{i}} &amp;\sim&amp;  \text{Normal}(0, \color{blue}{\sigma_u})\nonumber\\
+\color{red}{v_{i}} &amp;\sim&amp;  \text{Normal}(0, \color{red}{\sigma_v})\nonumber
+\end{eqnarray}\]</span></p>
+<ul>
+<li>subject-specific <span style="color: blue;">random intercept</span></li>
+<li>subject-specific <span style="color: red;">random slope</span></li>
+</ul>
+</section>
+<section id="partial-pooling-2" class="slide level1">
+<h1>Partial pooling</h1>
+
+<img data-src="pics/figure12.04.png" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li><strong>shrinkage</strong></li>
+<li>typical individual estimates less affected by pooling</li>
+<li>extreme estimates are “pulled” towards the average</li>
+<li>subjects with lower power (fewer datapoints) are more affected (that’s a feature!)</li>
+</ul>
+</section>
+<section id="random-intercepts-and-slopes" class="slide level1">
+<h1>Random Intercepts and slopes</h1>
+
+<img data-src="pics/randint_randslopes.jpg" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li>the <span style="color: blue;">random intercepts</span> are deviations from group intercept (with <span class="math inline">\(\color{blue}{\sigma_u}\)</span>)</li>
+<li>the <span style="color: red;">random slopes</span> are deviations from the group slope (with <span class="math inline">\(\color{red}{\sigma_v}\)</span>)</li>
+</ul>
+</section>
+<section id="example-1" class="slide level1 smaller">
+<h1>Example</h1>
+<p><span class="math display">\[\begin{eqnarray}
+Y_{ij} &amp;=&amp; (\beta_{0}+ \color{blue}{u_{i}}) + (\beta_{1}+\color{red}{v_{i}}) X_{i,j} +  \varepsilon_{i,j}\nonumber\\
+\color{blue}{u_{i}} &amp;\sim&amp;  \text{Normal}(0, \color{blue}{\sigma_u})\nonumber\\
+\color{red}{v_{i}} &amp;\sim&amp;  \text{Normal}(0, \color{red}{\sigma_v})\nonumber
+\end{eqnarray}\]</span></p>
+<div class="cell">
+
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lmer</span>(BDI <span class="sc">~</span> week <span class="sc">+</span> (<span class="dv">1</span><span class="sc">+</span>week<span class="sc">|</span>ID), <span class="at">data=</span>depression)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">summary</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<pre><code>Random effects:
+ Groups   Name        Variance Std.Dev. Corr 
+ ID       (Intercept) 47.4943  6.8916        
+          week         0.3707  0.6089   -0.03
+ Residual             14.5184  3.8103        
+Number of obs: 553, groups:  ID, 85
+
+Fixed effects:
+            Estimate Std. Error       df t value Pr(&gt;|t|)    
+(Intercept) 19.72818    0.79607 82.13025  24.782  &lt; 2e-16 ***
+week        -0.75946    0.08598 58.26743  -8.833 2.41e-12 ***
+
+
+---
+Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1</code></pre>
+<ul>
+<li>average intercept: <span class="math inline">\(\beta_0=19.7\)</span></li>
+<li>average slope: <span class="math inline">\(\beta_1=-0.76\)</span></li>
+<li><span style="color: blue;">random intercepts</span> sd: <span class="math inline">\(\color{blue}{\sigma_u}=6.89\)</span></li>
+<li><span style="color: red;">random slopes</span> sd: <span class="math inline">\(\color{red}{\sigma_v}=0.61\)</span></li>
+</ul>
+</section>
+<section id="random-intercepts-and-slopes-1" class="slide level1">
+<h1>Random Intercepts and slopes</h1>
+<div class="columns">
+<div class="column" style="width:50%%;">
+<p><span class="math display">\[\begin{eqnarray}
+Y_{ij} &amp;=&amp; (\beta_{0}+ \color{blue}{u_{i}}) + \beta_{1} X_{i,j} +  \varepsilon_{i,j}\nonumber\\
+\color{blue}{u_{i}} &amp;\sim&amp;  \text{Normal}(0, \color{blue}{\sigma_u})\nonumber\\
+\end{eqnarray}\]</span></p>
+</div><div class="column" style="width:50%%;">
+<p><span class="math display">\[\begin{eqnarray}
+Y_{ij} &amp;=&amp; (\beta_{0}+ \color{blue}{u_{i}}) + (\beta_{1}+\color{red}{v_{i}}) X_{i,j} +  \varepsilon_{i,j}\nonumber\\
+\color{blue}{u_{i}} &amp;\sim&amp;  \text{Normal}(0, \color{blue}{\sigma_u})\nonumber\\
+\color{red}{v_{i}} &amp;\sim&amp;  \text{Normal}(0, \color{red}{\sigma_v})\nonumber
+\end{eqnarray}\]</span></p>
+</div>
+</div>
+
+<img data-src="pics/randint_randslopes.jpg" style="width:100.0%" class="r-stretch quarto-figure-center"><p class="caption"></p></section>
+<section id="random-intercepts-and-slopes-2" class="slide level1">
+<h1>Random Intercepts and slopes</h1>
+<p><img data-src="pics/randint_randslopes.jpg" style="width:50.0%"><br>
+</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>mod1 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(BDI <span class="sc">~</span> week <span class="sc">+</span> (<span class="dv">1</span><span class="sc">|</span>ID), <span class="at">data=</span>depression)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>mod2 <span class="ot">&lt;-</span> <span class="fu">lmer</span>(BDI <span class="sc">~</span> week <span class="sc">+</span> (<span class="dv">1</span><span class="sc">+</span>week<span class="sc">|</span>ID), <span class="at">data=</span>depression)</span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="fu">anova</span>(mod1,mod2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Data: depression
+Models:
+mod1: BDI ~ week + (1 | ID)
+mod2: BDI ~ week + (1 + week | ID)
+     npar    AIC    BIC  logLik deviance  Chisq Df Pr(&gt;Chisq)    
+mod1    4 3509.0 3526.3 -1750.5   3501.0                         
+mod2    6 3416.1 3442.0 -1702.0   3404.1 96.917  2  &lt; 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
+</div>
+</div>
+<ul>
+<li>do we need both random intercepts and random slopes?</li>
+<li>Likelihood-ratio test to compare models</li>
+</ul>
+</section>
+<section id="intra-class-correlation" class="slide level1">
+<h1>Intra-class correlation</h1>
+
+<img data-src="pics/icc.jpg" class="r-stretch quarto-figure-center"><p class="caption"></p><div class="cell">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">library</span>(performance)</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="fu">icc</span>(mod1)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># Intraclass Correlation Coefficient
+
+     Adjusted ICC: 0.718
+  Conditional ICC: 0.637</code></pre>
+</div>
+</div>
+<ul>
+<li>for random-intercepts model: proportion of the variance that is explained by the grouping defined by the random intercepts</li>
+<li>low ICC: MLM perhaps unnecessary</li>
+</ul>
+</section>
+<section id="significance-tests-for-mlms" class="slide level1">
+<h1>Significance tests for MLMs</h1>
+<div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">summary</span>(mod, <span class="at">ddf=</span><span class="st">"Satterthwaite"</span>)<span class="sc">$</span>coefficients</span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="fu">summary</span>(mod, <span class="at">ddf=</span><span class="st">"Kenward-Roger"</span>)<span class="sc">$</span>coefficients</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell quarto-layout-panel">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<pre><code>             Estimate Std. Error        df   t value  Pr(&gt;|t|)
+(Intercept) 18.643171  4.3740064 3.5531448  4.262264 0.0167478
+week        -0.733604  0.2243269 0.3795547 -3.270246 0.4257330</code></pre>
+</div>
+</div>
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<pre><code>             Estimate Std. Error       df   t value   Pr(&gt;|t|)
+(Intercept) 18.643171  4.4513612 3.947278  4.188196 0.01421602
+week        -0.733604  0.3344458 1.311237 -2.193492 0.22235536</code></pre>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>significance tests for MLM coefficients: ongoing debate</li>
+<li>two approximate options:
+<ul>
+<li>Satterthwaite</li>
+<li>Kenward-Roger</li>
+</ul></li>
+<li>or use bootstrapping!</li>
+</ul>
+</section>
+<section id="bootstrap-based-statistical-testing" class="slide level1">
+<h1>Bootstrap-based statistical testing</h1>
+<div class="columns">
+<div class="column" style="width:40%;">
 <div class="quarto-figure quarto-figure-center">
 <figure>
-<p><img data-src="pics/figure12.01.png" style="width:70.0%"></p>
+<p><img data-src="pics/Muenchhausen_Herrfurth_7_500x789.jpg" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
 </figure>
 </div>
+</div><div class="column" style="width:60%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/bootstrap.png" style="width:80.0%"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+<ul>
+<li>simulation-based “resampling” of the sample</li>
+<li>avoids assumption of normality etc</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="bootstrap-based-confidence-intervals" class="slide level1">
+<h1>Bootstrap-based confidence intervals</h1>
+<div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>ci.boot <span class="ot">&lt;-</span> <span class="fu">confint</span>(mod, <span class="at">method=</span><span class="st">"boot"</span>, <span class="at">nsim=</span><span class="dv">1000</span>)</span>
+<span id="cb10-2"><a href="#cb10-2"></a>ci.boot</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell quarto-layout-panel" data-hash="lecture5_cache/revealjs/unnamed-chunk-14_424576a091c9e396c02a2b53fd4bfc49">
+<div class="quarto-layout-row quarto-layout-valign-top">
+<div class="cell-output cell-output-stdout quarto-layout-cell" style="flex-basis: 100.0%;justify-content: center;">
+<pre><code>                  2.5 %     97.5 %
+.sig01       2.57291763 16.9716663
+.sig02      -1.00000000  1.0000000
+.sig03       0.01685235  1.0315242
+.sigma       3.52163916  6.1859672
+(Intercept) 10.90393971 27.7395051
+week        -1.24740034 -0.2745691</code></pre>
+</div>
+</div>
+</div>
+</div>
+<ul>
+<li>more reliable than the other methods</li>
+<li>we also get confidence intervals for the standard-deviations!
+<ul>
+<li><span style="color: blue;">random intercepts</span>: <span class="math inline">\(\color{blue}{\sigma_u}=6.89 [5.6, 8.1]\)</span></li>
+<li><span style="color: red;">random slopes</span> sd: <span class="math inline">\(\color{red}{\sigma_v}=0.61 [0.44, 0.74]\)</span></li>
+</ul></li>
+</ul>
+</section>
+<section id="multiple-variables-multiple-levels" class="slide level1">
+<h1>Multiple variables, multiple levels</h1>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">lmer</span>(BDI <span class="sc">~</span> week<span class="sc">+</span> female<span class="sc">:</span>week <span class="sc">+</span> female <span class="sc">+</span> age <span class="sc">+</span> (<span class="dv">1</span><span class="sc">+</span>week<span class="sc">|</span>ID), </span>
+<span id="cb12-2"><a href="#cb12-2"></a>            <span class="at">data=</span>depression)</span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="fu">summary</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Linear mixed model fit by REML. t-tests use Satterthwaite's method [
+lmerModLmerTest]
+Formula: BDI ~ week + female:week + female + age + (1 + week | ID)
+   Data: depression
+
+REML criterion at convergence: 3398
+
+Scaled residuals: 
+    Min      1Q  Median      3Q     Max 
+-2.8192 -0.5289 -0.0252  0.4602  3.8507 
+
+Random effects:
+ Groups   Name        Variance Std.Dev. Corr 
+ ID       (Intercept) 42.9054  6.5502        
+          week         0.3775  0.6144   -0.04
+ Residual             14.5164  3.8100        
+Number of obs: 553, groups:  ID, 85
+
+Fixed effects:
+            Estimate Std. Error       df t value Pr(&gt;|t|)    
+(Intercept) 22.17195    2.98060 82.36193   7.439 8.75e-11 ***
+week        -0.80490    0.15760 50.63472  -5.107 5.00e-06 ***
+female       3.45063    1.73304 79.84598   1.991   0.0499 *  
+age         -0.13705    0.06603 81.50420  -2.076   0.0411 *  
+week:female  0.06130    0.18856 53.38371   0.325   0.7464    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Correlation of Fixed Effects:
+            (Intr) week   female age   
+week        -0.089                     
+female      -0.556  0.145              
+age         -0.872  0.006  0.166       
+week:female  0.074 -0.836 -0.176 -0.004</code></pre>
+</div>
+</div>
+<ul>
+<li>include additional covariates (on all levels)</li>
+<li>include IAs, both between levels and within-levels possible</li>
+</ul>
+</section>
+<section id="a-strategy-to-build-models" class="slide level1">
+<h1>A strategy to build models</h1>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/Flow-chart-of-multilevel-model-testing_W640.jpg"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+
+<aside><div>
+<p>Gath, M. E. (2022). Parents and Adolescents in Stepfamilies: Longitudinal Links to Physical Health, Psychological Distress, and Stress. Journal of Child and Family Studies, 31(1), 17-28.</p>
+</div></aside></section>
+<section id="extensions" class="slide level1">
+<h1>Extensions</h1>
+<ul>
+<li>multiple random slopes are possible</li>
+<li>random “slopes” can be categorical as well</li>
+<li>deeper nesting possible</li>
+</ul>
+<h3 id="other-extensions">Other extensions</h3>
+<ul>
+<li>General<span style="color:red;">ized</span> linear mixed models (logistic, Poisson, ordinal)</li>
+<li>nonlinear mixed effects models</li>
+<li>modeling heteroscedasticity between levels/groups</li>
+</ul>
+</section>
+<section id="extensions-deeper-nesting" class="slide level1">
+<h1>Extensions: deeper nesting</h1>
+
+<img data-src="pics/machineworker.png" class="r-stretch quarto-figure-center"><p class="caption"></p><div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="fu">lmer</span>(score <span class="sc">~</span> Machine <span class="sc">+</span> (<span class="dv">1</span> <span class="sc">+</span> Machine <span class="sc">|</span> Worker), machines)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<ul>
+<li>each worker used each of 3 machines 3 times</li>
+<li>outcome: productivity score</li>
+<li>variability both due to worker and machine!</li>
+<li>Nesting: Score <span class="math inline">\(\leftarrow\)</span> Worker <span class="math inline">\(\leftarrow\)</span> Machine</li>
+</ul>
+</section>
+<section id="latent-growth-model" class="slide level1">
+<h1>Latent Growth model</h1>
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/latentgrowth.png"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+<ul>
+<li>alternative modeling approach based on structural equation modeling</li>
+<li>allows embedding in a larger SEM</li>
+<li>weigh pro’s and con’s for each application</li>
+</ul>
 <p><img src="pics/ntnu.png" class="slide-logo"></p>
 <div class="footer footer-default">
 

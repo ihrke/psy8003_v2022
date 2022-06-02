@@ -1,7 +1,13 @@
 <!DOCTYPE html>
 <html lang="en"><head>
-  <meta charset="utf-8">
-  <meta name="generator" content="quarto-0.9.431">
+<script src="lecture4_files/libs/clipboard/clipboard.min.js"></script>
+<script src="lecture4_files/libs/quarto-html/tabby.min.js"></script>
+<script src="lecture4_files/libs/quarto-html/popper.min.js"></script>
+<script src="lecture4_files/libs/quarto-html/tippy.umd.min.js"></script>
+<link href="lecture4_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="lecture4_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet">
+<link href="lecture4_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
+  <meta name="generator" content="quarto-0.9.501">
 
   <meta name="author" content="Matthias Mittner">
   <title>Regression models for counts, dichotomous and ordered data</title>
@@ -83,13 +89,22 @@
   </style>
   <link rel="stylesheet" href="lecture4_files/libs/revealjs/dist/theme/quarto.css" id="theme">
   <link rel="stylesheet" href="style.css">
-  <script src="lecture4_files/libs/clipboard/clipboard.min.js"></script>
-  <script src="lecture4_files/libs/quarto-html/tabby.min.js"></script>
-  <script src="lecture4_files/libs/quarto-html/popper.min.js"></script>
-  <script src="lecture4_files/libs/quarto-html/tippy.umd.min.js"></script>
-  <link href="lecture4_files/libs/quarto-html/tippy.css" rel="stylesheet">
-  <link href="lecture4_files/libs/quarto-html/quarto-html.min.css" rel="stylesheet">
-  <link id="quarto-text-highlighting-styles" href="lecture4_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet">
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css">
   <link href="lecture4_files/libs/revealjs/plugin/quarto-line-highlight/line-highlight.css" rel="stylesheet">
   <link href="lecture4_files/libs/revealjs/plugin/reveal-menu/menu.css" rel="stylesheet">
   <link href="lecture4_files/libs/revealjs/plugin/reveal-menu/quarto-menu.css" rel="stylesheet">
@@ -409,7 +424,7 @@
 <li>odds and odds-ratios</li>
 <li>log-odds</li>
 </ul></li>
-<li>Pseudo-<span class="math inline">\(R^2\)</span></li>
+<li>Pseudo-<span class="math inline">R^2</span></li>
 <li>model-selection with Likelihood-ratio tests</li>
 <li>logistic regression for classification</li>
 </ul></li>
@@ -420,15 +435,15 @@
 <section id="generalized-linear-model" class="slide level1">
 <h1>General<span style="color:red;">ized</span> linear model</h1>
 <p>So far we have considered the <strong>general linear model</strong> (GLM):</p>
-<p><span class="math display">\[E[Y|X] = \beta_0 + \beta_1 X_1 + ... + \beta_m X_m\]</span></p>
+<p><span class="math display">E[Y|X] = \beta_0 + \beta_1 X_1 + ... + \beta_m X_m</span></p>
 <ul>
 <li>assumes that the outcome is normally distributed</li>
 <li>assumes that the mean is linearly changing with the predictors</li>
 </ul>
 <p>The <strong>generalized linear model</strong> (GLZM) is an extension:</p>
-<p><span class="math display">\[E[Y|X] = g^{-1}(\beta_0 + \beta_1 X_1 + ... + \beta_m X_m)\]</span></p>
+<p><span class="math display">E[Y|X] = g^{-1}(\beta_0 + \beta_1 X_1 + ... + \beta_m X_m)</span></p>
 <p>and</p>
-<p><span class="math display">\[Y \sim f(\theta)\]</span></p>
+<p><span class="math display">Y \sim f(\theta)</span></p>
 <ul>
 <li>generalizes to non-normal outcomes</li>
 <li>allows a non-linear relationship between predictors and outcome</li>
@@ -437,10 +452,10 @@
 <section id="generalized-linear-model-1" class="slide level1">
 <h1>General<span style="color:red;">ized</span> linear model</h1>
 <p>Ordinary linear regression is a GLZM:</p>
-<p><span class="math display">\[E[Y|X] = g^{-1}(\beta_0 + \beta_1 X_1 + ... + \beta_m X_m)\]</span></p>
-<p>where <span class="math inline">\(g(x)=x\)</span> (identity function)</p>
+<p><span class="math display">E[Y|X] = g^{-1}(\beta_0 + \beta_1 X_1 + ... + \beta_m X_m)</span></p>
+<p>where <span class="math inline">g(x)=x</span> (identity function)</p>
 <p>Also,</p>
-<p><span class="math display">\[Y \sim \text{Normal}(\mu,\sigma)\]</span></p>
+<p><span class="math display">Y \sim \text{Normal}(\mu,\sigma)</span></p>
 <ul>
 <li>logistic regression, Poisson regression (and friends) and ordinal regression are all GLZMs</li>
 </ul>
@@ -448,15 +463,15 @@
 <section id="generalized-linear-model-2" class="slide level1">
 <h1>General<span style="color:red;">ized</span> linear model</h1>
 <p>Logistic regression:</p>
-<p><span class="math display">\[E[Y|X] = p_i = \text{logit}^{-1}(\beta_0 + \beta_1 X_1 + ... + \beta_m X_m)\]</span></p>
-<p><span class="math display">\[Y \sim \text{Bernoulli}(p_i)\]</span></p>
+<p><span class="math display">E[Y|X] = p_i = \text{logit}^{-1}(\beta_0 + \beta_1 X_1 + ... + \beta_m X_m)</span></p>
+<p><span class="math display">Y \sim \text{Bernoulli}(p_i)</span></p>
 <p>Poisson regression:</p>
-<p><span class="math display">\[E[Y|X] = \lambda_i = \text{exp}(\beta_0 + \beta_1 X_1 + ... + \beta_m X_m)\]</span></p>
-<p><span class="math display">\[Y \sim \text{Poisson}(\lambda_i)\]</span></p>
+<p><span class="math display">E[Y|X] = \lambda_i = \text{exp}(\beta_0 + \beta_1 X_1 + ... + \beta_m X_m)</span></p>
+<p><span class="math display">Y \sim \text{Poisson}(\lambda_i)</span></p>
 <p>Ordinal regression (ordered probit):</p>
-<p><span class="math display">\[E[Y|X] = \mu_i = \beta_0 + \beta_1 X_1 + ... + \beta_m X_m\]</span></p>
-<p><span class="math display">\[p_{k}=P(Y=k)=\Phi(\tau_k-\mu_i) - \Phi(\tau_{k-1}-\mu_i)\\
-Y \sim \text{Multinomial}(p_{k,i})\]</span></p>
+<p><span class="math display">E[Y|X] = \mu_i = \beta_0 + \beta_1 X_1 + ... + \beta_m X_m</span></p>
+<p><span class="math display">p_{k}=P(Y=k)=\Phi(\tau_k-\mu_i) - \Phi(\tau_{k-1}-\mu_i)\\
+Y \sim \text{Multinomial}(p_{k,i})</span></p>
 </section>
 <section id="logistic-regression" class="slide level1 smaller">
 <h1>Logistic regression</h1>
@@ -485,11 +500,11 @@ Y \sim \text{Multinomial}(p_{k,i})\]</span></p>
 <h1>Logistic regression</h1>
 <p>Dichotomous outcome</p>
 
-<img data-src="pics/logreg_linreg.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math display">\[\color{red}{\text{Survived}} = \color{blue}{\beta_0 + \beta_1 X_1 + \beta_2 X_2 + ... + \beta_n X_n} + \epsilon\]</span></p>
+<img data-src="pics/logreg_linreg.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math display">\color{red}{\text{Survived}} = \color{blue}{\beta_0 + \beta_1 X_1 + \beta_2 X_2 + ... + \beta_n X_n} + \epsilon</span></p>
 <ul>
 <li>“linear probability modeling”</li>
-<li>the has continuous values</li>
-<li>the can only be 0 or 1</li>
+<li>the <span style="color: blue;">predictor</span> has continuous values</li>
+<li>the <span style="color: red;">outcome</span> can only be 0 or 1</li>
 <li>clear mismatch: the prediction can almost never be correct!</li>
 </ul>
 </section>
@@ -502,32 +517,32 @@ Y \sim \text{Multinomial}(p_{k,i})\]</span></p>
 <li>predicted values almost always “out of scope”</li>
 </ul></li>
 <li>predict the <em>probability</em> of the outcome</li>
-<li>but: nonlinear relationship predictor <span class="math inline">\(\rightarrow\)</span> <span class="math inline">\(P(Y=1)\)</span></li>
+<li>but: nonlinear relationship predictor <span class="math inline">\rightarrow</span> <span class="math inline">P(Y=1)</span></li>
 </ul>
 </section>
 <section id="estimation-of-logistic-regression-models" class="slide level1">
 <h1>Estimation of logistic regression models</h1>
 
 <img data-src="pics/excel_logistic.png" style="width:40.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
-<li>we don’t know <span class="math inline">\(P(Y=1)\)</span> for individual datapoints</li>
-<li>squared distance from <span class="math inline">\(P(Y=1)\)</span> cannot be calculated…</li>
+<li>we don’t know <span class="math inline">P(Y=1)</span> for individual datapoints</li>
+<li>squared distance from <span class="math inline">P(Y=1)</span> cannot be calculated…</li>
 <li>Ordinary-least squares cannot be used!</li>
-<li><span class="math inline">\(R^2\)</span> cannot be calculated!</li>
+<li><span class="math inline">R^2</span> cannot be calculated!</li>
 <li>use Maximum-likelihood method instead…</li>
 </ul>
 </section>
 <section id="what-is-a-likelihood" class="slide level1">
 <h1>What is a Likelihood?</h1>
 <p>Likelihood and deviance</p>
-<p>The “likelihood”, <span class="math inline">\(p(x|\theta)\)</span> is the conditional probability that the data <span class="math inline">\(x\)</span> will be observed given a model structure and a set of parameters <span class="math inline">\(\theta\)</span>.</p>
+<p>The “likelihood”, <span class="math inline">p(x|\theta)</span> is the conditional probability that the data <span class="math inline">x</span> will be observed given a model structure and a set of parameters <span class="math inline">\theta</span>.</p>
 <ul>
 <li>usually, the logarithm is used</li>
 </ul>
-<p><span class="math display">\[L(\theta)=\log p(x|\theta)\]</span></p>
+<p><span class="math display">L(\theta)=\log p(x|\theta)</span></p>
 <p>and we want to find the “maximum-likelihood” parameters</p>
-<p><span class="math display">\[\hat{\theta}=\text{argmax}_{\theta} L(\theta).\]</span></p>
+<p><span class="math display">\hat{\theta}=\text{argmax}_{\theta} L(\theta).</span></p>
 <p>Statistical software sometimes reports deviances</p>
-<p><span class="math display">\[D=-2L(\hat{\theta})\]</span></p>
+<p><span class="math display">D=-2L(\hat{\theta})</span></p>
 <p>(the lower the better)</p>
 </section>
 <section id="likelihood-and-deviance" class="slide level1">
@@ -544,52 +559,52 @@ Y \sim \text{Multinomial}(p_{k,i})\]</span></p>
 <h1>Likelihood</h1>
 
 <img data-src="pics/maxlik1.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><h2 id="likelihood-1">Likelihood</h2>
-<p>The “likelihood”, <span class="math inline">\(p(x|\theta)\)</span> is the conditional probability that the data <span class="math inline">\(x\)</span> will be observed given a model structure and a set of parameters <span class="math inline">\(\theta\)</span>.</p>
+<p>The “likelihood”, <span class="math inline">p(x|\theta)</span> is the conditional probability that the data <span class="math inline">x</span> will be observed given a model structure and a set of parameters <span class="math inline">\theta</span>.</p>
 </section>
 <section id="likelihood-2" class="slide level1">
 <h1>Likelihood</h1>
 
 <img data-src="pics/maxlik2.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><h2 id="likelihood-3">Likelihood</h2>
-<p>The “likelihood”, <span class="math inline">\(p(x|\theta)\)</span> is the conditional probability that the data <span class="math inline">\(x\)</span> will be observed given a model structure and a set of parameters <span class="math inline">\(\theta\)</span>.</p>
+<p>The “likelihood”, <span class="math inline">p(x|\theta)</span> is the conditional probability that the data <span class="math inline">x</span> will be observed given a model structure and a set of parameters <span class="math inline">\theta</span>.</p>
 </section>
 <section id="likelihood-4" class="slide level1">
 <h1>Likelihood</h1>
 
 <img data-src="pics/maxlik.png" style="width:40.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p>Examples:</p>
 <ul>
-<li>calculating the mean and standard deviation of a sample is a maximum-likelihood estimation (we find <span class="math inline">\(\hat{\theta}=(\mu,\sigma)\)</span> that are most likely to underly the data)</li>
-<li>fitting a linear regression model with OLS is <em>also</em> maximum-likelihood estimation! <span class="math inline">\(\hat{\theta}=(b_0, b_1)\)</span></li>
+<li>calculating the mean and standard deviation of a sample is a maximum-likelihood estimation (we find <span class="math inline">\hat{\theta}=(\mu,\sigma)</span> that are most likely to underly the data)</li>
+<li>fitting a linear regression model with OLS is <em>also</em> maximum-likelihood estimation! <span class="math inline">\hat{\theta}=(b_0, b_1)</span></li>
 <li>many other models, including logistic regression, are fit using ML estimation</li>
 </ul>
 </section>
 <section id="likelihood-in-logistic-regression" class="slide level1">
 <h1>Likelihood in logistic regression</h1>
 <ul>
-<li>Dichotomous outcome: <span class="math inline">\(\color{red}{\text{Survived}_i} \sim \text{Binomial}(p_i)\)</span>
+<li>Dichotomous outcome: <span class="math inline">\color{red}{\text{Survived}_i} \sim \text{Binomial}(p_i)</span>
 <ul>
-<li><span class="math inline">\(\color{red}{\text{Survived}_i=1}\)</span> with probability <span class="math inline">\(p_i\)</span></li>
-<li><span class="math inline">\(\color{red}{\text{Survived}_i=0}\)</span> with probability <span class="math inline">\(1-p_i\)</span></li>
+<li><span class="math inline">\color{red}{\text{Survived}_i=1}</span> with probability <span class="math inline">p_i</span></li>
+<li><span class="math inline">\color{red}{\text{Survived}_i=0}</span> with probability <span class="math inline">1-p_i</span></li>
 </ul></li>
-<li>each participant’s probability to survive <span class="math inline">\(p_i\)</span> is continuous</li>
+<li>each participant’s probability to survive <span class="math inline">p_i</span> is continuous</li>
 </ul>
-<p><span class="math display">\[\begin{align*}
+<p><span class="math display">\begin{align*}
 p_i&amp;=\text{logit}^{-1}\left( \color{blue}{\beta_0 + \beta_1 X_1 + ... + \beta_k X_k} \right)\\
 &amp;=\frac{\exp\left(\color{blue}{\beta_0 + \beta_1 X_1 + ... + \beta_k X_k} \right)}{1+\exp\left(\color{blue}{\beta_0 + \beta_1 X_1 + ... + \beta_k X_k} \right)}
-\end{align*}\]</span></p>
+\end{align*}</span></p>
 <ul>
 <li>Likelihood sums how often the probability is right</li>
 </ul>
-<p><span class="math display">\[\begin{align*}
+<p><span class="math display">\begin{align*}
 \text{Likelihood}&amp;=&amp; p&amp;(\color{red}{\text{Survived}_i}|\beta_0,\beta_1,...,\beta_k)\\
 &amp;=&amp; &amp;(\color{red}{\text{Survived}_1}\times p_1 + (1-\color{red}{\text{Survived}_1})\times (1-p_1) )\\
 &amp; &amp;\times &amp;(\color{red}{\text{Survived}_2}\times p_2 + (1-\color{red}{\text{Survived}_2})\times (1-p_2) )\\
 &amp; &amp;\times &amp; ...\\
-\end{align*}\]</span></p>
+\end{align*}</span></p>
 </section>
 <section id="the-logit-transformation" class="slide level1">
 <h1>The logit-transformation</h1>
 
-<img data-src="pics/logodds.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math display">\[\text{logit}(p)=\log\left(\frac{p}{1-p}\right)\]</span></p>
+<img data-src="pics/logodds.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math display">\text{logit}(p)=\log\left(\frac{p}{1-p}\right)</span></p>
 <ul>
 <li>translates a probability into so-called <strong>log-odds</strong></li>
 <li>the “inverse logit” translates log-odds back into probabilities …</li>
@@ -610,17 +625,17 @@ p_i&amp;=\text{logit}^{-1}\left( \color{blue}{\beta_0 + \beta_1 X_1 + ... + \bet
 <img data-src="pics/whataretheodds.png" style="width:30.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
 <li>Odds: how much more likely is one event relative to another?
 <ul>
-<li>number between 0 and <span class="math inline">\(\infty\)</span></li>
-<li>Odds <span class="math inline">\(&lt; 1\)</span>: first event less likely; e.g., Winning lottery ticket 1:1000000</li>
-<li>Odds <span class="math inline">\(=1\)</span>: both events equally likely; e.g., being born female 1:1</li>
-<li>Odds <span class="math inline">\(&gt;1\)</span>: first event more likely; e.g., getting a good stats grade 5:1</li>
+<li>number between 0 and <span class="math inline">\infty</span></li>
+<li>Odds <span class="math inline">&lt; 1</span>: first event less likely; e.g., Winning lottery ticket 1:1000000</li>
+<li>Odds <span class="math inline">=1</span>: both events equally likely; e.g., being born female 1:1</li>
+<li>Odds <span class="math inline">&gt;1</span>: first event more likely; e.g., getting a good stats grade 5:1</li>
 </ul></li>
 <li>Probability: how likely am I to observe a particular event?
 <ul>
 <li>number between 0 and 1 (sometimes %)</li>
-<li><span class="math inline">\(p=0\)</span>: it can never happen</li>
-<li><span class="math inline">\(p=0.5\)</span>: it happens 50% of the time</li>
-<li><span class="math inline">\(p=1\)</span>: it happens always</li>
+<li><span class="math inline">p=0</span>: it can never happen</li>
+<li><span class="math inline">p=0.5</span>: it happens 50% of the time</li>
+<li><span class="math inline">p=1</span>: it happens always</li>
 </ul></li>
 </ul>
 </section>
@@ -628,30 +643,30 @@ p_i&amp;=\text{logit}^{-1}\left( \color{blue}{\beta_0 + \beta_1 X_1 + ... + \bet
 <h1>Odds in logistic regression</h1>
 
 <img data-src="pics/oddsonly.png" style="width:50.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
-<li><span style="color: blue;">Blue event</span>: someone survived, <span class="math inline">\(\color{blue}{Y=1}\)</span></li>
-<li><span style="color: orange;">Orange event</span>: someone died, <span class="math inline">\(\color{orange}{Y=0}\)</span></li>
+<li><span style="color: blue;">Blue event</span>: someone survived, <span class="math inline">\color{blue}{Y=1}</span></li>
+<li><span style="color: orange;">Orange event</span>: someone died, <span class="math inline">\color{orange}{Y=0}</span></li>
 </ul>
-<p><span class="math display">\[\text{Odds} = \frac{P(\color{blue}{Y=1})}{P(\color{orange}{Y=0})}\]</span></p>
+<p><span class="math display">\text{Odds} = \frac{P(\color{blue}{Y=1})}{P(\color{orange}{Y=0})}</span></p>
 <ul>
-<li>because someone either died or did not: <span class="math inline">\(P(\color{orange}{Y=0})=1-P(\color{blue}{Y=1})\)</span></li>
+<li>because someone either died or did not: <span class="math inline">P(\color{orange}{Y=0})=1-P(\color{blue}{Y=1})</span></li>
 </ul>
-<p><span class="math display">\[\text{Odds} = \frac{P(\color{blue}{Y=1})}{1-P(\color{blue}{Y=1})} = \frac{1-P(\color{orange}{Y=0})}{P(\color{orange}{Y=0})} = \frac{p}{1-p}\]</span></p>
+<p><span class="math display">\text{Odds} = \frac{P(\color{blue}{Y=1})}{1-P(\color{blue}{Y=1})} = \frac{1-P(\color{orange}{Y=0})}{P(\color{orange}{Y=0})} = \frac{p}{1-p}</span></p>
 </section>
 <section id="log-odds" class="slide level1">
 <h1>Log-odds</h1>
 
-<img data-src="pics/oddslogodds.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math inline">\(\text{Log-Odds} = \log\left[\frac{P(\color{blue}{Y=1})}{P(\color{orange}{Y=0})}\right] = \log\left(\frac{p}{1-p}\right)\)</span></p>
+<img data-src="pics/oddslogodds.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math inline">\text{Log-Odds} = \log\left[\frac{P(\color{blue}{Y=1})}{P(\color{orange}{Y=0})}\right] = \log\left(\frac{p}{1-p}\right)</span></p>
 <ul>
 <li>Odds are stricly positive, but linear model predicts negative or positive values</li>
-<li>by log-transforming the odds, the scope is extended to <span class="math inline">\([-\infty,+\infty]\)</span></li>
+<li>by log-transforming the odds, the scope is extended to <span class="math inline">[-\infty,+\infty]</span></li>
 </ul>
 </section>
 <section id="logistic-regression-model" class="slide level1">
 <h1>Logistic regression model</h1>
 
-<img data-src="pics/logreg_logreg.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><h2 id="section"></h2>
-<p><span class="math display">\[\log{\left(\frac{p}{1-p}\right)} = \beta_0 + \beta_1 X_1 + \ldots + \beta_k X_k + \varepsilon\]</span></p>
-<h2 id="section-1"></h2>
+<img data-src="pics/logreg_logreg.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p>$$</p>
+<p> = _0 + _1 X_1 + + _k X_k + </p>
+<p>$$</p>
 <ul>
 <li>the linear model predicts log-odds, not probabilities</li>
 <li>these are difficult to interpret</li>
@@ -664,13 +679,13 @@ p_i&amp;=\text{logit}^{-1}\left( \color{blue}{\beta_0 + \beta_1 X_1 + ... + \bet
 <img data-src="pics/logreg_fcts.png" style="width:53.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
 <li>Intercept:
 <ul>
-<li>log-odds scale: intercept with <span class="math inline">\(y\)</span>-axis as always (i.e., predictors <span class="math inline">\(=0\)</span>)</li>
+<li>log-odds scale: intercept with <span class="math inline">y</span>-axis as always (i.e., predictors <span class="math inline">=0</span>)</li>
 <li>probability scale: shifts logistic curve on horizontal axis</li>
 </ul></li>
 <li>Slope:
 <ul>
-<li>log-odds scale: constant increase of logodds when adding one unit of <span class="math inline">\(x\)</span></li>
-<li>probability scale: increase of <span class="math inline">\(p\)</span> when adding one unit of <span class="math inline">\(x\)</span> depends on where on the horizontal axis we are</li>
+<li>log-odds scale: constant increase of logodds when adding one unit of <span class="math inline">x</span></li>
+<li>probability scale: increase of <span class="math inline">p</span> when adding one unit of <span class="math inline">x</span> depends on where on the horizontal axis we are</li>
 </ul></li>
 </ul>
 </section>
@@ -678,14 +693,14 @@ p_i&amp;=\text{logit}^{-1}\left( \color{blue}{\beta_0 + \beta_1 X_1 + ... + \bet
 <h1>Women and children first!</h1>
 <div class="columns" data-align="top">
 <div class="column" style="width:40%;">
-<div id="fig-anonymous-16" class="quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/titanic.png" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
 </figure>
 </div>
 </div><div class="column" style="width:40%;">
-<div id="fig-anonymous-17" class="quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/rbook_figure11.03.png" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -697,8 +712,8 @@ p_i&amp;=\text{logit}^{-1}\left( \color{blue}{\beta_0 + \beta_1 X_1 + ... + \bet
 <ul>
 <li>Deaths in RMS Titanic accident (DV)</li>
 <li>were more “women and children” saved?</li>
-<li>we model survival probability: <span class="math inline">\(p=P(\text{Survived}=1)\)</span></li>
-<li>therefore: <span class="math inline">\(P(\text{Death})=1-p\)</span></li>
+<li>we model survival probability: <span class="math inline">p=P(\text{Survived}=1)</span></li>
+<li>therefore: <span class="math inline">P(\text{Death})=1-p</span></li>
 </ul>
 </section>
 <section id="titanic.dta" class="slide level1">
@@ -708,138 +723,138 @@ p_i&amp;=\text{logit}^{-1}\left( \color{blue}{\beta_0 + \beta_1 X_1 + ... + \bet
 <section id="titanic-deaths-predictor-age" class="slide level1">
 <h1>Titanic deaths: predictor age</h1>
 
-<img data-src="pics/stata_titanic_cage.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math display">\[\begin{align*}
+<img data-src="pics/stata_titanic_cage.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math display">\begin{align*}
 \log\left( \frac{p}{1-p}\right) &amp;= \beta_0 + \beta_{1}(\operatorname{Age})\\
 \log\left( \frac{p}{1-p}\right) &amp;= \color{blue}{-0.057} \color{red}{- 0.01}(\operatorname{Age})
-\end{align*}\]</span></p>
-<h2 id="section-2"></h2>
+\end{align*}</span></p>
+<h2 id="section"></h2>
 <ul>
-<li>the log-odds for survival for a newborn passenger (age=0) was </li>
-<li>for every year of age, the log-odds for survival drop by </li>
+<li>the log-odds for survival for a newborn passenger (age=0) was <span style="color: blue;">-0.057</span></li>
+<li>for every year of age, the log-odds for survival drop by <span style="color: red;">-0.01</span></li>
 </ul>
 </section>
 <section id="titanic-deaths-predictor-age-1" class="slide level1">
 <h1>Titanic deaths: predictor age</h1>
-<p><span class="math display">\[\begin{align*}
+<p><span class="math display">\begin{align*}
 \log\left( \frac{p}{1-p}\right) &amp;= \color{blue}{-0.057} \color{red}{- 0.01}(\operatorname{Age})
-\end{align*}\]</span></p>
-<p>How likely is an <strong>newborn</strong> to survive? (<span class="math inline">\(\text{Age}=0\)</span>)</p>
-<p><span class="math display">\[\begin{align*}
+\end{align*}</span></p>
+<p>How likely is an <strong>newborn</strong> to survive? (<span class="math inline">\text{Age}=0</span>)</p>
+<p><span class="math display">\begin{align*}
 \log\left( \frac{p}{1-p}\right) &amp;= \color{blue}{-0.057} \color{red}{- 0.01}\times (0) &amp;=&amp; \color{blue}{-0.057}\\
 \frac{p}{1-p} &amp;= \exp{(\color{blue}{-0.057})} &amp;=&amp; 0.94\\
 p &amp;= \frac{0.94}{1+0.94} &amp;=&amp; 0.49
-\end{align*}\]</span></p>
+\end{align*}</span></p>
 <h2 id="for-a-newborn-passenger">for a newborn passenger …</h2>
 <ul>
 <li>the odds of survival were 0.94, i.e., about 1:1.06</li>
-<li>the probability of survival was <span class="math inline">\(p=0.49\)</span></li>
+<li>the probability of survival was <span class="math inline">p=0.49</span></li>
 </ul>
 </section>
 <section id="titanic-deaths-predictor-age-2" class="slide level1">
 <h1>Titanic deaths: predictor age</h1>
-<p><span class="math display">\[\begin{align*}
+<p><span class="math display">\begin{align*}
 \log\left( \frac{p}{1-p}\right) &amp;= \color{blue}{-0.057} \color{red}{- 0.01}(\operatorname{Age})
-\end{align*}\]</span></p>
-<p>How likely is an <strong>older adult</strong> to survive? (<span class="math inline">\(\text{Age}=70\)</span>)</p>
-<p><span class="math display">\[\begin{align*}
+\end{align*}</span></p>
+<p>How likely is an <strong>older adult</strong> to survive? (<span class="math inline">\text{Age}=70</span>)</p>
+<p><span class="math display">\begin{align*}
 \log\left( \frac{p}{1-p}\right) &amp;= \color{blue}{-0.057} \color{red}{- 0.01}\times (70) &amp;=&amp; \color{blue}{-0.757}\\
 \frac{p}{1-p} &amp;= \exp{(\color{blue}{-0.757})} &amp;=&amp; 0.47\\
 p &amp;= \frac{0.47}{1+0.47} &amp;=&amp; 0.32
-\end{align*}\]</span></p>
+\end{align*}</span></p>
 <h2 id="for-a-70-year-old-passenger">for a 70-year old passenger …</h2>
 <ul>
 <li>the odds of survival were 0.47, i.e., about 1:2.1</li>
-<li>the probability of survival was <span class="math inline">\(p=0.32\)</span></li>
+<li>the probability of survival was <span class="math inline">p=0.32</span></li>
 </ul>
 </section>
 <section id="titanic-multiple-predictors" class="slide level1">
 <h1>Titanic: Multiple predictors</h1>
 
-<img data-src="pics/stata_titanic_agesex.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math display">\[\log\left( \frac{p}{1-p}\right) = \color{blue}{1.12} \color{red}{- 0.01}(\operatorname{Age}) \color{green}{- 2.47}(\operatorname{Sex}_{\operatorname{male}})\]</span></p>
-<h2 id="section-3"></h2>
+<img data-src="pics/stata_titanic_agesex.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math display">\log\left( \frac{p}{1-p}\right) = \color{blue}{1.12} \color{red}{- 0.01}(\operatorname{Age}) \color{green}{- 2.47}(\operatorname{Sex}_{\operatorname{male}})</span></p>
+<h2 id="section-1"></h2>
 <ul>
-<li>the log-odds of survival for a newborn, female passenger was
+<li>the log-odds of survival for a newborn, female passenger was <span style="color: blue;">1.12</span>
 <ul>
-<li>Odds: <span class="math inline">\(\exp(1.12)\approx 3:1\)</span></li>
+<li>Odds: <span class="math inline">\exp(1.12)\approx 3:1</span></li>
 </ul></li>
-<li>for every year of age, the log-odds for survival drop by </li>
-<li>the logodds for males are decreased by
+<li>for every year of age, the log-odds for survival drop by <span style="color: red;">-0.01</span></li>
+<li>the logodds for males are decreased by <span style="color: green;">-2.47</span>
 <ul>
-<li>Odds: <span class="math inline">\(\exp(1.12-2.47)\approx 1:4\)</span></li>
+<li>Odds: <span class="math inline">\exp(1.12-2.47)\approx 1:4</span></li>
 </ul></li>
 </ul>
 </section>
 <section id="titanic-multiple-predictors-1" class="slide level1 smaller">
 <h1>Titanic: Multiple predictors</h1>
-<p><span class="math display">\[\log\left( \frac{p}{1-p}\right) = \color{blue}{1.12} \color{red}{- 0.01}(\operatorname{Age}) \color{green}{- 2.47}(\operatorname{Sex}_{\operatorname{male}})\]</span></p>
-<p>Survival of elderly ladies? <span class="math display">\[\begin{align*}
+<p><span class="math display">\log\left( \frac{p}{1-p}\right) = \color{blue}{1.12} \color{red}{- 0.01}(\operatorname{Age}) \color{green}{- 2.47}(\operatorname{Sex}_{\operatorname{male}})</span></p>
+<p>Survival of elderly ladies? <span class="math display">\begin{align*}
 \log\left( \frac{p}{1-p}\right) &amp;= \color{blue}{1.12} \color{red}{- 0.01}(70) \color{green}{- 2.47}(0) &amp;=&amp; 0.90\\
 \frac{p}{1-p}&amp;=\exp{\left( 0.90 \right)} &amp;=&amp; 2.45\\
 p &amp;= \frac{2.45}{1+2.45} &amp;=&amp; 0.71\\
-\end{align*}\]</span></p>
-<p>Survival of elderly gentlemen? <span class="math display">\[\begin{align*}
+\end{align*}</span></p>
+<p>Survival of elderly gentlemen? <span class="math display">\begin{align*}
 \log\left( \frac{p}{1-p}\right) &amp;= \color{blue}{1.12} \color{red}{- 0.01}(70) \color{green}{- 2.47}(1) &amp;=&amp; -1.57\\
 \frac{p}{1-p}&amp;=\exp{\left( -1.57 \right)} &amp;=&amp; 0.21\\
 p &amp;= \frac{0.21}{1+0.21} &amp;=&amp; 0.17\\
-\end{align*}\]</span></p>
+\end{align*}</span></p>
 </section>
 <section id="interactions" class="slide level1 smaller">
 <h1>Interactions …</h1>
 
-<img data-src="pics/stata_titanic_agesex_ia.png" style="width:50.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math display">\[\log\left( \frac{p}{1-p}\right) = \color{blue}{1.18} + \color{red}{0.02}(\operatorname{c.Age}) \color{green}{- 2.55}(\operatorname{Sex}_{\operatorname{male}}) \color{orange}{- 0.04}(\operatorname{c.Age} \times \operatorname{Sex}_{\operatorname{male}})\]</span></p>
-<h2 id="section-4"></h2>
+<img data-src="pics/stata_titanic_agesex_ia.png" style="width:50.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p><span class="math display">\log\left( \frac{p}{1-p}\right) = \color{blue}{1.18} + \color{red}{0.02}(\operatorname{c.Age}) \color{green}{- 2.55}(\operatorname{Sex}_{\operatorname{male}}) \color{orange}{- 0.04}(\operatorname{c.Age} \times \operatorname{Sex}_{\operatorname{male}})</span></p>
+<h2 id="section-2"></h2>
 <ul>
-<li>the log-odds of survival for an average-aged, female passenger was
+<li>the log-odds of survival for an average-aged, female passenger was <span style="color: blue;">1.18</span>
 <ul>
-<li>Odds: <span class="math inline">\(\exp(1.18)\approx 3.3:1\)</span></li>
+<li>Odds: <span class="math inline">\exp(1.18)\approx 3.3:1</span></li>
 </ul></li>
-<li>for every year of age, the log-odds for survival increase by for <em>females</em></li>
-<li>the logodds for average-aged males are decreased by
+<li>for every year of age, the log-odds for survival increase by <span style="color: red;">0.02</span> for <em>females</em></li>
+<li>the logodds for average-aged males are decreased by <span style="color: green;">-2.55</span>
 <ul>
-<li>Odds: <span class="math inline">\(\exp(1.18-2.55)\approx 1:4\)</span></li>
+<li>Odds: <span class="math inline">\exp(1.18-2.55)\approx 1:4</span></li>
 </ul></li>
-<li>the effect of age is decreased by for <em>males</em> and is -0.02</li>
+<li>the effect of age is decreased by <span style="color: orange;">0.04</span> for <em>males</em> and is -0.02</li>
 </ul>
 </section>
 <section id="interactions-1" class="slide level1 smaller">
 <h1>Interactions …</h1>
-<p><span class="math display">\[\log\left( \frac{p}{1-p}\right) = \color{blue}{1.18} + \color{red}{0.02}(\operatorname{c.Age}) \color{green}{- 2.55}(\operatorname{Sex}_{\operatorname{male}}) \color{orange}{- 0.04}(\operatorname{c.Age} \times \operatorname{Sex}_{\operatorname{male}})\]</span></p>
-<p>Survival of elderly ladies (<span class="math inline">\(\text{c.Age}=40\)</span>)? <span class="math display">\[\begin{align*}
+<p><span class="math display">\log\left( \frac{p}{1-p}\right) = \color{blue}{1.18} + \color{red}{0.02}(\operatorname{c.Age}) \color{green}{- 2.55}(\operatorname{Sex}_{\operatorname{male}}) \color{orange}{- 0.04}(\operatorname{c.Age} \times \operatorname{Sex}_{\operatorname{male}})</span></p>
+<p>Survival of elderly ladies (<span class="math inline">\text{c.Age}=40</span>)? <span class="math display">\begin{align*}
 \log\left( \frac{p}{1-p}\right) &amp;= \color{blue}{1.18} + \color{red}{0.02}(40) \color{green}{- 2.55}(0) \color{orange}{- 0.04}(40\times 0) &amp;=&amp; 1.97\\
 \frac{p}{1-p}&amp;=\exp{\left( 1.97 \right)} &amp;=&amp; 7.2\\
 p &amp;= \frac{7.2}{1+7.2} &amp;=&amp; 0.88\\
-\end{align*}\]</span></p>
-<p>Survival of elderly gentlemen (<span class="math inline">\(\text{c.Age}=40\)</span>)? <span class="math display">\[\begin{align*}
+\end{align*}</span></p>
+<p>Survival of elderly gentlemen (<span class="math inline">\text{c.Age}=40</span>)? <span class="math display">\begin{align*}
 \log\left( \frac{p}{1-p}\right) &amp;= \color{blue}{1.18} + \color{red}{0.02}(40) \color{green}{- 2.55}(1) \color{orange}{- 0.04}(40\times 1) &amp;=&amp; -2.22\\
 \frac{p}{1-p}&amp;=\exp{\left( -2.22 \right)} &amp;=&amp; 0.11\\
 p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
-\end{align*}\]</span></p>
+\end{align*}</span></p>
 </section>
 <section id="the-curse-of-non-linearity" class="slide level1 smaller">
 <h1>The curse of non-linearity</h1>
-<p><span class="math display">\[\begin{align*}
+<p><span class="math display">\begin{align*}
 \log\left( \frac{p}{1-p}\right) &amp;= \color{blue}{-0.057} \color{red}{- 0.01}(\operatorname{Age})
-\end{align*}\]</span></p>
+\end{align*}</span></p>
 <ul>
 <li>the increase with age is linear in <em>log-odds</em></li>
 <li>but not in <em>odds</em> or <em>probabilities</em>!</li>
 </ul>
 <p>difference between 10- and 20-year olds or 60- vs.&nbsp;70-year olds:</p>
 <ul>
-<li><span class="math inline">\(\Delta\)</span>log-odds:
+<li><span class="math inline">\Delta</span>log-odds:
 <ul>
-<li><span class="math inline">\((\color{blue}{-0.057} \color{red}{- 0.01}\times 10)-(\color{blue}{-0.057} \color{red}{- 0.01}\times 20)=-0.11\)</span></li>
-<li><span class="math inline">\((\color{blue}{-0.057} \color{red}{- 0.01}\times 60)-(\color{blue}{-0.057} \color{red}{- 0.01}\times 70)=-0.11\)</span></li>
+<li><span class="math inline">(\color{blue}{-0.057} \color{red}{- 0.01}\times 10)-(\color{blue}{-0.057} \color{red}{- 0.01}\times 20)=-0.11</span></li>
+<li><span class="math inline">(\color{blue}{-0.057} \color{red}{- 0.01}\times 60)-(\color{blue}{-0.057} \color{red}{- 0.01}\times 70)=-0.11</span></li>
 </ul></li>
-<li><span class="math inline">\(\Delta\)</span>odds:
+<li><span class="math inline">\Delta</span>odds:
 <ul>
-<li><span class="math inline">\(\exp{\left(\color{blue}{-0.057} \color{red}{- 0.01}\times 10\right)}-\exp{\left(\color{blue}{-0.057} \color{red}{- 0.01}\times 20\right)}=-0.088\)</span></li>
-<li><span class="math inline">\(\exp{\left(\color{blue}{-0.057} \color{red}{- 0.01}\times 60\right)}-\exp{\left(\color{blue}{-0.057} \color{red}{- 0.01}\times 70\right)}=-0.05\)</span></li>
+<li><span class="math inline">\exp{\left(\color{blue}{-0.057} \color{red}{- 0.01}\times 10\right)}-\exp{\left(\color{blue}{-0.057} \color{red}{- 0.01}\times 20\right)}=-0.088</span></li>
+<li><span class="math inline">\exp{\left(\color{blue}{-0.057} \color{red}{- 0.01}\times 60\right)}-\exp{\left(\color{blue}{-0.057} \color{red}{- 0.01}\times 70\right)}=-0.05</span></li>
 </ul></li>
-<li><span class="math inline">\(\Delta\)</span><span class="math inline">\(p\)</span>:
+<li><span class="math inline">\Delta</span><span class="math inline">p</span>:
 <ul>
-<li><span class="math inline">\(\text{logit}^{-1}{\left(\color{blue}{-0.057} \color{red}{- 0.01}\times 10\right)}-\text{logit}^{-1}{\left(\color{blue}{-0.057} \color{red}{- 0.01}\times 20\right)}=-0.027\)</span></li>
-<li><span class="math inline">\(\text{logit}^{-1}{\left(\color{blue}{-0.057} \color{red}{- 0.01}\times 60\right)}-\text{logit}^{-1}{\left(\color{blue}{-0.057} \color{red}{- 0.01}\times 70\right)}=-0.024\)</span></li>
+<li><span class="math inline">\text{logit}^{-1}{\left(\color{blue}{-0.057} \color{red}{- 0.01}\times 10\right)}-\text{logit}^{-1}{\left(\color{blue}{-0.057} \color{red}{- 0.01}\times 20\right)}=-0.027</span></li>
+<li><span class="math inline">\text{logit}^{-1}{\left(\color{blue}{-0.057} \color{red}{- 0.01}\times 60\right)}-\text{logit}^{-1}{\left(\color{blue}{-0.057} \color{red}{- 0.01}\times 70\right)}=-0.024</span></li>
 </ul></li>
 </ul>
 </section>
@@ -848,33 +863,33 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 
 <img data-src="pics/rbook_figure11.02.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
 <li>the effect an increase of the predictor has changes!</li>
-<li>for small coefficients fluctuating around <span class="math inline">\(p=0.5\)</span>, the change is <em>almost linear</em></li>
+<li>for small coefficients fluctuating around <span class="math inline">p=0.5</span>, the change is <em>almost linear</em></li>
 <li>but for deviations from small or large probabilities, the difference is strong</li>
 </ul>
-<h2 id="section-5"></h2>
+<h2 id="section-3"></h2>
 <p>We cannot easily interpret the raw regression coefficients!</p>
 </section>
 <section id="solution-use-the-odds-ratio-or" class="slide level1">
 <h1>Solution: Use the Odds-ratio (OR)!</h1>
 <ul>
-<li>instead of interpreting <span class="math inline">\(\beta\)</span>, interpret <span class="math inline">\(\exp(\beta)\)</span>!</li>
+<li>instead of interpreting <span class="math inline">\beta</span>, interpret <span class="math inline">\exp(\beta)</span>!</li>
 <li>the effect is independent of the reference level (unlike for probabilities)</li>
 <li>the effect is not additive but <strong>multiplicative</strong></li>
 <li>interpreted as “percentage change in odds per unit increase”</li>
 </ul>
-<h2 id="section-6"></h2>
+<h2 id="section-4"></h2>
 <ul>
-<li>Example: <span class="math inline">\(\beta_{\text{Age}}=-0.02\)</span> <span class="math inline">\(\Rightarrow\)</span> <span class="math inline">\(\exp(\beta_{\text{Age}})=\text{OR}_{\text{Age}}=0.98\)</span>
+<li>Example: <span class="math inline">\beta_{\text{Age}}=-0.02</span> <span class="math inline">\Rightarrow</span> <span class="math inline">\exp(\beta_{\text{Age}})=\text{OR}_{\text{Age}}=0.98</span>
 <ul>
 <li>for every year, we multiply the odds by 0.98 to get the new odds
 <ul>
 <li>“the odds are reduced by 2% per year”</li>
 </ul></li>
-<li>for two years: OR<span class="math inline">\(=0.98\times 0.98=0.98^2=0.96\)</span>
+<li>for two years: OR<span class="math inline">=0.98\times 0.98=0.98^2=0.96</span>
 <ul>
 <li>“the odds are reduced by 4% after two years”</li>
 </ul></li>
-<li>for 10 years: OR<span class="math inline">\(=0.98^{10}=0.82\)</span>
+<li>for 10 years: OR<span class="math inline">=0.98^{10}=0.82</span>
 <ul>
 <li>“the odds are reduced by 18% after ten years”</li>
 </ul></li>
@@ -895,24 +910,24 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <p>Worked example</p>
 <div class="columns">
 <div class="column" style="width:20%;">
-<div id="fig-anonymous-24" class="quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/stata_titanic_agesex_ia_or_coefonly.png" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
 </figure>
 </div>
 </div><div class="column" style="width:79%;">
-<p><span class="math display">\[\frac{p}{1-p} = \color{blue}{3.26} \times \color{red}{1.0198}(\operatorname{c.Age})\times \color{green}{0.078}(\operatorname{Sex}_{\operatorname{male}})\times \color{orange}{0.96}(\operatorname{c.Age} \times \operatorname{Sex}_{\operatorname{male}})\]</span></p>
+<p><span class="math display">\frac{p}{1-p} = \color{blue}{3.26} \times \color{red}{1.0198}(\operatorname{c.Age})\times \color{green}{0.078}(\operatorname{Sex}_{\operatorname{male}})\times \color{orange}{0.96}(\operatorname{c.Age} \times \operatorname{Sex}_{\operatorname{male}})</span></p>
 <ul>
-<li>survival odds for female, middle-aged: <span class="math inline">\(\color{blue}{3.26}:1\)</span></li>
-<li>in case you are male: <span class="math inline">\(\color{blue}{3.26}\times \color{green}{0.078} = 0.25\)</span>, <span class="math inline">\(1:4\)</span> (reduced by 92%)</li>
+<li>survival odds for female, middle-aged: <span class="math inline">\color{blue}{3.26}:1</span></li>
+<li>in case you are male: <span class="math inline">\color{blue}{3.26}\times \color{green}{0.078} = 0.25</span>, <span class="math inline">1:4</span> (reduced by 92%)</li>
 <li>if you are female, with each year your odds increase by 1.98%
 <ul>
-<li>e.g., if you are middle-aged and female, another year yields <span class="math inline">\(\color{blue}{3.26}\times \color{red}{1.0198}=3.32:1\)</span></li>
+<li>e.g., if you are middle-aged and female, another year yields <span class="math inline">\color{blue}{3.26}\times \color{red}{1.0198}=3.32:1</span></li>
 </ul></li>
 <li>if you are male, the increase with every year is reduced by 4.1%
 <ul>
-<li>i.e., if you are male, the change in odds for every year is <span class="math inline">\(\color{red}{1.0198}\times \color{orange}{0.96}=0.98\)</span> (odds are reduced by 2% per year)</li>
+<li>i.e., if you are male, the change in odds for every year is <span class="math inline">\color{red}{1.0198}\times \color{orange}{0.96}=0.98</span> (odds are reduced by 2% per year)</li>
 </ul></li>
 </ul>
 </div>
@@ -922,13 +937,13 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <h1>Model selection</h1>
 <p>Which model is best?</p>
 <h3 id="model-1-survived-age">Model 1: <code>Survived Age</code></h3>
-<p><span class="math display">\[\begin{align*}
+<p><span class="math display">\begin{align*}
 \log\left( \frac{p}{1-p}\right) &amp;= \color{blue}{-0.057} \color{red}{- 0.01}(\operatorname{Age})
-\end{align*}\]</span></p>
+\end{align*}</span></p>
 <h3 id="model-2-survived-age-male">Model 2: <code>Survived Age male</code></h3>
-<p><span class="math display">\[\log\left( \frac{p}{1-p}\right) = \color{blue}{1.12} \color{red}{- 0.01}(\operatorname{Age}) \color{green}{- 2.47}(\operatorname{Sex}_{\operatorname{male}})\]</span></p>
+<p><span class="math display">\log\left( \frac{p}{1-p}\right) = \color{blue}{1.12} \color{red}{- 0.01}(\operatorname{Age}) \color{green}{- 2.47}(\operatorname{Sex}_{\operatorname{male}})</span></p>
 <h3 id="model-3-survived-cagemale">Model 3: <code>Survived cAge##male</code></h3>
-<p><span class="math display">\[\log\left( \frac{p}{1-p}\right) = \color{blue}{1.18} + \color{red}{0.02}(\operatorname{c.Age}) \color{green}{- 2.55}(\operatorname{Sex}_{\operatorname{male}}) \color{orange}{- 0.04}(\operatorname{c.Age} \times \operatorname{Sex}_{\operatorname{male}})\]</span></p>
+<p><span class="math display">\log\left( \frac{p}{1-p}\right) = \color{blue}{1.18} + \color{red}{0.02}(\operatorname{c.Age}) \color{green}{- 2.55}(\operatorname{Sex}_{\operatorname{male}}) \color{orange}{- 0.04}(\operatorname{c.Age} \times \operatorname{Sex}_{\operatorname{male}})</span></p>
 </section>
 <section id="model-selection-1" class="slide level1">
 <h1>Model selection</h1>
@@ -936,7 +951,7 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <div class="columns">
 <div class="column" style="width:33%;">
 <p>Model 1</p>
-<div id="fig-anonymous-25" class="quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/titanic_mod1.png" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -948,7 +963,7 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 </ul>
 </div><div class="column" style="width:33%;">
 <p>Model 2</p>
-<div id="fig-anonymous-26" class="quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/titanic_mod2.png" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -961,7 +976,7 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 </ul>
 </div><div class="column" style="width:33%;">
 <p>Model 3</p>
-<div id="fig-anonymous-27" class="quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/titanic_mod3.png" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -971,7 +986,7 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <ul>
 <li><code>Age</code></li>
 <li><code>Sex</code></li>
-<li><code>Age</code><span class="math inline">\(\times\)</span> <code>Sex</code></li>
+<li><code>Age</code><span class="math inline">\times</span> <code>Sex</code></li>
 </ul>
 </div>
 </div>
@@ -981,11 +996,11 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <p>Look at the likelihood…</p>
 <p><img data-src="pics/titanic_mod1.png" style="width:20.0%"> <img data-src="pics/titanic_mod2.png" style="width:20.0%"> <img data-src="pics/titanic_mod3.png" style="width:20.0%"></p>
 <ul>
-<li>Model 1: log-Lik=<span class="math inline">\(-480.1142\)</span> (df=2)</li>
-<li>Model 2: log-Lik=<span class="math inline">\(-374.9785\)</span> (df=3)</li>
-<li>Model 3: log-Lik=<span class="math inline">\(-370.2017\)</span> (df=4)</li>
+<li>Model 1: log-Lik=<span class="math inline">-480.1142</span> (df=2)</li>
+<li>Model 2: log-Lik=<span class="math inline">-374.9785</span> (df=3)</li>
+<li>Model 3: log-Lik=<span class="math inline">-370.2017</span> (df=4)</li>
 </ul>
-<h2 id="section-7"></h2>
+<h2 id="section-5"></h2>
 <p>Model 3 has the highest likelihood… (but it also has more parameters!)</p>
 </section>
 <section id="comparing-likelihoods-across-models" class="slide level1">
@@ -994,12 +1009,12 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <img data-src="pics/lik_mix.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
 <li>assume two types of model, here:
 <ul>
-<li>a single normal distribution (blue) <span class="math inline">\(\rightarrow\)</span> parameters <span class="math inline">\(\mu,\sigma\)</span></li>
-<li>mixture of two normal distributions (red) <span class="math inline">\(\rightarrow\)</span> parameters <span class="math inline">\(\mu_1,\sigma_1,\mu_2,\sigma_2\)</span></li>
+<li>a single normal distribution (blue) <span class="math inline">\rightarrow</span> parameters <span class="math inline">\mu,\sigma</span></li>
+<li>mixture of two normal distributions (red) <span class="math inline">\rightarrow</span> parameters <span class="math inline">\mu_1,\sigma_1,\mu_2,\sigma_2</span></li>
 </ul></li>
-<li>get ML estimate for each of the two model-types, <span class="math inline">\(\text{LL}_1, \text{LL}_2\)</span></li>
+<li>get ML estimate for each of the two model-types, <span class="math inline">\text{LL}_1, \text{LL}_2</span></li>
 <li>we can compare the likelihoods of those fits</li>
-<li>likelihood-ratio: <span class="math inline">\(\frac{\text{Lik}_2}{\text{Lik}_1}\)</span> quantifies difference (corresponds to <span class="math inline">\(\text{LL}_2-\text{LL}_1\)</span>)</li>
+<li>likelihood-ratio: <span class="math inline">\frac{\text{Lik}_2}{\text{Lik}_1}</span> quantifies difference (corresponds to <span class="math inline">\text{LL}_2-\text{LL}_1</span>)</li>
 </ul>
 </section>
 <section id="likelihood-ratio-test" class="slide level1">
@@ -1008,7 +1023,7 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <img data-src="pics/lik_mix.png" style="width:30.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><p>Problem:</p>
 <ul>
 <li>if fit with ML, a model with more parameters is <em>guaranteed</em> to have higher LL (similar as for the RSS case)</li>
-<li>choosing always the model with higher LL <span class="math inline">\(\rightarrow\)</span> always choose more complicated model</li>
+<li>choosing always the model with higher LL <span class="math inline">\rightarrow</span> always choose more complicated model</li>
 <li>results in always choosing a “saturated model”</li>
 </ul>
 </section>
@@ -1017,7 +1032,7 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 
 <img data-src="pics/lik_saturated.png" style="width:60.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
 <li>model that predicts each point perfectly always has highest LL</li>
-<li>however, this model needs <span class="math inline">\(N\)</span> parameters (one for each datapoint)</li>
+<li>however, this model needs <span class="math inline">N</span> parameters (one for each datapoint)</li>
 <li>maybe we want something simpler?</li>
 </ul>
 </section>
@@ -1027,10 +1042,10 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <p><strong>Logic:</strong></p>
 <ul>
 <li>adding more parameters always results in higher LL</li>
-<li>so <span class="math inline">\(\frac{\text{Lik}_2}{\text{Lik}_1}&gt;1\)</span> when model 2 has more parameters than model 1</li>
-<li>How much increase in LL would be expected <em>given that the real model is the simpler model</em> (<span class="math inline">\(H_0\)</span>)?
+<li>so <span class="math inline">\frac{\text{Lik}_2}{\text{Lik}_1}&gt;1</span> when model 2 has more parameters than model 1</li>
+<li>How much increase in LL would be expected <em>given that the real model is the simpler model</em> (<span class="math inline">H_0</span>)?
 <ul>
-<li><span class="math inline">\(\chi^2 = - 2(\text{LL}_1 - \text{LL}_2)\)</span> follows <span class="math inline">\(\chi^2\)</span> with (df<span class="math inline">\(_2\)</span>-df<span class="math inline">\(_1\)</span>) degrees of freedom</li>
+<li><span class="math inline">\chi^2 = - 2(\text{LL}_1 - \text{LL}_2)</span> follows <span class="math inline">\chi^2</span> with (df<span class="math inline">_2</span>-df<span class="math inline">_1</span>) degrees of freedom</li>
 </ul></li>
 <li>the likelihood-ratio test, tests whether the increase in LL is significantly stronger than that</li>
 </ul>
@@ -1042,11 +1057,11 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <ul>
 <li>LR-test Model 1 vs.&nbsp;Model 2
 <ul>
-<li>log-Lik<span class="math inline">\(_1\)</span>=<span class="math inline">\(-480.1142\)</span> vs.&nbsp;log-Lik<span class="math inline">\(_2\)</span>=<span class="math inline">\(-374.9785\)</span></li>
+<li>log-Lik<span class="math inline">_1</span>=<span class="math inline">-480.1142</span> vs.&nbsp;log-Lik<span class="math inline">_2</span>=<span class="math inline">-374.9785</span></li>
 </ul></li>
 <li>LR-test Model 2 vs.&nbsp;Model 3
 <ul>
-<li>log-Lik<span class="math inline">\(_2\)</span>=<span class="math inline">\(-374.9785\)</span> vs.&nbsp;log-Lik<span class="math inline">\(_3\)</span>=<span class="math inline">\(-370.2017\)</span></li>
+<li>log-Lik<span class="math inline">_2</span>=<span class="math inline">-374.9785</span> vs.&nbsp;log-Lik<span class="math inline">_3</span>=<span class="math inline">-370.2017</span></li>
 </ul></li>
 </ul>
 </section>
@@ -1055,7 +1070,7 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <p>Model 1 vs.&nbsp;Model 2</p>
 <div class="columns">
 <div class="column" style="width:40%;">
-<div id="fig-anonymous-31" class="quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/stata_titanic_logtest.png"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -1069,15 +1084,15 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 </ul></li>
 <li>Model 1 is better than nothing
 <ul>
-<li><span class="math inline">\(\chi^2(1)=4.29, p=0.038\)</span></li>
+<li><span class="math inline">\chi^2(1)=4.29, p=0.038</span></li>
 </ul></li>
 <li>Model 2 is better than nothing
 <ul>
-<li><span class="math inline">\(\chi^2(2)=214.56, p&lt;0.001\)</span></li>
+<li><span class="math inline">\chi^2(2)=214.56, p&lt;0.001</span></li>
 </ul></li>
 <li>Model 2 is better than model 1
 <ul>
-<li><span class="math inline">\(\chi^2(1)=210.27, p&lt;0.001\)</span></li>
+<li><span class="math inline">\chi^2(1)=210.27, p&lt;0.001</span></li>
 </ul></li>
 </ul>
 </div>
@@ -1088,7 +1103,7 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <p>Model 2 vs.&nbsp;Model 3</p>
 <div class="columns">
 <div class="column" style="width:40%;">
-<div id="fig-anonymous-32" class="quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/stata_titanic_logtest2.png"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -1098,19 +1113,19 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <ul>
 <li>Likelihood-ratio test
 <ul>
-<li>Model 2 (no interaction) vs.&nbsp;Model 3 (include <code>Age</code> <span class="math inline">\(\times\)</span> <code>Sex</code>)</li>
+<li>Model 2 (no interaction) vs.&nbsp;Model 3 (include <code>Age</code> <span class="math inline">\times</span> <code>Sex</code>)</li>
 </ul></li>
 <li>Model 2 is better than nothing
 <ul>
-<li><span class="math inline">\(\chi^2(2)=214.56, p&lt;0.001\)</span></li>
+<li><span class="math inline">\chi^2(2)=214.56, p&lt;0.001</span></li>
 </ul></li>
 <li>Model 3 is better than nothing
 <ul>
-<li><span class="math inline">\(\chi^2(3)=224.11, p&lt;0.001\)</span></li>
+<li><span class="math inline">\chi^2(3)=224.11, p&lt;0.001</span></li>
 </ul></li>
 <li>Model 3 is better than model 2
 <ul>
-<li><span class="math inline">\(\chi^2(1)=9.55, p=0.002\)</span></li>
+<li><span class="math inline">\chi^2(1)=9.55, p=0.002</span></li>
 </ul></li>
 </ul>
 </div>
@@ -1120,30 +1135,30 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <h1>Model selection</h1>
 <p>But what about the goodness-of-fit?</p>
 <ul>
-<li>in OLS, we have <span class="math inline">\(R^2=1-\frac{\text{RSS}}{\text{TSS}}\)</span> (proportion explained variance)</li>
+<li>in OLS, we have <span class="math inline">R^2=1-\frac{\text{RSS}}{\text{TSS}}</span> (proportion explained variance)</li>
 <li>not possible for maximum-likelihood based models</li>
-<li>define “Pseudo”-<span class="math inline">\(R^2\)</span> that have similar behaviour:
+<li>define “Pseudo”-<span class="math inline">R^2</span> that have similar behaviour:
 <ul>
-<li><span class="math inline">\(R^2_{\text{pseudo}} \in [0,1]\)</span></li>
-<li><span class="math inline">\(R^2_{\text{pseudo}}\)</span> close to zero: bad fit</li>
-<li><span class="math inline">\(R^2_{\text{pseudo}}\)</span> close to one: excellent fit (perhaps overfit)</li>
+<li><span class="math inline">R^2_{\text{pseudo}} \in [0,1]</span></li>
+<li><span class="math inline">R^2_{\text{pseudo}}</span> close to zero: bad fit</li>
+<li><span class="math inline">R^2_{\text{pseudo}}</span> close to one: excellent fit (perhaps overfit)</li>
 </ul></li>
-<li>many different versions of <span class="math inline">\(R^2_{\text{pseudo}}\)</span> but often McFadden (1977) is used:</li>
+<li>many different versions of <span class="math inline">R^2_{\text{pseudo}}</span> but often McFadden (1977) is used:</li>
 </ul>
-<h2 id="section-8"></h2>
-<p><span class="math display">\[R^2_{\text{McFadden}}=1-\frac{\text{LL}_{\text{model}}}{\text{LL}_{\text{null}}}\]</span></p>
+<h2 id="section-6"></h2>
+<p><span class="math display">R^2_{\text{McFadden}}=1-\frac{\text{LL}_{\text{model}}}{\text{LL}_{\text{null}}}</span></p>
 </section>
 <section id="logit-or-probit-regression" class="slide level1">
 <h1>Logit or Probit regression?</h1>
 
-<img data-src="pics/logit_probit.png" style="width:40.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><h2 id="section-9"></h2>
+<img data-src="pics/logit_probit.png" style="width:40.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><h2 id="section-7"></h2>
 <ul>
 <li>“probit-regression”: using the cumulative density of a normal distribution for transforming probabilities</li>
 <li>highly similar results in most cases</li>
 <li>advantages logit: interpretation as odds and log-odds (not possible for probit!)</li>
 <li>advantages probit: can be theoretically motivated sometimes
 <ul>
-<li>if assumption holds that binary <span class="math inline">\(Y\)</span> is the result of “splitting” a normally-distributed variable, probit is theoretically more appropriate</li>
+<li>if assumption holds that binary <span class="math inline">Y</span> is the result of “splitting” a normally-distributed variable, probit is theoretically more appropriate</li>
 </ul></li>
 <li>possible to use Likelihood to determine which one is better-fitting</li>
 </ul>
@@ -1164,8 +1179,8 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <h1>Logistic regression as a classification problem</h1>
 
 <img data-src="pics/class_regr.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
-<li>given a training set <span class="math inline">\((x_i,y_i)\)</span>, try to create a decision rule <span class="math inline">\(f\)</span> so that <span class="math inline">\(f(x_i)\approx y_i\)</span></li>
-<li>logistic regression: if predicted <span class="math inline">\(P(Y=1)&gt;0.5\)</span>, classify as <span class="math inline">\(1\)</span>, else <span class="math inline">\(0\)</span></li>
+<li>given a training set <span class="math inline">(x_i,y_i)</span>, try to create a decision rule <span class="math inline">f</span> so that <span class="math inline">f(x_i)\approx y_i</span></li>
+<li>logistic regression: if predicted <span class="math inline">P(Y=1)&gt;0.5</span>, classify as <span class="math inline">1</span>, else <span class="math inline">0</span></li>
 <li>Generalizability to a “test” set that has not been used for fitting?</li>
 </ul>
 </section>
@@ -1184,14 +1199,14 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <p>The confusion matrix</p>
 <div class="columns">
 <div class="column">
-<div id="fig-anonymous-37" class="quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/titanic_logreg_boundary.png" style="width:70.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
 </figure>
 </div>
 </div><div class="column">
-<div id="fig-anonymous-38" class="quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/rbook_confusionmatrix.png" style="width:100.0%"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -1199,7 +1214,7 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 </div>
 </div>
 </div>
-<h2 id="section-10"></h2>
+<h2 id="section-8"></h2>
 <ul>
 <li>maximize TN and TP</li>
 <li>minimize FN and FP</li>
@@ -1210,7 +1225,7 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 
 <img data-src="pics/crossval.jpg" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
 <li>fit logistic regression to “training set” and set aside a “hold-out” (“test”) set</li>
-<li>how well can we predict the <span class="math inline">\(Y\)</span>-values in the test-set?</li>
+<li>how well can we predict the <span class="math inline">Y</span>-values in the test-set?</li>
 <li>repeat leaving out different parts of the data</li>
 <li>average performance across all the datasets</li>
 </ul>
@@ -1238,16 +1253,16 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <section id="poisson-regression-as-glzm" class="slide level1">
 <h1>Poisson regression as GLZM</h1>
 <p>Poisson regression is a <strong>generalized linear model</strong>:</p>
-<p><span class="math display">\[E[Y|X] = \exp(\beta_0 + \beta_1 X_1 + ... + \beta_m X_m)\]</span></p>
-<p><span class="math display">\[\log(E[Y|X]) = \beta_0 + \beta_1 X_1 + ... + \beta_m X_m\]</span></p>
+<p><span class="math display">E[Y|X] = \exp(\beta_0 + \beta_1 X_1 + ... + \beta_m X_m)</span></p>
+<p><span class="math display">\log(E[Y|X]) = \beta_0 + \beta_1 X_1 + ... + \beta_m X_m</span></p>
 <p>and</p>
-<p><span class="math display">\[Y \sim \text{Poisson}(\lambda)\]</span></p>
+<p><span class="math display">Y \sim \text{Poisson}(\lambda)</span></p>
 </section>
 <section id="poisson-distribution" class="slide level1">
 <h1>Poisson distribution</h1>
 
-<img data-src="lecture4_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption"></p><p>The Poisson distribution has a single parameter <span class="math inline">\(\lambda\)</span>.</p>
-<p>Property: The variance of the distribution is equal to its mean, <span class="math inline">\(\lambda\)</span>!</p>
+<img data-src="lecture4_files/figure-revealjs/unnamed-chunk-2-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption"></p><p>The Poisson distribution has a single parameter <span class="math inline">\lambda</span>.</p>
+<p>Property: The variance of the distribution is equal to its mean, <span class="math inline">\lambda</span>!</p>
 <p>That means, the higher the mean, the higher the variance!</p>
 </section>
 <section id="poisson-vs.-ordinary-linear-regression" class="slide level1">
@@ -1276,7 +1291,7 @@ p &amp;= \frac{0.11}{1+0.11} &amp;=&amp; 0.10\\
 <img data-src="lecture4_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch quarto-figure-center"><p class="caption"></p></section>
 <section id="poisson-regression-1" class="slide level1">
 <h1>Poisson regression</h1>
-<p><span class="math display">\[\log(E[Y|X]) = \beta_0 + \beta_1 X_1 + ... + \beta_m X_m\]</span></p>
+<p><span class="math display">\log(E[Y|X]) = \beta_0 + \beta_1 X_1 + ... + \beta_m X_m</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(articles <span class="sc">~</span> kids <span class="sc">+</span> prestige, <span class="at">data=</span>phdpubs, <span class="at">family =</span> poisson)</span>
 <span id="cb1-2"><a href="#cb1-2"></a><span class="fu">summary</span>(mod)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1313,7 +1328,7 @@ Number of Fisher Scoring iterations: 5</code></pre>
 </section>
 <section id="poisson-regression-2" class="slide level1">
 <h1>Poisson regression</h1>
-<p><span class="math display">\[\log ({ \widehat{E( \operatorname{articles} )} })  = 0.29 - 0.07(\operatorname{kids}) + 0.08(\operatorname{prestige})\]</span></p>
+<p><span class="math display">\log ({ \widehat{E( \operatorname{articles} )} })  = 0.29 - 0.07(\operatorname{kids}) + 0.08(\operatorname{prestige})</span></p>
 <div class="cell">
 
 </div>
@@ -1383,14 +1398,14 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1</code></pre>
 <h1>Poisson model for rates</h1>
 
 $$
-<img data-src="pics/evergiven.jpg" class="r-stretch quarto-figure-center"><p class="caption"></p><span class="math display">\[\begin{aligned}
+<img data-src="pics/evergiven.jpg" class="r-stretch quarto-figure-center"><p class="caption"></p><span class="math display">\begin{aligned}
 
 
 \log \left(\frac{ E( \operatorname{incidents} ) }{\text{time at sea}}\right)  &amp;= \alpha + \beta_{1}(\operatorname{type}) + \beta_{2}(\operatorname{construction})\ \\
 &amp;\quad +\beta_{3}(\operatorname{operation}) \\
 \log ({ E( \operatorname{incidents} ) })  &amp;= \alpha + \beta_{1}(\operatorname{type}) + \beta_{2}(\operatorname{construction})\ \\
 &amp;\quad +\beta_{3}(\operatorname{operation}) + \log\text{(time at sea)}
-\end{aligned}\]</span>
+\end{aligned}</span>
 <p>$$</p>
 <ul>
 <li>sometimes, we wish to model <em>rates</em> instead of counts</li>
@@ -1399,10 +1414,10 @@ $$
 </section>
 <section id="poisson-model-for-rates-1" class="slide level1">
 <h1>Poisson model for rates</h1>
-<p><span class="math display">\[\begin{aligned}
+<p><span class="math display">\begin{aligned}
 \log \left(\frac{ E( \operatorname{incidents} ) }{\text{time at sea}}\right)  &amp;= \alpha + \beta_{1}(\operatorname{type}) + \beta_{2}(\operatorname{construction})\ \\
 &amp;\quad +\beta_{3}(\operatorname{operation})\\
-\end{aligned}\]</span></p>
+\end{aligned}</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>ships <span class="ot">&lt;-</span> haven<span class="sc">::</span><span class="fu">read_dta</span>(<span class="st">"data/shipaccidents.dta"</span>)</span>
 <span id="cb8-2"><a href="#cb8-2"></a>mod <span class="ot">&lt;-</span> <span class="fu">glm</span>(incidents <span class="sc">~</span> type <span class="sc">+</span> construction <span class="sc">+</span> operation, </span>
@@ -1511,14 +1526,14 @@ dispersion
 <section id="zero-inflation-1" class="slide level1">
 <h1>Zero-inflation</h1>
 <p>How often did you engage in extramarital sexual intercourse during the past year? ::: {.cell} ::: {.cell-output-display} <img data-src="lecture4_files/figure-revealjs/unnamed-chunk-14-1.png" width="864"> ::: :::</p>
-<p><span class="math display">\[\log\left[ \frac { P( \operatorname{no affair}) }{ 1 - P( \operatorname{no affair}) } \right] = \beta_0 + \beta_{1}(\operatorname{yearsmarried})\\\]</span></p>
-<p><span class="math display">\[\log ({ {E( \operatorname{affairs} )} })  = \beta_0 + \beta_1(\operatorname{yearsmarried})\]</span></p>
+<p><span class="math display">\log\left[ \frac { P( \operatorname{no affair}) }{ 1 - P( \operatorname{no affair}) } \right] = \beta_0 + \beta_{1}(\operatorname{yearsmarried})\\</span></p>
+<p><span class="math display">\log ({ {E( \operatorname{affairs} )} })  = \beta_0 + \beta_1(\operatorname{yearsmarried})</span></p>
 </section>
 <section id="zero-inflation-2" class="slide level1 smaller">
 <h1>Zero-inflation</h1>
 <p>How often did you engage in extramarital sexual intercourse during the past year?</p>
-<p><span class="math display">\[\log\left[ \frac { P( \operatorname{no affair}) }{ 1 - P( \operatorname{no affair}) } \right] = \beta_0 + \beta_{1}(\operatorname{yearsmarried})\\\]</span></p>
-<p><span class="math display">\[\log ({ {E( \operatorname{affairs} )} })  = \beta_0 + \beta_1(\operatorname{yearsmarried})\]</span></p>
+<p><span class="math display">\log\left[ \frac { P( \operatorname{no affair}) }{ 1 - P( \operatorname{no affair}) } \right] = \beta_0 + \beta_{1}(\operatorname{yearsmarried})\\</span></p>
+<p><span class="math display">\log ({ {E( \operatorname{affairs} )} })  = \beta_0 + \beta_1(\operatorname{yearsmarried})</span></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>mod.zip <span class="ot">&lt;-</span> <span class="fu">zeroinfl</span>(affairs <span class="sc">~</span> yearsmarried, <span class="at">data=</span>affairs, <span class="at">dist=</span><span class="st">"poisson"</span>)</span>
 <span id="cb14-2"><a href="#cb14-2"></a><span class="fu">summary</span>(mod.zip)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -1581,7 +1596,7 @@ Log-likelihood: -809.4 on 4 Df</code></pre>
 <h1>Ordinal regression</h1>
 <div class="columns">
 <div class="column" style="width:30%;">
-<div id="fig-anonymous-52" class="quarto-figure quarto-figure-center">
+<div class="quarto-figure quarto-figure-center">
 <figure>
 <p><img data-src="pics/ordinal1.png"></p>
 <p></p><figcaption aria-hidden="true"></figcaption><p></p>
@@ -1616,12 +1631,12 @@ Log-likelihood: -809.4 on 4 Df</code></pre>
 
 </div>
 $$
-<span class="math display">\[\begin{aligned}
+<span class="math display">\begin{aligned}
 
 
 P( \operatorname{best} \geq \operatorname{mediocre} ) &amp;= \Phi[\alpha_{1} + \beta_{1}(\operatorname{zflat\_price}) + \beta_{2}(\operatorname{zyear\_built}) + \beta_{3}(\operatorname{zfloor\_size})] \\
 P( \operatorname{mediocre} \geq \operatorname{poor} ) &amp;= \Phi[\alpha_{2} + \beta_{1}(\operatorname{zflat\_price}) + \beta_{2}(\operatorname{zyear\_built}) + \beta_{3}(\operatorname{zfloor\_size})]
-\end{aligned}\]</span>
+\end{aligned}</span>
 <p>$$</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>mod <span class="ot">&lt;-</span> <span class="fu">clm</span>(energy_efficiency <span class="sc">~</span> zflat_price<span class="sc">+</span>zyear_built<span class="sc">+</span>zfloor_size, <span class="at">data=</span>flats, <span class="at">link =</span> <span class="st">"probit"</span>)</span>
@@ -1669,7 +1684,6 @@ mediocre|poor   1.0359     0.1951   5.310</code></pre>
   <script src="lecture4_files/libs/revealjs/plugin/notes/notes.js"></script>
   <script src="lecture4_files/libs/revealjs/plugin/search/search.js"></script>
   <script src="lecture4_files/libs/revealjs/plugin/zoom/zoom.js"></script>
-  <script src="lecture4_files/libs/revealjs/plugin/math/math.js"></script>
   <script>window.define = window.backupDefine; window.backupDefine = undefined;</script>
 
   <script>
@@ -1838,27 +1852,9 @@ mediocre|poor   1.0359     0.1951   5.310</code></pre>
         // Factor of the display size that should remain empty around the content
         margin: 0.1,
 
-        math: {
-          mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
-          config: 'TeX-AMS_HTML-full',
-          tex2jax: {
-            inlineMath: [['\\(','\\)']],
-            displayMath: [['\\[','\\]']],
-            balanceBraces: true,
-            processEscapes: false,
-            processRefs: true,
-            processEnvironments: true,
-            preview: 'TeX',
-            skipTags: ['script','noscript','style','textarea','pre','code'],
-            ignoreClass: 'tex2jax_ignore',
-            processClass: 'tex2jax_process'
-          },
-        },
-
         // reveal.js plugins
         plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
 
-          RevealMath,
           RevealNotes,
           RevealSearch,
           RevealZoom
