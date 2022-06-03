@@ -1190,6 +1190,39 @@ Y_{ji}=\beta_{1j} X_{1i} + \beta_{2j} X_{2i} + \epsilon_{ji}
 <li>sum/mean of items “belonging” to each factor</li>
 </ul>
 </section>
+<section id="reliability-and-validity-of-the-factor-scores" class="slide level1">
+<h1>Reliability and Validity of the factor scores</h1>
+
+<img data-src="pics/reliability_validity.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li>measurement should be <em>reliable</em>
+<ul>
+<li>consistently provide similar estimates for similar situations</li>
+</ul></li>
+<li>measurement should be <em>valid</em>
+<ul>
+<li>it should measure what we want it to measure</li>
+</ul></li>
+</ul>
+</section>
+<section id="assessing-reliability" class="slide level1 smaller">
+<h1>Assessing reliability</h1>
+<p>Construct reliability</p>
+
+<img data-src="pics/types_reliability_hl.png" style="width:45.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li>reliability=“the LV consistently gives the same measurement”</li>
+<li>for SEM evaluation: internal consistency
+<ul>
+<li>to what degree do the different items measure the same underlying construct?</li>
+<li>related but not identical to unidimensionality</li>
+</ul></li>
+<li>other forms of reliability (ideally conducted during scale development):
+<ul>
+<li>split-half reliability</li>
+<li>test-retest reliability</li>
+<li>inter-rater reliability</li>
+</ul></li>
+</ul>
+</section>
 <section id="reliability-of-factor-score" class="slide level1">
 <h1>Reliability of factor score</h1>
 <p>Sum-score method</p>
@@ -1209,103 +1242,8 @@ Y_{ji}=\beta_{1j} X_{1i} + \beta_{2j} X_{2i} + \epsilon_{ji}
 </ul></li>
 </ul>
 </section>
-<section id="confirmatory-cfa-factor-analysis" class="slide level1">
-<h1>Confirmatory (CFA) factor analysis</h1>
-<div class="columns">
-<div class="column" style="width:29%;">
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="pics/fa_twofac_labeled.png" style="width:100.0%"></p>
-<p></p><figcaption aria-hidden="true"></figcaption><p></p>
-</figure>
-</div>
-</div><div class="column" style="width:69%;">
-<ul>
-<li>specify in advance which loadings should be present (and which should not)</li>
-<li>determine how well the model fits the data</li>
-<li>other constraints are possible</li>
-<li>very flexible technique that is based on SEM</li>
-</ul>
-</div>
-</div>
-<h2 id="note">NOTE</h2>
-<ul>
-<li>CFA should <em>never</em> be run on the same dataset as the EFA to “confirm” it (double-dipping)</li>
-<li>when changing the CFA model based on the data, it is not <em>confirmatory</em> anymore</li>
-</ul>
-</section>
-<section id="efa-and-cfa" class="slide level1">
-<h1>EFA and CFA</h1>
-<p>Are they really exploratory and confirmatory?</p>
-
-<img data-src="pics/exploratory_confirmatory.png" style="width:70.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
-<li>EFA:
-<ul>
-<li>is often not really exploratory</li>
-<li>selection of items theory-driven</li>
-<li>choice of analytic steps often driven by theory (drop non-conforming items etc)</li>
-</ul></li>
-<li>CFA:
-<ul>
-<li>is often not really confirmatory</li>
-<li>changes to the model in the presence of bad model fit</li>
-<li>tweaks of CFA model happen often</li>
-</ul></li>
-</ul>
-</section>
-<section id="reliability-and-validity-of-the-measurement" class="slide level1">
-<h1>Reliability and Validity of the measurement</h1>
-
-<img data-src="pics/reliability_validity.png" style="width:80.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
-<li>measurement should be <em>reliable</em>
-<ul>
-<li>consistently provide similar estimates for similar situations</li>
-</ul></li>
-<li>measurement should be <em>valid</em>
-<ul>
-<li>it should measure what we want it to measure</li>
-</ul></li>
-</ul>
-</section>
-<section id="assessing-reflective-measurement-models" class="slide level1">
-<h1>Assessing reflective measurement models</h1>
-<p>Construct reliability</p>
-
-<img data-src="pics/types_reliability_hl.png" style="width:45.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
-<li>reliability=“the LV consistently gives the same measurement”</li>
-<li>for SEM evaluation: internal consistency
-<ul>
-<li>to what degree do the different items measure the same underlying construct?</li>
-<li>related but not identical to unidimensionality</li>
-</ul></li>
-<li>other forms of reliability (ideally conducted during scale development):
-<ul>
-<li>split-half reliability</li>
-<li>test-retest reliability</li>
-<li>inter-rater reliability</li>
-</ul></li>
-</ul>
-</section>
-<section id="assessing-reflective-measurement-models-1" class="slide level1">
-<h1>Assessing reflective measurement models</h1>
-<p>Construct reliability</p>
-<p>Cronbach’s <span class="math inline">\(\alpha\)</span>:</p>
-<p><span class="math display">\[
-\alpha=\left(\frac{K}{K-1}\right)\left(\frac{S_{T}^{2}-\sum_{i=1}^{K}S_{i}^{2}}{S_{T}^{2}}\right)
-\]</span></p>
-<p><span class="math inline">\(K\)</span> is the number of variables, <span class="math inline">\(S_{i}^{2}\)</span> is the variance of each variable and <span class="math inline">\(S_{T}^{2}\)</span> is the variance of the sum of the items.</p>
-<ul>
-<li><p>between 0 and 1 (larger is better)</p></li>
-<li><p><span class="math inline">\(\tau\)</span>-equivalence assumed (<span class="math inline">\(\lambda_1 = \lambda_2 = ... = \lambda_n\)</span>)</p></li>
-<li><p>depends on the number of items: more items = bigger <span class="math inline">\(\alpha\)</span></p></li>
-<li><p>remember to reverse score reverse phrased items:</p>
-<ul>
-<li>If not, <span class="math inline">\(\alpha\)</span> is reduced and can even be negative</li>
-</ul></li>
-</ul>
-</section>
-<section id="assessing-reflective-measurement-models-2" class="slide level1">
-<h1>Assessing reflective measurement models</h1>
+<section id="reliability-of-factor-score-1" class="slide level1">
+<h1>Reliability of factor score</h1>
 <p>Construct reliability</p>
 <p>Dillon-Goldstein’s <span class="math inline">\(\rho\)</span> (DG rho)</p>
 <p><span class="math display">\[
@@ -1488,6 +1426,50 @@ subtraction-&gt;Math
 <li>does each of the variables measure an aspect of the construct?</li>
 <li>is there an important aspect of the construct that is not covered?</li>
 <li>expert judgment/agreement</li>
+</ul>
+</section>
+<section id="confirmatory-cfa-factor-analysis" class="slide level1">
+<h1>Confirmatory (CFA) factor analysis</h1>
+<div class="columns">
+<div class="column" style="width:29%;">
+<div class="quarto-figure quarto-figure-center">
+<figure>
+<p><img data-src="pics/fa_twofac_labeled.png" style="width:100.0%"></p>
+<p></p><figcaption aria-hidden="true"></figcaption><p></p>
+</figure>
+</div>
+</div><div class="column" style="width:69%;">
+<ul>
+<li>specify in advance which loadings should be present (and which should not)</li>
+<li>determine how well the model fits the data</li>
+<li>other constraints are possible</li>
+<li>very flexible technique that is based on SEM</li>
+</ul>
+</div>
+</div>
+<h2 id="note">NOTE</h2>
+<ul>
+<li>CFA should <em>never</em> be run on the same dataset as the EFA to “confirm” it (double-dipping)</li>
+<li>when changing the CFA model based on the data, it is not <em>confirmatory</em> anymore</li>
+</ul>
+</section>
+<section id="efa-and-cfa" class="slide level1">
+<h1>EFA and CFA</h1>
+<p>Are they really exploratory and confirmatory?</p>
+
+<img data-src="pics/exploratory_confirmatory.png" style="width:70.0%" class="r-stretch quarto-figure-center"><p class="caption"></p><ul>
+<li>EFA:
+<ul>
+<li>is often not really exploratory</li>
+<li>selection of items theory-driven</li>
+<li>choice of analytic steps often driven by theory (drop non-conforming items etc)</li>
+</ul></li>
+<li>CFA:
+<ul>
+<li>is often not really confirmatory</li>
+<li>changes to the model in the presence of bad model fit</li>
+<li>tweaks of CFA model happen often</li>
+</ul></li>
 </ul>
 </section>
 <section id="multi-level-regression" class="slide level1">
@@ -2106,12 +2088,8 @@ week:female  0.074 -0.836 -0.176 -0.004</code></pre>
 </section>
 <section id="latent-growth-model" class="slide level1">
 <h1>Latent Growth model</h1>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="pics/latentgrowth.png"></p>
-<p></p><figcaption aria-hidden="true"></figcaption><p></p>
-</figure>
-</div>
+<p><img data-src="pics/latentgrowth.png" style="width:70.0%"><br>
+</p>
 <ul>
 <li>alternative modeling approach based on structural equation modeling</li>
 <li>allows embedding in a larger SEM</li>
